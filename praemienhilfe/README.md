@@ -1,43 +1,34 @@
-# Astro Starter Kit: Minimal
+# prämienhilfe.ch
 
-```sh
-npm create astro@latest -- --template minimal
+Swiss health-insurance subsidy (Prämienverbilligung) lead-generation site for Basel-Stadt and Basel-Landschaft. Built with Astro, a single React island for the funnel, and Tailwind CSS.
+
+## Setup
+
+```bash
+npm install
+cp .env.example .env
+# fill in HUBSPOT_PORTAL_ID, HUBSPOT_FORM_ID, PUBLIC_GA4_ID
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Environment variables
 
-## 🚀 Project Structure
+| Variable | Purpose |
+|---|---|
+| `HUBSPOT_PORTAL_ID` | HubSpot portal ID for the Forms API submission target |
+| `HUBSPOT_FORM_ID` | HubSpot form ID for the Forms API submission target |
+| `PUBLIC_GA4_ID` | GA4 measurement ID (e.g. `G-XXXXXXXX`); exposed client-side |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Build
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+npm run build
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Deploy
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Connected to Netlify via `netlify.toml` (`npm run build` → `dist/`). Set the environment variables above in the Netlify site dashboard before deploying.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Known content gap
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The Basel-Landschaft income thresholds, beneficiary count, and application deadline in `src/data/cantons.js` are **unverified placeholders** — confirm against the official SVA Basel-Landschaft source and update before launch.

@@ -1,0 +1,59 @@
+---
+// src/layouts/Base.astro
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'ablauf' | 'faq' | 'kontakt';
+}
+
+const { title, description, canonical, activePage = 'home' } = Astro.props;
+const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
+---
+
+<!doctype html>
+<html lang="de-CH">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="de_CH" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+    <script define:vars={{ ga4Id }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', ga4Id);
+    </script>
+  </head>
+  <body>
+    <div id="top"></div>
+    <Header activePage={activePage} />
+    <slot />
+    <Footer />
+
+    <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 p-3 bg-white/95 border-t border-[#E2E8EA]">
+      <a
+        href="/#pruefen"
+        class="block text-center px-5 py-3.5 bg-teal text-white rounded-md text-base font-bold no-underline"
+      >
+        Antrag prüfen lassen →
+      </a>
+    </div>
+  </body>
+</html>

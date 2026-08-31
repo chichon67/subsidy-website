@@ -1,5 +1,5 @@
 ---
-// src/pages/index.astro
+// src/pages/basel-landschaft.astro
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
@@ -10,16 +10,16 @@ import FAQ from '../components/FAQ.astro';
 import FinalCTA from '../components/FinalCTA.astro';
 import { cantons } from '../data/cantons.js';
 
-const canton = cantons['basel-stadt'];
+const canton = cantons['basel-landschaft'];
 ---
 
 <Base
-  title="Prämienverbilligung beantragen | prämienhilfe.ch"
-  description="Prüfen Sie Ihren Anspruch auf Prämienverbilligung kostenlos. Hilfe bei der Beantragung im Kanton Basel-Stadt und Basel-Landschaft."
-  canonical="https://praemienhilfe.ch/"
-  activePage="home"
+  title="Prämienverbilligung Basel-Landschaft | prämienhilfe.ch"
+  description="Prämienverbilligung im Kanton Basel-Landschaft beantragen. Kostenlose Hilfe bei Prüfung und Antrag durch die SVA Basel-Landschaft."
+  canonical="https://praemienhilfe.ch/basel-landschaft"
+  activePage="basel-landschaft"
 >
-  <Hero canton={canton} />
+  <Hero canton={canton} defaultCanton="Basel-Landschaft" />
   <TrustBar canton={canton} />
   <InfoSection canton={canton} />
   <HowItWorks canton={canton} />

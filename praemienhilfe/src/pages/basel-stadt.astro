@@ -1,5 +1,5 @@
 ---
-// src/pages/index.astro
+// src/pages/basel-stadt.astro
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
@@ -14,12 +14,12 @@ const canton = cantons['basel-stadt'];
 ---
 
 <Base
-  title="Prämienverbilligung beantragen | prämienhilfe.ch"
-  description="Prüfen Sie Ihren Anspruch auf Prämienverbilligung kostenlos. Hilfe bei der Beantragung im Kanton Basel-Stadt und Basel-Landschaft."
-  canonical="https://praemienhilfe.ch/"
-  activePage="home"
+  title="Prämienverbilligung Basel-Stadt | prämienhilfe.ch"
+  description="Prämienverbilligung im Kanton Basel-Stadt beantragen. Einkommensgrenze Einzelperson CHF 49'375. Kostenlose Hilfe beim Antrag."
+  canonical="https://praemienhilfe.ch/basel-stadt"
+  activePage="basel-stadt"
 >
-  <Hero canton={canton} />
+  <Hero canton={canton} defaultCanton="Basel-Stadt" />
   <TrustBar canton={canton} />
   <InfoSection canton={canton} />
   <HowItWorks canton={canton} />

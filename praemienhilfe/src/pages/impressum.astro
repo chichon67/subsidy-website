@@ -1,0 +1,36 @@
+---
+// src/pages/impressum.astro
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Impressum | prämienhilfe.ch"
+  description="Impressum und rechtliche Hinweise zu prämienhilfe.ch, einem Service von EVO Partners Sàrl."
+  canonical="https://praemienhilfe.ch/impressum"
+>
+  <div class="bg-white">
+    <div class="max-w-[900px] mx-auto px-8 py-16">
+      <h1 class="text-[32px] font-bold tracking-tight m-0">Impressum</h1>
+      <div class="mt-8 grid gap-6 text-[16px] leading-relaxed text-[#3D4A50]">
+        <div>
+          <div class="font-semibold text-dark">Betreiberin</div>
+          <p class="mt-1">EVO Partners Sàrl<br />FINMA-registrierter Versicherungsbroker<br />Zürich, Schweiz</p>
+        </div>
+        <div>
+          <div class="font-semibold text-dark">Kontakt</div>
+          <p class="mt-1">
+            Telefon: <a href="tel:+41767790449" class="text-teal">+41 76 779 0449</a><br />
+            E-Mail: <a href="mailto:msegui@evo-partners.ch" class="text-teal">msegui@evo-partners.ch</a>
+          </p>
+        </div>
+        <div>
+          <div class="font-semibold text-dark">Haftungsausschluss</div>
+          <p class="mt-1">
+            prämienhilfe.ch ist eine private Beratungsplattform und unabhängig von den kantonalen Behörden der
+            Schweiz. Diese Plattform ist kein offizielles Kantonsorgan. Alle Angaben ohne Gewähr.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Base>

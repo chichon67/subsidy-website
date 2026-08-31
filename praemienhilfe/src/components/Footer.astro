@@ -1,0 +1,64 @@
+---
+// src/components/Footer.astro
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-dark text-white pb-24 md:pb-0">
+  <div class="max-w-[1240px] mx-auto px-8 pt-14 pb-10">
+    <div class="grid grid-cols-1 md:grid-cols-[1.6fr_1fr_1fr_1fr] gap-8 md:gap-11">
+      <div>
+        <div class="flex items-center gap-3">
+          <svg width="38" height="38" viewBox="0 0 40 40" aria-hidden="true">
+            <rect x="2" y="2" width="24" height="24" rx="6" fill="#FFFFFF"></rect>
+            <rect x="14" y="14" width="24" height="24" rx="6" fill="#F0A500"></rect>
+            <rect x="14" y="14" width="12" height="12" fill="#C7CFD3"></rect>
+          </svg>
+          <span class="block leading-tight">
+            <span class="block text-lg font-bold text-white tracking-tight">prämienhilfe</span>
+            <span class="block text-sm font-medium text-[#6EC5D4]">.ch</span>
+          </span>
+        </div>
+        <div class="text-[13.5px] text-[#9AA6AC] mt-3.5 leading-relaxed">Hilfe bei der Prämienverbilligung in der Schweiz</div>
+        <div class="h-px bg-[#2E3442] my-5"></div>
+        <p class="text-[13px] leading-relaxed text-[#9AA6AC] m-0">prämienhilfe.ch ist eine private Beratungsplattform, unabhängig von den kantonalen Behörden der Schweiz.</p>
+        <p class="text-[13px] leading-relaxed text-[#9AA6AC] mt-4">Betrieben von:<br>EVO Partners Sàrl<br>FINMA-registrierter Versicherungsbroker<br>Zürich, Schweiz</p>
+      </div>
+
+      <div>
+        <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">Mehr Informationen</div>
+        <div class="grid gap-2.5 mt-4 text-sm">
+          <a href="/" class="text-[#D8DEE1] hover:text-white">Prämienverbilligung</a>
+          <a href="/basel-stadt" class="text-[#D8DEE1] hover:text-white">Kantone</a>
+          <a href="/so-funktioniert-es" class="text-[#D8DEE1] hover:text-white">So funktioniert es</a>
+          <a href="/faq" class="text-[#D8DEE1] hover:text-white">FAQ</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">Kontakt</div>
+        <div class="grid gap-2.5 mt-4 text-sm">
+          <a href="/#pruefen" class="text-[#D8DEE1] hover:text-white">Antrag stellen</a>
+          <a href="/kontakt" class="text-[#D8DEE1] hover:text-white">Rückruf anfordern</a>
+          <a href="/kontakt" class="text-[#D8DEE1] hover:text-white">Kontaktformular</a>
+          <a href="tel:+41767790449" class="text-[#D8DEE1] hover:text-white">+41 76 779 0449</a>
+          <a href="mailto:msegui@evo-partners.ch" class="text-[#D8DEE1] hover:text-white">msegui@evo-partners.ch</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">Rechtliches</div>
+        <div class="grid gap-2.5 mt-4 text-sm">
+          <a href="/impressum" class="text-[#D8DEE1] hover:text-white">Impressum</a>
+          <a href="/datenschutz" class="text-[#D8DEE1] hover:text-white">Datenschutzbestimmungen</a>
+          <a href="/impressum" class="text-[#D8DEE1] hover:text-white">Nutzungsbedingungen</a>
+          <a href="/impressum" class="text-[#D8DEE1] hover:text-white">Rechtliche Hinweise</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-[#14141F]">
+    <div class="max-w-[1240px] mx-auto px-8 py-4 text-xs text-[#8A959B] leading-relaxed">
+      © {year} prämienhilfe.ch — Ein Service von EVO Partners Sàrl, Zürich. Alle Rechte vorbehalten. Diese Plattform ist kein offizielles Kantonsorgan.
+    </div>
+  </div>
+</footer>

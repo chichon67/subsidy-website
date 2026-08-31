@@ -13,3 +13,4 @@ Task 10: complete (commit 63d1f9d..6ee4a5f, review clean; recurring dev-mode _js
 Task 11: complete (commit 6ee4a5f..3eea4a0, review clean)
 Task 12: complete (commit 3eea4a0..fc897ae, review clean)
 Task 13: complete (verification only, no commit; build clean, all 8 pages OK, funnel flow OK, _jsxDEV confirmed non-reproducible from clean cache; minor non-blocking UX nit: step-4 validation errors don't clear live while typing, in Funnel.jsx, not fixed per instructions)
+Final whole-branch review: Critical (netlify.toml SPA redirect breaking /api/submit) + Important (phone regex rejecting landlines) found and fixed in 3957d3e, re-review clean. Minor findings (GA4 fallback ID, live-validation-clear UX nit, no spam protection on API, dead 'reasons'/'cantonList' data, generic HubSpot-not-configured logging) left as documented follow-ups, not blocking.

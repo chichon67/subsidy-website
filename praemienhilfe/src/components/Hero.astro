@@ -1,0 +1,50 @@
+---
+// src/components/Hero.astro
+import Funnel from './Funnel.jsx';
+
+export interface Props {
+  canton: { name: string; heroProof: string };
+  defaultCanton?: string;
+}
+const { canton, defaultCanton } = Astro.props;
+---
+
+<section id="pruefen" class="bg-white">
+  <div class="max-w-[1240px] mx-auto px-8 pt-[58px] pb-[72px]">
+    <div class="grid grid-cols-1 md:grid-cols-[55fr_45fr] gap-14 items-start">
+      <div>
+        <h1 class="text-[32px] md:text-[48px] leading-[1.08] font-bold tracking-tight m-0">
+          Haben Sie Anspruch auf Prämienverbilligung?
+        </h1>
+        <p class="text-base leading-[1.68] text-[#3D4A50] mt-5 max-w-[34em]">
+          Der Kanton gewährt Einwohnerinnen und Einwohnern in bescheidenen wirtschaftlichen Verhältnissen Beiträge zur
+          Reduktion der Krankenkassenprämien. Wir helfen Ihnen, Ihren Anspruch zu prüfen und Ihren Antrag korrekt
+          einzureichen.
+        </p>
+
+        <Funnel client:load defaultCanton={defaultCanton} />
+      </div>
+
+      <div class="hidden md:block relative pt-1.5">
+        <svg viewBox="0 0 600 600" class="absolute -top-6 -left-11 w-[122%] h-auto" aria-hidden="true">
+          <path d="M20 470 A 340 340 0 0 1 470 40" fill="none" stroke="#0087A0" stroke-width="1.3" opacity="0.4"></path>
+          <path d="M74 560 A 330 330 0 0 1 560 120" fill="none" stroke="#E8F4F8" stroke-width="26"></path>
+        </svg>
+        <div
+          class="relative w-full max-w-[470px] ml-auto aspect-square rounded-full overflow-hidden flex items-center justify-center"
+          style="background: repeating-linear-gradient(135deg, #E8F4F8 0 11px, #D6EAF1 11px 22px);"
+        >
+          <div class="font-mono text-[12.5px] text-[#3F7788] text-center tracking-wide leading-[1.7] px-10">
+            [Foto: Schweizer Familie]<br />1200 × 1200
+          </div>
+        </div>
+        <div class="relative -mt-[52px] -ml-2.5 inline-flex items-start gap-2.5 bg-white border border-[#E2E8EA] rounded-lg shadow-[0_4px_16px_rgba(26,26,42,0.1)] px-[17px] py-3.5 max-w-[330px]">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D8B37" stroke-width="2.4" stroke-linecap="round" class="flex-shrink-0 mt-0.5" aria-hidden="true">
+            <path d="M4 13l5 5L20 7"></path>
+          </svg>
+          <div class="text-[13.5px] leading-snug text-dark">{canton.heroProof}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

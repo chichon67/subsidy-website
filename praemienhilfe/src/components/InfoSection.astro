@@ -1,0 +1,39 @@
+---
+// src/components/InfoSection.astro
+export interface Props {
+  canton: {
+    infoHeading: string;
+    infoParagraphs: string[];
+    facts: { k: string; v: string }[];
+    closingParagraph: string;
+  };
+}
+const { canton } = Astro.props;
+---
+
+<section id="info" class="bg-white">
+  <div class="max-w-[1240px] mx-auto px-8 py-[52px] md:py-[74px]">
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 max-w-[26em] leading-tight">
+      {canton.infoHeading}
+    </h2>
+    <div class="max-w-[44em] mt-[22px]">
+      {canton.infoParagraphs.map((p) => <p class="text-[16.5px] leading-[1.7] text-[#3D4A50] mt-[18px] first:mt-0">{p}</p>)}
+    </div>
+
+    <div id="kantone" class="max-w-[46em] mt-[34px] border-l-4 border-teal">
+      {
+        canton.facts.map((f, i) => (
+          <div
+            class="grid grid-cols-1 md:grid-cols-[320px_1fr] gap-1 md:gap-5 px-[18px] py-[13px]"
+            style={{ background: i % 2 === 0 ? '#F5F7F8' : '#FFFFFF' }}
+          >
+            <div class="text-[14.5px] text-[#6B7A80]">{f.k}</div>
+            <div class="text-[15.5px] font-semibold">{f.v}</div>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="text-[16.5px] leading-[1.7] text-[#3D4A50] mt-8 max-w-[44em]">{canton.closingParagraph}</p>
+  </div>
+</section>

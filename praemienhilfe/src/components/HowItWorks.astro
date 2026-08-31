@@ -1,0 +1,28 @@
+---
+// src/components/HowItWorks.astro
+export interface Props {
+  canton: { steps: { n: string; title: string; text: string }[] };
+}
+const { canton } = Astro.props;
+---
+
+<section id="ablauf" style="background: #F0F7F0">
+  <div class="max-w-[1240px] mx-auto px-8 py-[52px] md:py-[74px]">
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 text-[#2E6B29]">So funktioniert die Beantragung</h2>
+    <div class="max-w-[48em] mt-[34px] grid gap-8">
+      {
+        canton.steps.map((st) => (
+          <div class="grid grid-cols-1 md:grid-cols-[44px_1fr] gap-3 md:gap-[22px] items-start">
+            <div class="w-11 h-11 rounded-full border-2 border-swiss-green text-swiss-green flex items-center justify-center text-[17px] font-bold">
+              {st.n}
+            </div>
+            <div>
+              <div class="text-[19px] font-bold tracking-tight">{st.title}</div>
+              <p class="text-[16.5px] leading-[1.7] text-[#3D4A50] mt-2.5">{st.text}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

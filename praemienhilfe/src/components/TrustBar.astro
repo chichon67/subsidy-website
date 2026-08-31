@@ -1,0 +1,22 @@
+---
+// src/components/TrustBar.astro
+export interface Props {
+  canton: { stats: { value: string; label: string }[] };
+}
+const { canton } = Astro.props;
+---
+
+<section class="bg-amber-light">
+  <div class="max-w-[1240px] mx-auto px-8 py-9">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-9">
+      {
+        canton.stats.map((s) => (
+          <div class="border-l-[3px] border-amber pl-[18px]">
+            <div class="text-2xl font-bold tracking-tight">{s.value}</div>
+            <div class="text-[13.5px] text-[#7A6836] mt-1.5 leading-snug">{s.label}</div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+---
+// src/components/ProblemSection.astro
+const reasons = [
+  { title: 'Zu kompliziert', text: 'Das Antragsverfahren wirkt aufwendig' },
+  { title: 'Unsicher', text: 'Viele wissen nicht ob sie berechtigt sind' },
+  { title: 'Keine Zeit', text: 'Fristen werden oft verpasst' },
+];
+---
+
+<section class="bg-white">
+  <div class="max-w-[1240px] mx-auto px-8 py-[52px] md:py-[74px]">
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 max-w-[26em] leading-tight">
+      Warum beantragen viele Berechtigte keine Prämienverbilligung?
+    </h2>
+    <p class="text-[16.5px] leading-[1.7] text-[#3D4A50] mt-[22px] max-w-[44em]">
+      Obwohl Tausende von Personen Anspruch hätten, stellen viele keinen Antrag. Die häufigsten Gründe: Das Verfahren
+      wirkt kompliziert, viele wissen nicht ob sie berechtigt sind, und die Fristen werden oft verpasst. Dabei ist der
+      Prozess einfacher als erwartet — vorausgesetzt, man kennt die genauen Anforderungen und Fristen.
+    </p>
+    <div class="mt-7 grid gap-3.5 max-w-[44em]">
+      {
+        reasons.map((r) => (
+          <div class="flex items-baseline gap-3.5 text-base leading-relaxed">
+            <span class="w-2 h-2 rounded-full bg-swiss-red flex-shrink-0 -translate-y-px" />
+            <span>
+              <strong class="font-bold">{r.title}</strong> — <span class="text-[#3D4A50]">{r.text}</span>
+            </span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

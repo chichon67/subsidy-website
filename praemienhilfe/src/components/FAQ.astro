@@ -1,0 +1,26 @@
+---
+// src/components/FAQ.astro
+export interface Props {
+  canton: { faqs: { q: string; a: string }[] };
+}
+const { canton } = Astro.props;
+---
+
+<section id="faq" class="bg-[#F5F7F8]">
+  <div class="max-w-[900px] mx-auto px-8 py-16">
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0">Häufige Fragen</h2>
+    <div class="mt-[30px] border-t border-[#DFE6E8]">
+      {
+        canton.faqs.map((f) => (
+          <details class="group border-b border-[#DFE6E8] [&_summary::-webkit-details-marker]:hidden">
+            <summary class="flex items-center justify-between gap-5 py-5 px-0.5 cursor-pointer text-[17px] font-semibold text-dark tracking-tight list-none hover:text-teal">
+              <span>{f.q}</span>
+              <span class="text-[22px] font-normal text-teal leading-none transition-transform duration-150 group-open:rotate-45">+</span>
+            </summary>
+            <div class="text-base leading-[1.7] text-[#3D4A50] max-w-[52em] px-0.5 pb-[22px]">{f.a}</div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -85,7 +85,7 @@ export default function Funnel({ defaultCanton }) {
     if (!answers.lastName.trim()) errs.lastName = 'Bitte Nachname angeben.';
     const phone = answers.phone.replace(/\s/g, '');
     if (!phone) errs.phone = 'Bitte Telefonnummer angeben.';
-    else if (!/^(\+41|07)/.test(phone)) errs.phone = 'Bitte eine gültige Schweizer Nummer angeben (+41 oder 07...).';
+    else if (!/^(\+41|0041|0)\d{6,}$/.test(phone)) errs.phone = 'Bitte eine gültige Schweizer Telefonnummer angeben.';
     if (!answers.email.trim()) errs.email = 'Bitte E-Mail angeben.';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(answers.email.trim())) errs.email = 'Bitte eine gültige E-Mail-Adresse angeben.';
     return errs;

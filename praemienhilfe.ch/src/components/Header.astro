@@ -63,7 +63,6 @@ const navLink = (key: string) =>
       </nav>
     )}
 
-    <input type="checkbox" id="mobile-menu-toggle" class="hidden peer" />
     <label
       for="mobile-menu-toggle"
       class="[@media(min-width:980px)]:hidden flex items-center justify-center w-[42px] h-[42px] bg-white border border-[#D6DFE2] rounded cursor-pointer"
@@ -73,40 +72,41 @@ const navLink = (key: string) =>
         <path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path>
       </svg>
     </label>
-
-    <div class="fixed inset-0 z-[60] bg-white overflow-y-auto hidden peer-checked:block">
-      <div class="flex items-center justify-between px-6 py-[18px] border-b border-[#E2E8EA]">
-        <div class="flex items-center gap-[11px]">
-          <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
-            <rect x="2" y="2" width="24" height="24" rx="6" fill="#0087A0"></rect>
-            <rect x="14" y="14" width="24" height="24" rx="6" fill="#F0A500"></rect>
-            <rect x="14" y="14" width="12" height="12" fill="#005F73"></rect>
-          </svg>
-          <span class="text-[17px] font-bold">prämienhilfe<span class="text-teal">.ch</span></span>
-        </div>
-        <label for="mobile-menu-toggle" class="w-10 h-10 flex items-center justify-center border border-[#D6DFE2] rounded cursor-pointer text-xl text-dark" aria-label="Menü schliessen">×</label>
-      </div>
-      {isBaselLanding ? (
-        <div class="px-6 py-7 grid gap-1">
-          <a href="#so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
-          <a href="#faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
-          <a href="#wer-wir-sind" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Über uns</a>
-          <a href="#funnel" class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen →</a>
-        </div>
-      ) : (
-        <div class="px-6 py-7 grid gap-1">
-          <a href="/" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Prämienverbilligung</a>
-          <a href="/basel-stadt" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Basel-Stadt</a>
-          <a href="/basel-landschaft" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Basel-Landschaft</a>
-          <a href="/so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
-          <a href="/faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
-          <a href="/kontakt" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Kontakt</a>
-          <a href="/#pruefen" class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen lassen →</a>
-        </div>
-      )}
-    </div>
   </div>
 </header>
+
+<input type="checkbox" id="mobile-menu-toggle" class="hidden peer" />
+<div class="fixed inset-0 z-[60] bg-white overflow-y-auto hidden peer-checked:block">
+  <div class="flex items-center justify-between px-6 py-[18px] border-b border-[#E2E8EA]">
+    <div class="flex items-center gap-[11px]">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+        <rect x="2" y="2" width="24" height="24" rx="6" fill="#0087A0"></rect>
+        <rect x="14" y="14" width="24" height="24" rx="6" fill="#F0A500"></rect>
+        <rect x="14" y="14" width="12" height="12" fill="#005F73"></rect>
+      </svg>
+      <span class="text-[17px] font-bold">prämienhilfe<span class="text-teal">.ch</span></span>
+    </div>
+    <label for="mobile-menu-toggle" class="w-10 h-10 flex items-center justify-center border border-[#D6DFE2] rounded cursor-pointer text-xl text-dark" aria-label="Menü schliessen">×</label>
+  </div>
+  {isBaselLanding ? (
+    <div class="px-6 py-7 grid gap-1">
+      <a href="#so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
+      <a href="#faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
+      <a href="#wer-wir-sind" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Über uns</a>
+      <a href="#funnel" class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen →</a>
+    </div>
+  ) : (
+    <div class="px-6 py-7 grid gap-1">
+      <a href="/" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Prämienverbilligung</a>
+      <a href="/basel-stadt" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Basel-Stadt</a>
+      <a href="/basel-landschaft" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Basel-Landschaft</a>
+      <a href="/so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
+      <a href="/faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
+      <a href="/kontakt" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Kontakt</a>
+      <a href="/#pruefen" class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen lassen →</a>
+    </div>
+  )}
+</div>
 
 <script>
   function initHeader() {

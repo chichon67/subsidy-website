@@ -78,7 +78,7 @@ const mobileCtaHref = activePage === 'basel-stadt' ? '#funnel' : '/#pruefen';
 
     {chrome && <DisclaimerModal client:load />}
     {chrome && <ExitIntentPopup client:load />}
-    {chrome && <StickyFunnelWidget client:idle />}
+    {chrome && <StickyFunnelWidget client:idle activePage={activePage} />}
 
     <script>
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {

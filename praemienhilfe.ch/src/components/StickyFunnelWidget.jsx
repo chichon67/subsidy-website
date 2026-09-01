@@ -1,8 +1,9 @@
 // src/components/StickyFunnelWidget.jsx
 import { useState, useEffect } from 'react';
 
-export default function StickyFunnelWidget() {
+export default function StickyFunnelWidget({ activePage }) {
   const [pastHero, setPastHero] = useState(false);
+  const href = activePage === 'basel-stadt' ? '#funnel' : '/#pruefen';
 
   useEffect(() => {
     const hero = document.querySelector('#pruefen');
@@ -27,7 +28,7 @@ export default function StickyFunnelWidget() {
       <div className="text-[15px] font-bold text-dark tracking-tight">Anspruch prüfen</div>
       <div className="text-[13px] text-[#6B7A80] mt-1">Kostenlose Prüfung in 20 Min.</div>
       <a
-        href="/#pruefen"
+        href={href}
         className="mt-3 block text-center px-4 py-2.5 bg-teal text-white rounded-md text-[14px] font-semibold no-underline hover:bg-teal-dark"
       >
         Jetzt starten →

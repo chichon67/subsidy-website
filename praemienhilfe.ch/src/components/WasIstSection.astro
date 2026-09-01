@@ -1,0 +1,38 @@
+---
+// src/components/WasIstSection.astro
+import { wasIst } from '../data/national.js';
+---
+
+<section id="was-ist" class="bg-white">
+  <div class="max-w-[1240px] mx-auto px-8 py-[52px] md:py-[74px]">
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 max-w-[26em] leading-tight">
+      Was ist die Prämienverbilligung?
+    </h2>
+    <div class="mt-[34px] grid grid-cols-1 md:grid-cols-[1.3fr_1fr] gap-11 items-start">
+      <div>
+        <p class="text-[16.5px] leading-[1.7] text-[#3D4A50] mt-0">
+          {wasIst.introBefore}<a href="/so-funktioniert-es" class="text-teal hover:text-teal-dark">{wasIst.introLinkText}</a>{wasIst.introAfter}
+        </p>
+        {wasIst.paragraphs.map((p) => <p class="text-[16.5px] leading-[1.7] text-[#3D4A50] mt-[18px]">{p}</p>)}
+        <div class="mt-7 grid gap-2.5">
+          {
+            wasIst.bullets.map((b) => (
+              <div class="flex items-baseline gap-3.5 text-base leading-relaxed">
+                <span class="w-2 h-2 rounded-full bg-swiss-red flex-shrink-0 -translate-y-px" />
+                <span class="text-[#3D4A50]">{b}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="bg-teal-light border-l-4 border-teal rounded-r-lg px-6 py-6">
+        <div class="text-lg font-bold tracking-tight">{wasIst.boxTitle}</div>
+        <p class="text-[15px] leading-relaxed text-[#3D4A50] mt-3">{wasIst.boxText}</p>
+        <div class="mt-5 pt-5 border-t border-teal/20">
+          <div class="text-2xl font-bold tracking-tight text-teal-dark">{wasIst.boxStat}</div>
+          <div class="text-[13.5px] text-[#3D4A50] mt-1.5 leading-snug">{wasIst.boxStatLabel}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

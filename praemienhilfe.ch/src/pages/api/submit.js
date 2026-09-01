@@ -33,6 +33,7 @@ export async function POST({ request }) {
       { name: 'canton', value: data.canton },
       { name: 'income_range', value: data.income || '' },
       { name: 'household_type', value: data.household || '' },
+      { name: 'situation', value: data.situation || '' },
       { name: 'lead_source', value: 'praemienhilfe.ch' },
       { name: 'utm_source', value: data.utm_source || '' },
       { name: 'utm_medium', value: data.utm_medium || '' },

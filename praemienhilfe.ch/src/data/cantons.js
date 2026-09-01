@@ -38,6 +38,11 @@ export const cantons = {
       { k: 'Antragsfrist 2027', v: 'September–31. Dezember 2026' },
     ],
     officeNameFull: 'Amt für Sozialbeiträge Basel-Stadt',
+    overviewCard: {
+      bezueger: "ca. 30'000 Bezüger",
+      frist: 'Frist: September – 31. Dezember 2026',
+      zustaendig: 'Zuständig: ASB Basel-Stadt',
+    },
     closingParagraph,
     steps: [
       {
@@ -120,6 +125,11 @@ export const cantons = {
       { k: 'Antragsfrist 2027', v: 'September–31. Dezember 2026 (unverifiziert)' },
     ],
     officeNameFull: 'SVA Basel-Landschaft',
+    overviewCard: {
+      bezueger: "ca. 20'000 Bezüger (unverifiziert)",
+      frist: 'Frist: September – 31. Dezember 2026 (unverifiziert)',
+      zustaendig: 'Zuständig: SVA Basel-Landschaft',
+    },
     closingParagraph,
     steps: [
       {

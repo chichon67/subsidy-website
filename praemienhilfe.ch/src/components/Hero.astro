@@ -1,6 +1,8 @@
 ---
 // src/components/Hero.astro
+import { Image } from 'astro:assets';
 import Funnel from './Funnel.jsx';
+import heroPhoto from '../assets/hero-photo.jpg';
 
 export interface Props {
   canton: { name: string; heroProof: string };
@@ -30,13 +32,15 @@ const { canton, defaultCanton } = Astro.props;
           <path d="M20 470 A 340 340 0 0 1 470 40" fill="none" stroke="#0087A0" stroke-width="1.3" opacity="0.4"></path>
           <path d="M74 560 A 330 330 0 0 1 560 120" fill="none" stroke="#E8F4F8" stroke-width="26"></path>
         </svg>
-        <div
-          class="relative w-full max-w-[470px] ml-auto aspect-square rounded-full overflow-hidden flex items-center justify-center"
-          style="background: repeating-linear-gradient(135deg, #E8F4F8 0 11px, #D6EAF1 11px 22px);"
-        >
-          <div class="font-mono text-[12.5px] text-[#3F7788] text-center tracking-wide leading-[1.7] px-10">
-            [Foto: Schweizer Familie]<br />1200 × 1200
-          </div>
+        <div class="relative w-full max-w-[470px] ml-auto aspect-square rounded-full overflow-hidden">
+          <Image
+            src={heroPhoto}
+            alt="Schweizer Familie"
+            width={940}
+            height={940}
+            class="w-full h-full object-cover"
+            loading="eager"
+          />
         </div>
         <div class="relative -mt-[52px] -ml-2.5 inline-flex items-start gap-2.5 bg-white border border-[#E2E8EA] rounded-lg shadow-[0_4px_16px_rgba(26,26,42,0.1)] px-[17px] py-3.5 max-w-[330px]">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D8B37" stroke-width="2.4" stroke-linecap="round" class="flex-shrink-0 mt-0.5" aria-hidden="true">

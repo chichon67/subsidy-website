@@ -1,16 +1,1 @@
-# Progress Ledger — prämienhilfe.ch build
-Task 0: complete (commits f01d0f9..b5ac068, review clean after 1 fix round)
-Task 1: complete (commit b5ac068..69c6275, review clean)
-Task 2: complete (commit 69c6275..e543d36, review clean)
-Task 3: complete (commit 6596c72..ef8b45b, review clean)
-Task 4: complete (commit ef8b45b..cc771b4, review clean)
-Task 5: complete (commit cc771b4..6292b48, review clean, minor styling-token notes non-blocking)
-Task 6: complete (commit 6292b48..b3f7c90, review clean)
-Task 7: complete (commit b3f7c90..370f520, review clean)
-Task 8: complete (commit 370f520..2241547, review clean)
-Task 9: complete (commit 2241547..63d1f9d, review clean; mobile-viewport check deferred to source-inspection due to browser-tool limitation, judged acceptable)
-Task 10: complete (commit 63d1f9d..6ee4a5f, review clean; recurring dev-mode _jsxDEV console warning confirmed pre-existing/out-of-scope, non-blocking, build clean)
-Task 11: complete (commit 6ee4a5f..3eea4a0, review clean)
-Task 12: complete (commit 3eea4a0..fc897ae, review clean)
-Task 13: complete (verification only, no commit; build clean, all 8 pages OK, funnel flow OK, _jsxDEV confirmed non-reproducible from clean cache; minor non-blocking UX nit: step-4 validation errors don't clear live while typing, in Funnel.jsx, not fixed per instructions)
-Final whole-branch review: Critical (netlify.toml SPA redirect breaking /api/submit) + Important (phone regex rejecting landlines) found and fixed in 3957d3e, re-review clean. Minor findings (GA4 fallback ID, live-validation-clear UX nit, no spam protection on API, dead 'reasons'/'cantonList' data, generic HubSpot-not-configured logging) left as documented follow-ups, not blocking.
+# Progress Ledger — CRO/SEO Refactor

@@ -255,7 +255,7 @@ export default function SituationFunnel() {
 
       {!submitted && step === 5 && (
         <div>
-          <div className="text-lg font-bold mt-[18px] mb-1 tracking-tight text-[#2E6B29]">
+          <div className="text-lg font-bold mt-[18px] mb-1 tracking-tight text-swiss-green">
             Gute Nachricht — Sie könnten Anspruch haben!
           </div>
           <div className="text-xl font-bold mt-3 mb-4 tracking-tight">Ihre Kontaktangaben</div>
@@ -319,7 +319,7 @@ export default function SituationFunnel() {
 
       {submitted && (
         <div className="pt-4 pb-1">
-          <div className="text-xl font-bold tracking-tight text-[#2E6B29]">Vielen Dank!</div>
+          <div className="text-xl font-bold tracking-tight text-swiss-green">Vielen Dank!</div>
           <p className="text-[15px] leading-relaxed text-[#3D4A50] mt-2.5">
             Wir melden uns innerhalb von 24 Stunden bei Ihnen. Bei Fragen erreichen Sie uns unter +41 76 779 0449.
           </p>

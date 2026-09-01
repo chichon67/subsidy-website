@@ -1,6 +1,84 @@
 // src/pages/api/submit.js
 export const prerender = false;
 
+const BASE = 'https://api.hubapi.com';
+
+function authHeaders(token) {
+  return {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  };
+}
+
+// Create or update a contact — returns the contact id
+async function upsertContact(token, props) {
+  const res = await fetch(`${BASE}/crm/v3/objects/contacts`, {
+    method: 'POST',
+    headers: authHeaders(token),
+    body: JSON.stringify({ properties: props }),
+  });
+
+  if (res.status === 409) {
+    const contactId = await findContactByEmail(token, props.email);
+    const patchRes = await fetch(`${BASE}/crm/v3/objects/contacts/${contactId}`, {
+      method: 'PATCH',
+      headers: authHeaders(token),
+      body: JSON.stringify({ properties: props }),
+    });
+    if (!patchRes.ok) {
+      const err = await patchRes.json();
+      throw new Error(`HubSpot update contact: ${err.message || patchRes.status}`);
+    }
+    return contactId;
+  }
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(`HubSpot create contact: ${err.message || res.status}`);
+  }
+
+  const data = await res.json();
+  return data.id;
+}
+
+async function findContactByEmail(token, email) {
+  const res = await fetch(`${BASE}/crm/v3/objects/contacts/search`, {
+    method: 'POST',
+    headers: authHeaders(token),
+    body: JSON.stringify({
+      filterGroups: [{ filters: [{ propertyName: 'email', operator: 'EQ', value: email }] }],
+      properties: ['email'],
+      limit: 1,
+    }),
+  });
+  const data = await res.json();
+  if (!res.ok || !data.results?.[0]) throw new Error('Contact not found after conflict');
+  return data.results[0].id;
+}
+
+// Create a note associated with a contact
+async function createNote(token, contactId, noteBody) {
+  const res = await fetch(`${BASE}/crm/v3/objects/notes`, {
+    method: 'POST',
+    headers: authHeaders(token),
+    body: JSON.stringify({
+      properties: {
+        hs_note_body: noteBody,
+        hs_timestamp: new Date().toISOString(),
+      },
+      associations: [{
+        to: { id: contactId },
+        types: [{ associationCategory: 'HUBSPOT_DEFINED', associationTypeId: 202 }],
+      }],
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(`HubSpot create note: ${err.message || res.status}`);
+  }
+}
+
 export async function POST({ request }) {
   let data;
   try {
@@ -21,59 +99,64 @@ export async function POST({ request }) {
     });
   }
 
-  const portalId = import.meta.env.HUBSPOT_PORTAL_ID;
-  const formId = import.meta.env.HUBSPOT_FORM_ID;
-
-  const hubspotPayload = {
-    fields: [
-      { name: 'firstname', value: data.firstName },
-      { name: 'lastname', value: data.lastName },
-      { name: 'phone', value: data.phone },
-      { name: 'email', value: data.email },
-      { name: 'canton', value: data.canton },
-      { name: 'income_range', value: data.income || '' },
-      { name: 'household_type', value: data.household || '' },
-      { name: 'situation', value: data.situation || '' },
-      { name: 'lead_source', value: 'praemienhilfe.ch' },
-      { name: 'utm_source', value: data.utm_source || '' },
-      { name: 'utm_medium', value: data.utm_medium || '' },
-      { name: 'utm_campaign', value: data.utm_campaign || '' },
-      { name: 'utm_content', value: data.utm_content || '' },
-    ],
-    context: {
-      pageUri: 'praemienhilfe.ch',
-      pageName: 'Prämienverbilligung Landing',
-    },
-  };
-
-  try {
-    const hsResponse = await fetch(
-      `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(hubspotPayload),
-      }
-    );
-
-    if (!hsResponse.ok) {
-      const detail = await hsResponse.text();
-      console.error('[api/submit] HubSpot rejected submission:', hsResponse.status, detail);
-      return new Response(JSON.stringify({ error: 'Failed' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-  } catch (err) {
-    console.error('[api/submit] HubSpot request failed:', err);
-    return new Response(JSON.stringify({ error: 'Failed' }), {
+  const token = import.meta.env.HUBSPOT_ACCESS_TOKEN;
+  if (!token) {
+    console.error('[api/submit] HUBSPOT_ACCESS_TOKEN is not set');
+    return new Response(JSON.stringify({ error: 'Server configuration error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
   }
 
-  return new Response(JSON.stringify({ success: true }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
+  // Sanitize phone to E.164-ish: keep leading +, strip everything else non-digit
+  const rawPhone = data.phone || '';
+  const phone = rawPhone.startsWith('+')
+    ? '+' + rawPhone.slice(1).replace(/\D/g, '')
+    : rawPhone.replace(/\D/g, '');
+
+  const contactProps = {
+    firstname: data.firstName,
+    lastname: data.lastName,
+    email: data.email,
+    phone,
+    canton: data.canton,
+    income_range: data.income || '',
+    household_type: data.household || '',
+    lead_source: 'praemienhilfe.ch',
+    utm_source: data.utm_source || '',
+    utm_medium: data.utm_medium || '',
+    utm_campaign: data.utm_campaign || '',
+    utm_content: data.utm_content || '',
+  };
+
+  try {
+    const contactId = await upsertContact(token, contactProps);
+
+    const noteBody = [
+      `Antrag über praemienhilfe.ch`,
+      `Kanton       : ${data.canton}`,
+      `Einkommen    : ${data.income || '—'}`,
+      `Haushalt     : ${data.household || '—'}`,
+      `Situation    : ${data.situation || '—'}`,
+    ].join('\n');
+
+    try {
+      await createNote(token, contactId, noteBody);
+    } catch (e) {
+      // Note failure is non-fatal — contact was already created
+      console.error('[api/submit] note error:', e.message);
+    }
+
+    console.log(`[api/submit] success — contact ${contactId}`);
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (err) {
+    console.error('[api/submit] HubSpot error:', err.message);
+    return new Response(JSON.stringify({ error: 'Failed' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
 }

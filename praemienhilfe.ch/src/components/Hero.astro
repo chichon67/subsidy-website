@@ -2,13 +2,15 @@
 // src/components/Hero.astro
 import { Image } from 'astro:assets';
 import Funnel from './Funnel.jsx';
+import SituationSelector from './SituationSelector.astro';
 import heroPhoto from '../assets/hero-photo.jpg';
 
 export interface Props {
   canton: { name: string; heroProof: string };
   defaultCanton?: string;
+  useSituationFunnel?: boolean;
 }
-const { canton, defaultCanton } = Astro.props;
+const { canton, defaultCanton, useSituationFunnel = true } = Astro.props;
 ---
 
 <section id="pruefen" class="bg-white">
@@ -16,7 +18,7 @@ const { canton, defaultCanton } = Astro.props;
     <div class="grid grid-cols-1 md:grid-cols-[55fr_45fr] gap-14 items-start">
       <div>
         <h1 class="text-[32px] md:text-[48px] leading-[1.08] font-bold tracking-tight m-0">
-          Haben Sie Anspruch auf Prämienverbilligung?
+          {useSituationFunnel ? 'Prämienverbilligung Basel-Stadt — Anspruch prüfen und Antrag stellen' : 'Haben Sie Anspruch auf Prämienverbilligung?'}
         </h1>
         <p class="text-base leading-[1.68] text-[#3D4A50] mt-5 max-w-[34em]">
           Der Kanton gewährt Einwohnerinnen und Einwohnern in bescheidenen wirtschaftlichen Verhältnissen Beiträge zur
@@ -24,7 +26,7 @@ const { canton, defaultCanton } = Astro.props;
           einzureichen.
         </p>
 
-        <Funnel client:load defaultCanton={defaultCanton} />
+        {useSituationFunnel ? <SituationSelector /> : <Funnel client:load defaultCanton={defaultCanton} />}
       </div>
 
       <div class="hidden md:block relative pt-1.5">

@@ -29,10 +29,9 @@ export const cantons = {
     infoParagraphs: [
       "Rund 30'000 Personen im Kanton Basel-Stadt erhalten bereits Prämienverbilligungen. Das Verfahren ist kurz und einfach — es lohnt sich zu prüfen, ob Sie Anspruch haben. Es genügt ein Antrag pro Haushalt.",
       'Anspruch haben Personen, deren Haushalts-Einkommen und Vermögen unterhalb der Leistungsgrenze liegt und die seit dem 1. Januar des laufenden Jahres im Kanton wohnen.',
+      'Die Einkommensgrenzen variieren je nach Haushaltsgrösse und persönlicher Situation. Viele Personen erhalten Prämienverbilligung, auch wenn sie nicht damit rechnen. Es lohnt sich in jedem Fall, den Anspruch zu prüfen.',
     ],
     facts: [
-      { k: 'Einkommensgrenze Einzelperson', v: "CHF 49'375" },
-      { k: 'Einkommensgrenze 4-Pers.-Haushalt', v: "CHF 97'000" },
       { k: 'Bezüger im Kanton', v: "ca. 30'000" },
       { k: 'Zuständige Stelle', v: 'ASB Basel-Stadt' },
       { k: 'Antragsfrist 2027', v: 'September–31. Dezember 2026' },
@@ -59,6 +58,14 @@ export const cantons = {
     reasons,
     faqs: [
       {
+        q: 'Wer sind wir?',
+        a: "prämienhilfe.ch ist ein Service von EVO Partners GmbH, einem FINMA-registrierten unabhängigen Versicherungsbroker mit Sitz in der Schweiz. Wir sind seit 2020 tätig und haben bereits über 1'000 Dossiers für Prämienverbilligung bearbeitet. Neben der Prämienverbilligung beraten wir unsere Klienten auch zu ihrer gesamten Krankenversicherungssituation, um die beste Abdeckung zum besten Preis zu finden.",
+      },
+      {
+        q: 'Sind Sie ein offizielles Kantonsamt?',
+        a: 'Nein. prämienhilfe.ch ist eine private, unabhängige Beratungsplattform. Wir sind kein staatliches Organ. Die Prämienverbilligung kann auch direkt beim Amt für Sozialbeiträge (ASB) Basel-Stadt beantragt werden. Unser Service erleichtert Ihnen den Prozess und prüft gleichzeitig, ob Ihre Versicherungssituation insgesamt optimiert werden kann.',
+      },
+      {
         q: 'Wer hat Anspruch auf Prämienverbilligung?',
         a: "Anspruch haben Personen in bescheidenen wirtschaftlichen Verhältnissen mit Wohnsitz in der Schweiz. Im Kanton Basel-Stadt gilt: Einzelpersonen bis CHF 49'375, 4-Personen-Haushalte bis CHF 97'000 Jahreseinkommen.",
       },
@@ -68,7 +75,7 @@ export const cantons = {
       },
       {
         q: 'Was kostet mich dieser Service?',
-        a: 'Für Sie entstehen keine direkten Kosten. Wir sind ein FINMA-registrierter Versicherungsbroker (EVO Partners Sàrl) und werden nicht direkt von Ihnen vergütet.',
+        a: 'Für Sie entstehen keine direkten Kosten. Wir sind ein FINMA-registrierter Versicherungsbroker (EVO Partners GmbH) und werden nicht direkt von Ihnen vergütet.',
       },
       {
         q: 'Was ist der Unterschied zum direkten Kantonsantrag?',
@@ -142,7 +149,7 @@ export const cantons = {
       },
       {
         q: 'Was kostet mich dieser Service?',
-        a: 'Für Sie entstehen keine direkten Kosten. Wir sind ein FINMA-registrierter Versicherungsbroker (EVO Partners Sàrl) und werden nicht direkt von Ihnen vergütet.',
+        a: 'Für Sie entstehen keine direkten Kosten. Wir sind ein FINMA-registrierter Versicherungsbroker (EVO Partners GmbH) und werden nicht direkt von Ihnen vergütet.',
       },
       {
         q: 'Was ist der Unterschied zum direkten Kantonsantrag?',

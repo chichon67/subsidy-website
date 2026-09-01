@@ -15,9 +15,47 @@ const canton = cantons['basel-stadt'];
 
 <Base
   title="Prämienverbilligung Basel-Stadt | prämienhilfe.ch"
-  description="Prämienverbilligung im Kanton Basel-Stadt beantragen. Einkommensgrenze Einzelperson CHF 49'375. Kostenlose Hilfe beim Antrag."
+  description="Prämienverbilligung im Kanton Basel-Stadt beantragen. EVO Partners GmbH hilft Ihnen kostenlos bei der Einreichung Ihres Antrags. Jetzt Anspruch prüfen — in 20 Minuten."
   canonical="https://praemienhilfe.ch/basel-stadt"
   activePage="basel-stadt"
+  schema={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'LocalBusiness',
+      name: 'prämienhilfe.ch – EVO Partners GmbH',
+      description: 'Unabhängige Beratung bei der Prämienverbilligung im Kanton Basel-Stadt',
+      url: 'https://praemienhilfe.ch',
+      areaServed: { '@type': 'AdministrativeArea', name: 'Basel-Stadt' },
+      serviceType: 'Prämienverbilligung Beratung',
+      provider: {
+        '@type': 'Organization',
+        name: 'EVO Partners GmbH',
+        description: 'FINMA-registrierter Versicherungsbroker',
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Wer hat Anspruch auf Prämienverbilligung in Basel-Stadt?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Personen mit Wohnsitz in Basel-Stadt in bescheidenen wirtschaftlichen Verhältnissen. Es lohnt sich in jedem Fall, den Anspruch zu prüfen.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Was kostet die Hilfe bei der Prämienverbilligung?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Die Hilfe bei der Prämienverbilligung ist für Sie kostenlos. EVO Partners GmbH ist ein FINMA-registrierter Versicherungsbroker.',
+          },
+        },
+      ],
+    },
+  ]}
 >
   <Hero canton={canton} defaultCanton="Basel-Stadt" />
   <TrustBar canton={canton} />

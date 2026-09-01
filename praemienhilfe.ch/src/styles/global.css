@@ -23,3 +23,11 @@ a {
 a:hover {
   color: #005f73;
 }
+
+:root {
+  --header-h: 76px;
+}
+
+[id] {
+  scroll-margin-top: var(--header-h);
+}

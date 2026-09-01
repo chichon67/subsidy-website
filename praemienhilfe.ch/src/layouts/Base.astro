@@ -53,7 +53,13 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
   <body>
     <div id="top"></div>
     {chrome && <Header activePage={activePage} />}
-    <slot />
+    {chrome ? (
+      <div style="padding-top: var(--header-h, 76px)">
+        <slot />
+      </div>
+    ) : (
+      <slot />
+    )}
     {chrome && <Footer />}
 
     {

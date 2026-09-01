@@ -6,8 +6,9 @@ import TrustBar from '../components/TrustBar.astro';
 import InfoSection from '../components/InfoSection.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import ProblemSection from '../components/ProblemSection.astro';
+import WerWirSindSection from '../components/WerWirSindSection.astro';
 import FAQ from '../components/FAQ.astro';
-import FinalCTA from '../components/FinalCTA.astro';
+import SituationFinalCTA from '../components/SituationFinalCTA.astro';
 import { cantons } from '../data/cantons.js';
 
 const canton = cantons['basel-stadt'];
@@ -57,11 +58,12 @@ const canton = cantons['basel-stadt'];
     },
   ]}
 >
-  <Hero canton={canton} defaultCanton="Basel-Stadt" />
+  <Hero canton={canton} defaultCanton="Basel-Stadt" embeddedFunnel={true} />
   <TrustBar canton={canton} />
   <InfoSection canton={canton} />
-  <HowItWorks steps={canton.steps} />
+  <HowItWorks steps={canton.steps} id="so-funktioniert-es" />
   <ProblemSection />
+  <WerWirSindSection />
   <FAQ canton={canton} />
-  <FinalCTA />
+  <SituationFinalCTA />
 </Base>

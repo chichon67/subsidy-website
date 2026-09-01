@@ -2,6 +2,7 @@
 // src/components/Hero.astro
 import { Image } from 'astro:assets';
 import Funnel from './Funnel.jsx';
+import SituationFunnel from './SituationFunnel.jsx';
 import SituationSelector from './SituationSelector.astro';
 import CantonSelector from './CantonSelector.astro';
 import heroPhoto from '../assets/hero-photo.jpg';
@@ -12,8 +13,9 @@ export interface Props {
   defaultCanton?: string;
   useSituationFunnel?: boolean;
   variant?: 'canton' | 'national';
+  embeddedFunnel?: boolean;
 }
-const { canton, defaultCanton, useSituationFunnel = true, variant = 'canton' } = Astro.props;
+const { canton, defaultCanton, useSituationFunnel = true, variant = 'canton', embeddedFunnel = false } = Astro.props;
 const isNational = variant === 'national';
 ---
 
@@ -30,7 +32,7 @@ const isNational = variant === 'national';
             : 'Der Kanton gewährt Einwohnerinnen und Einwohnern in bescheidenen wirtschaftlichen Verhältnissen Beiträge zur Reduktion der Krankenkassenprämien. Wir helfen Ihnen, Ihren Anspruch zu prüfen und Ihren Antrag korrekt einzureichen.'}
         </p>
 
-        {isNational ? <CantonSelector /> : useSituationFunnel ? <SituationSelector /> : <Funnel client:load defaultCanton={defaultCanton} />}
+        {isNational ? <CantonSelector /> : embeddedFunnel ? <SituationFunnel client:load /> : useSituationFunnel ? <SituationSelector /> : <Funnel client:load defaultCanton={defaultCanton} />}
       </div>
 
       <div class="hidden md:block relative pt-1.5">

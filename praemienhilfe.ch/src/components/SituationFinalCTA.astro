@@ -1,0 +1,45 @@
+---
+// src/components/SituationFinalCTA.astro
+import { situationList } from '../data/situations.js';
+---
+
+<section class="bg-teal text-white">
+  <div class="max-w-[720px] mx-auto px-8 py-16">
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 text-white">
+      Haben Sie Ihren Anspruch noch nicht geprüft?
+    </h2>
+    <p class="text-base leading-relaxed mt-3.5 text-white max-w-[34em]">
+      Starten Sie jetzt — es dauert weniger als 20 Minuten. Wählen Sie Ihre Situation:
+    </p>
+
+    <div class="mt-7 grid gap-2.5">
+      {
+        situationList.map((s) => (
+          <button
+            type="button"
+            data-situation={s.slug}
+            class="situation-cta-row w-full flex items-center justify-between gap-4 text-left cursor-pointer rounded-md text-[15.5px] font-medium text-teal-dark bg-white border border-white px-[18px] py-[15px] transition-colors hover:bg-teal-light"
+          >
+            <span>{s.label}</span>
+            <span class="text-teal font-bold">→</span>
+          </button>
+        ))
+      }
+    </div>
+
+    <p class="text-xs leading-relaxed text-white/85 mt-5">
+      Kein offizielles Kantonsamt. Ein Service von EVO Partners GmbH, FINMA-registrierter Broker.
+    </p>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.situation-cta-row').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const slug = btn.getAttribute('data-situation');
+      if (typeof window.startFunnel === 'function') {
+        window.startFunnel(slug);
+      }
+    });
+  });
+</script>

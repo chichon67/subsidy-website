@@ -18,6 +18,7 @@ export interface Props {
 
 const { title, description, canonical, activePage = 'home', chrome = true, schema = [] } = Astro.props;
 const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
+const mobileCtaHref = activePage === 'basel-stadt' ? '#funnel' : '/#pruefen';
 ---
 
 <!doctype html>
@@ -66,7 +67,7 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
       chrome && (
         <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 p-3 bg-white/95 border-t border-[#E2E8EA]">
           <a
-            href="/#pruefen"
+            href={mobileCtaHref}
             class="block text-center px-5 py-3.5 bg-teal text-white rounded-md text-base font-bold no-underline"
           >
             Antrag prüfen lassen →

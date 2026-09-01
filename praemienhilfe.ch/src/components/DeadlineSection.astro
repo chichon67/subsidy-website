@@ -1,0 +1,36 @@
+---
+// src/components/DeadlineSection.astro
+import { deadlines } from '../data/national.js';
+---
+
+<section class="bg-white">
+  <div class="max-w-[1240px] mx-auto px-8 py-[52px] md:py-[74px]">
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0">Verpassen Sie nicht die Antragsfrist</h2>
+
+    <div class="mt-6 bg-[#FFF8E7] border border-amber/40 rounded-lg px-6 py-4 text-[15.5px] font-semibold text-[#7A6836] max-w-[44em]">
+      ⚠️ Die Antragsfristen für 2027 laufen bald ab.
+    </div>
+
+    <div class="mt-7 max-w-[44em] border-l-4 border-teal">
+      <div class="grid grid-cols-2 gap-1 px-[18px] py-[13px] bg-[#F5F7F8] text-[13.5px] font-semibold uppercase tracking-wide text-[#6B7A80]">
+        <div>Kanton</div>
+        <div>Antragsfrist</div>
+      </div>
+      {
+        deadlines.map((d, i) => (
+          <div
+            class="grid grid-cols-2 gap-1 px-[18px] py-[13px]"
+            style={{ background: i % 2 === 0 ? '#FFFFFF' : '#F5F7F8' }}
+          >
+            <div class="text-[15.5px] font-semibold">{d.canton}</div>
+            <div class="text-[15px] text-[#3D4A50]">{d.frist}</div>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="text-[16.5px] leading-[1.7] mt-7 max-w-[44em] font-bold text-swiss-red">
+      Wer die Frist verpasst, verliert die Verbilligung für das gesamte Jahr — das können CHF 500 bis CHF 3'000 sein.
+    </p>
+  </div>
+</section>

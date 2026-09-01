@@ -1,26 +1,42 @@
 ---
 // src/components/FinalCTA.astro
+export interface Props {
+  heading?: string;
+  text?: string;
+  buttons?: { label: string; href: string }[];
+  disclaimer?: string;
+}
+const {
+  heading = 'Jetzt Anspruch prüfen lassen',
+  text = 'Vereinbaren Sie ein Erstgespräch. Wir begleiten Sie von der Prüfung bis zur Einreichung.',
+  buttons = [
+    { label: 'Antrag prüfen lassen →', href: '/#pruefen' },
+    { label: 'Formular ausfüllen →', href: '/#pruefen' },
+  ],
+  disclaimer,
+} = Astro.props;
 ---
 
 <section id="kontakt" class="bg-teal text-white">
   <div class="max-w-[1240px] mx-auto px-8 py-16">
     <div class="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-11 items-center">
       <div>
-        <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 text-white">Jetzt Anspruch prüfen lassen</h2>
-        <p class="text-[16.5px] leading-relaxed mt-3.5 text-[#DDF0F4] max-w-[34em]">
-          Vereinbaren Sie ein Erstgespräch. Wir begleiten Sie von der Prüfung bis zur Einreichung.
-        </p>
+        <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 text-white">{heading}</h2>
+        <p class="text-[16.5px] leading-relaxed mt-3.5 text-[#DDF0F4] max-w-[34em]">{text}</p>
       </div>
       <div class="flex flex-col gap-2.5">
-        <a href="/#pruefen" class="block text-center px-5 py-[17px] bg-white text-teal-dark rounded-md text-[16.5px] font-bold no-underline hover:bg-teal-light">
-          Antrag prüfen lassen →
-        </a>
-        <a
-          href="/#pruefen"
-          class="flex items-center justify-center gap-2.5 px-5 py-[17px] bg-transparent text-white border border-white/60 rounded-md text-[16.5px] font-semibold no-underline hover:bg-white/10"
-        >
-          Formular ausfüllen →
-        </a>
+        {buttons.map((b, i) =>
+          i === 0 ? (
+            <a href={b.href} class="block text-center px-5 py-[17px] bg-white text-teal-dark rounded-md text-[16.5px] font-bold no-underline hover:bg-teal-light">
+              {b.label}
+            </a>
+          ) : (
+            <a href={b.href} class="flex items-center justify-center gap-2.5 px-5 py-[17px] bg-transparent text-white border border-white/60 rounded-md text-[16.5px] font-semibold no-underline hover:bg-white/10">
+              {b.label}
+            </a>
+          )
+        )}
+        {disclaimer && <p class="text-[12.5px] leading-relaxed text-[#BFE4EB] mt-1">{disclaimer}</p>}
       </div>
     </div>
   </div>

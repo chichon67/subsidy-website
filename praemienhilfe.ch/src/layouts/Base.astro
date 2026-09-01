@@ -9,9 +9,11 @@ export interface Props {
   description: string;
   canonical: string;
   activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'ablauf' | 'faq' | 'kontakt';
+  chrome?: boolean;
+  schema?: Record<string, unknown>[];
 }
 
-const { title, description, canonical, activePage = 'home' } = Astro.props;
+const { title, description, canonical, activePage = 'home', chrome = true, schema = [] } = Astro.props;
 const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
 ---
 
@@ -29,6 +31,8 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="de_CH" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
     <script define:vars={{ ga4Id }}>
@@ -40,20 +44,40 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
       gtag('js', new Date());
       gtag('config', ga4Id);
     </script>
+
+    {schema.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block)} />)}
   </head>
   <body>
     <div id="top"></div>
-    <Header activePage={activePage} />
+    {chrome && <Header activePage={activePage} />}
     <slot />
-    <Footer />
+    {chrome && <Footer />}
 
-    <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 p-3 bg-white/95 border-t border-[#E2E8EA]">
-      <a
-        href="/#pruefen"
-        class="block text-center px-5 py-3.5 bg-teal text-white rounded-md text-base font-bold no-underline"
-      >
-        Antrag prüfen lassen →
-      </a>
-    </div>
+    {
+      chrome && (
+        <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 p-3 bg-white/95 border-t border-[#E2E8EA]">
+          <a
+            href="/#pruefen"
+            class="block text-center px-5 py-3.5 bg-teal text-white rounded-md text-base font-bold no-underline"
+          >
+            Antrag prüfen lassen →
+          </a>
+        </div>
+      )
+    }
+
+    <script>
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', function (this: Element, e) {
+          const href = this.getAttribute('href');
+          if (!href || href === '#') return;
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    </script>
   </body>
 </html>

@@ -1,6 +1,16 @@
 # prämienhilfe.ch
 
-Swiss health-insurance subsidy (Prämienverbilligung) lead-generation site for Basel-Stadt and Basel-Landschaft. Built with Astro, a single React island for the funnel, and Tailwind CSS.
+Swiss health-insurance subsidy (Prämienverbilligung) lead-generation site, with a national homepage plus dedicated funnels for Basel-Stadt and Basel-Landschaft. Built with Astro, a single React island for the funnel, and Tailwind CSS.
+
+## Pages
+
+- `/` — national homepage: canton selector (Basel-Stadt, Basel-Landschaft active; Zürich, Bern, Aargau, Luzern, Solothurn, Genf coming soon), 10 content sections
+- `/basel-stadt` — Basel-Stadt canton page (situation-based funnel)
+- `/basel-landschaft` — Basel-Landschaft canton page (canton+situation funnel)
+- `/antrag` — full-page trapped funnel (no header/footer)
+- `/so-funktioniert-es`, `/faq`, `/kontakt` — supporting pages
+- `/impressum`, `/datenschutz` — legal pages
+- `/api/submit` — server endpoint for funnel form submissions
 
 ## Setup
 

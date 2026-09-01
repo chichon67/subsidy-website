@@ -1,0 +1,45 @@
+---
+// src/components/WerWirSindSection.astro
+import { werWirSind } from '../data/national.js';
+---
+
+<section id="wer-wir-sind" class="bg-teal-light">
+  <div class="max-w-[1240px] mx-auto px-8 py-[52px] md:py-[74px]">
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 max-w-[26em] leading-tight">
+      Wer steckt hinter prämienhilfe.ch?
+    </h2>
+    <div class="mt-[34px] grid grid-cols-1 md:grid-cols-[1.3fr_1fr] gap-11 items-start">
+      <div>
+        {werWirSind.paragraphs.map((p) => <p class="text-[16.5px] leading-[1.7] text-[#3D4A50] mt-[18px] first:mt-0">{p}</p>)}
+        <div class="mt-4 grid gap-2.5">
+          {
+            werWirSind.bullets.map((b) => (
+              <div class="flex items-baseline gap-3.5 text-base leading-relaxed">
+                <span class="w-2 h-2 rounded-full bg-swiss-red flex-shrink-0 -translate-y-px" />
+                <span class="text-[#3D4A50]">{b}</span>
+              </div>
+            ))
+          }
+        </div>
+        <p class="text-[16.5px] leading-[1.7] text-[#3D4A50] mt-7">{werWirSind.closing}</p>
+      </div>
+      <div class="bg-white border border-teal/30 rounded-lg px-6 py-6">
+        <div class="grid gap-3">
+          {
+            werWirSind.trustItems.map((t) => (
+              <div class="flex items-start gap-2.5 text-[14.5px] text-dark">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3D8B37" stroke-width="2.6" stroke-linecap="round" class="flex-shrink-0 mt-0.5" aria-hidden="true">
+                  <path d="M4 13l5 5L20 7" />
+                </svg>
+                <span>{t}</span>
+              </div>
+            ))
+          }
+        </div>
+        <div class="h-px bg-[#E2E8EA] my-4" />
+        <div class="text-amber text-[15px] tracking-wide" aria-hidden="true">★★★★★</div>
+        <div class="text-[13.5px] text-[#3D4A50] mt-1">{werWirSind.rating}</div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -15,3 +15,16 @@ Task 13: complete (commit 605fb72..a650d8e, review clean; intentional 'rund 3000
 Task 14: complete (commit a650d8e..23da9c5, review clean)
 Task 15: complete (verification only, no commit; build clean, all 10 checklist items PASS; minor dead-code note on unused PHONE/EMAIL consts in cantons.js, zero user-facing impact)
 Final whole-branch review: Important finding (dead #pruefen anchors on hero-less pages) found and fixed in 1b0a7e9, re-review clean. Minor findings (dead PHONE/EMAIL consts in cantons.js, situation-slug prototype-lookup hygiene, HubSpot autoresponder email-promise dependency, /kontakt now shows situation selector not a form) left as documented follow-ups, not blocking.
+
+# Progress Ledger — National Homepage (2026-09-01-national-homepage.md)
+Task 1: complete (commit 6de61ee..834042f, review clean)
+Task 2: complete (commit 834042f..788af4d, review clean)
+Task 3: complete (commit 788af4d..1f7c0fd, review clean)
+Task 4: complete (commit 1f7c0fd..c345b38, review clean)
+Task 5: complete (commit c345b38..5750589, review clean)
+Task 6: complete (commit 5750589..c9ebc4e, review clean; implementer also fixed an out-of-brief 4th HowItWorks call site in index.astro to keep the build green, judged correct — index.astro is fully replaced in Task 9 regardless)
+Task 7: complete (commit c9ebc4e..5b649b9, review clean)
+Task 8: complete (commit 5b649b9..1679341, review clean)
+Task 9: complete (commit 1679341..d445cc4, review clean; all component prop-name pairings independently re-verified by reviewer, no mismatches)
+Task 10: complete (commit d445cc4..c2979c0, review clean)
+Final whole-branch review (d184992..c2979c0): clean — no Critical/Important findings. 3 Minor notes: (1) shared mobile sticky CTA keeps generic "Antrag prüfen lassen" label/target instead of brief's homepage-specific "Kanton wählen" — reasonable given it's shared chrome, not fixed; (2) FAQPage JSON-LD Q&A doesn't verbatim-match visible FAQ (as specified by brief, may just miss Google rich-result eligibility); (3) WebSite schema's non-standard `provider` property (copied verbatim from brief). Final `npm run build` re-run clean post-review.

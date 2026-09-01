@@ -114,19 +114,14 @@ export async function POST({ request }) {
     ? '+' + rawPhone.slice(1).replace(/\D/g, '')
     : rawPhone.replace(/\D/g, '');
 
+  // Only send properties that actually exist on the Contact object in this
+  // HubSpot portal — an unknown property name fails the whole request.
   const contactProps = {
     firstname: data.firstName,
     lastname: data.lastName,
     email: data.email,
     phone,
     canton: data.canton,
-    income_range: data.income || '',
-    household_type: data.household || '',
-    lead_source: 'praemienhilfe.ch',
-    utm_source: data.utm_source || '',
-    utm_medium: data.utm_medium || '',
-    utm_campaign: data.utm_campaign || '',
-    utm_content: data.utm_content || '',
   };
 
   try {
@@ -138,6 +133,8 @@ export async function POST({ request }) {
       `Einkommen    : ${data.income || '—'}`,
       `Haushalt     : ${data.household || '—'}`,
       `Situation    : ${data.situation || '—'}`,
+      `Lead-Quelle  : praemienhilfe.ch`,
+      `UTM          : source=${data.utm_source || '—'} medium=${data.utm_medium || '—'} campaign=${data.utm_campaign || '—'} content=${data.utm_content || '—'}`,
     ].join('\n');
 
     try {

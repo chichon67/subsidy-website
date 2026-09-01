@@ -22,7 +22,7 @@ const canton = cantons['basel-landschaft'];
   <Hero canton={canton} defaultCanton="Basel-Landschaft" useSituationFunnel={false} />
   <TrustBar canton={canton} />
   <InfoSection canton={canton} />
-  <HowItWorks canton={canton} />
+  <HowItWorks steps={canton.steps} />
   <ProblemSection />
   <FAQ canton={canton} />
   <FinalCTA />

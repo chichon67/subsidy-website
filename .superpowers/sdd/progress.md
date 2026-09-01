@@ -14,3 +14,4 @@ Task 12: complete (commit 4048016..605fb72, review clean; full end-to-end funnel
 Task 13: complete (commit 605fb72..a650d8e, review clean; intentional 'rund 30000' near-duplicate paragraph flagged for user's future consideration, not a defect)
 Task 14: complete (commit a650d8e..23da9c5, review clean)
 Task 15: complete (verification only, no commit; build clean, all 10 checklist items PASS; minor dead-code note on unused PHONE/EMAIL consts in cantons.js, zero user-facing impact)
+Final whole-branch review: Important finding (dead #pruefen anchors on hero-less pages) found and fixed in 1b0a7e9, re-review clean. Minor findings (dead PHONE/EMAIL consts in cantons.js, situation-slug prototype-lookup hygiene, HubSpot autoresponder email-promise dependency, /kontakt now shows situation selector not a form) left as documented follow-ups, not blocking.

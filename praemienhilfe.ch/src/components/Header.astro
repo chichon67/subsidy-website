@@ -4,6 +4,7 @@ export interface Props {
   activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'ablauf' | 'faq' | 'kontakt';
 }
 const { activePage = 'home' } = Astro.props;
+const isBaselLanding = activePage === 'basel-stadt';
 
 const navLink = (key: string) =>
   activePage === key
@@ -11,15 +12,13 @@ const navLink = (key: string) =>
     : 'text-dark hover:text-teal pb-1 border-b-2 border-transparent';
 ---
 
-<div class="bg-dark text-white">
-  <div class="max-w-[1240px] mx-auto px-8 py-2 flex items-center justify-center gap-4 text-xs">
-    <div class="text-[#C7CFD3]">Ein unabhängiger Beratungsservice</div>
-  </div>
-</div>
-
-<header class="border-b-2 border-teal bg-white relative z-30">
+<header class="fixed top-0 w-full z-50 bg-white border-b-2 border-teal transition-transform duration-300 translate-y-0">
   <div class="max-w-[1240px] mx-auto px-8 py-3.5 flex items-center justify-between gap-8">
-    <a href="/" class="flex items-center gap-3 no-underline">
+    <a
+      href="/"
+      class="flex items-center gap-3 no-underline"
+      {...isBaselLanding ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+    >
       <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
         <rect x="2" y="2" width="24" height="24" rx="6" fill="#0087A0"></rect>
         <rect x="14" y="14" width="24" height="24" rx="6" fill="#F0A500"></rect>
@@ -31,29 +30,38 @@ const navLink = (key: string) =>
       </span>
     </a>
 
-    <nav class="hidden [@media(min-width:980px)]:flex items-center gap-6 text-[14.5px] font-medium">
-      <a href="/" class={navLink('home')}>Prämienverbilligung</a>
+    {isBaselLanding ? (
+      <nav class="hidden [@media(min-width:980px)]:flex items-center gap-6 text-[14.5px] font-medium">
+        <a href="#so-funktioniert-es" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">So funktioniert es</a>
+        <a href="#faq" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">FAQ</a>
+        <a href="#wer-wir-sind" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">Über uns</a>
+        <a href="#funnel" class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">Antrag prüfen →</a>
+      </nav>
+    ) : (
+      <nav class="hidden [@media(min-width:980px)]:flex items-center gap-6 text-[14.5px] font-medium">
+        <a href="/" class={navLink('home')}>Prämienverbilligung</a>
 
-      <div class="relative group">
-        <button type="button" class="flex items-center gap-1.5 bg-transparent border-0 p-0 cursor-pointer text-[14.5px] font-medium text-dark group-hover:text-teal">
-          <span>Kantone</span>
-          <span class="text-[11px] text-teal transition-transform duration-150 group-hover:rotate-180">▾</span>
-        </button>
-        <div class="absolute top-full left-[-14px] mt-3 min-w-[230px] bg-white border border-[#E2E8EA] border-t-[3px] border-t-teal rounded shadow-[0_8px_24px_rgba(26,26,42,0.12)] py-1.5 hidden group-hover:block">
-          <a href="/basel-stadt" class="block px-[18px] py-[11px] text-[14.5px] text-dark hover:bg-teal-light">Basel-Stadt</a>
-          <a href="/basel-landschaft" class="block px-[18px] py-[11px] text-[14.5px] text-dark hover:bg-teal-light">Basel-Landschaft</a>
-          <div class="px-[18px] py-1 text-[11px] text-[#A9B4B9]">— coming soon —</div>
-          <span class="block px-[18px] py-[11px] text-[14.5px] text-[#A9B4B9] cursor-default">Zürich</span>
-          <span class="block px-[18px] py-[11px] text-[14.5px] text-[#A9B4B9] cursor-default">Bern</span>
-          <span class="block px-[18px] py-[11px] text-[14.5px] text-[#A9B4B9] cursor-default">Aargau</span>
+        <div class="relative group">
+          <button type="button" class="flex items-center gap-1.5 bg-transparent border-0 p-0 cursor-pointer text-[14.5px] font-medium text-dark group-hover:text-teal">
+            <span>Kantone</span>
+            <span class="text-[11px] text-teal transition-transform duration-150 group-hover:rotate-180">▾</span>
+          </button>
+          <div class="absolute top-full left-[-14px] mt-3 min-w-[230px] bg-white border border-[#E2E8EA] border-t-[3px] border-t-teal rounded shadow-[0_8px_24px_rgba(26,26,42,0.12)] py-1.5 hidden group-hover:block">
+            <a href="/basel-stadt" class="block px-[18px] py-[11px] text-[14.5px] text-dark hover:bg-teal-light">Basel-Stadt</a>
+            <a href="/basel-landschaft" class="block px-[18px] py-[11px] text-[14.5px] text-dark hover:bg-teal-light">Basel-Landschaft</a>
+            <div class="px-[18px] py-1 text-[11px] text-[#A9B4B9]">— coming soon —</div>
+            <span class="block px-[18px] py-[11px] text-[14.5px] text-[#A9B4B9] cursor-default">Zürich</span>
+            <span class="block px-[18px] py-[11px] text-[14.5px] text-[#A9B4B9] cursor-default">Bern</span>
+            <span class="block px-[18px] py-[11px] text-[14.5px] text-[#A9B4B9] cursor-default">Aargau</span>
+          </div>
         </div>
-      </div>
 
-      <a href="/so-funktioniert-es" class={navLink('ablauf')}>So funktioniert es</a>
-      <a href="/faq" class={navLink('faq')}>FAQ</a>
-      <a href="/kontakt" class={navLink('kontakt')}>Kontakt</a>
-      <a href="/#pruefen" class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">Antrag prüfen</a>
-    </nav>
+        <a href="/so-funktioniert-es" class={navLink('ablauf')}>So funktioniert es</a>
+        <a href="/faq" class={navLink('faq')}>FAQ</a>
+        <a href="/kontakt" class={navLink('kontakt')}>Kontakt</a>
+        <a href="/#pruefen" class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">Antrag prüfen</a>
+      </nav>
+    )}
 
     <input type="checkbox" id="mobile-menu-toggle" class="hidden peer" />
     <label
@@ -78,15 +86,59 @@ const navLink = (key: string) =>
         </div>
         <label for="mobile-menu-toggle" class="w-10 h-10 flex items-center justify-center border border-[#D6DFE2] rounded cursor-pointer text-xl text-dark" aria-label="Menü schliessen">×</label>
       </div>
-      <div class="px-6 py-7 grid gap-1">
-        <a href="/" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Prämienverbilligung</a>
-        <a href="/basel-stadt" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Basel-Stadt</a>
-        <a href="/basel-landschaft" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Basel-Landschaft</a>
-        <a href="/so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
-        <a href="/faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
-        <a href="/kontakt" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Kontakt</a>
-        <a href="/#pruefen" class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen lassen →</a>
-      </div>
+      {isBaselLanding ? (
+        <div class="px-6 py-7 grid gap-1">
+          <a href="#so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
+          <a href="#faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
+          <a href="#wer-wir-sind" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Über uns</a>
+          <a href="#funnel" class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen →</a>
+        </div>
+      ) : (
+        <div class="px-6 py-7 grid gap-1">
+          <a href="/" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Prämienverbilligung</a>
+          <a href="/basel-stadt" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Basel-Stadt</a>
+          <a href="/basel-landschaft" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Basel-Landschaft</a>
+          <a href="/so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
+          <a href="/faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
+          <a href="/kontakt" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Kontakt</a>
+          <a href="/#pruefen" class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen lassen →</a>
+        </div>
+      )}
     </div>
   </div>
 </header>
+
+<script>
+  function initHeader() {
+    const header = document.querySelector('header');
+    if (!header) return;
+
+    function setHeaderHeightVar() {
+      document.documentElement.style.setProperty('--header-h', `${header.offsetHeight}px`);
+    }
+    setHeaderHeightVar();
+    window.addEventListener('resize', setHeaderHeightVar);
+
+    let lastScrollY = window.scrollY;
+    window.addEventListener(
+      'scroll',
+      () => {
+        const currentScrollY = window.scrollY;
+        if (currentScrollY < 10) {
+          header.classList.remove('-translate-y-full');
+          header.classList.add('translate-y-0');
+        } else if (currentScrollY > lastScrollY) {
+          header.classList.add('-translate-y-full');
+          header.classList.remove('translate-y-0');
+        } else {
+          header.classList.remove('-translate-y-full');
+          header.classList.add('translate-y-0');
+        }
+        lastScrollY = currentScrollY;
+      },
+      { passive: true }
+    );
+  }
+
+  initHeader();
+</script>

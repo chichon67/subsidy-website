@@ -3,65 +3,87 @@
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
-import InfoSection from '../components/InfoSection.astro';
+import WasIstSection from '../components/WasIstSection.astro';
+import KantoneGrid from '../components/KantoneGrid.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import ProblemSection from '../components/ProblemSection.astro';
+import WerWirSindSection from '../components/WerWirSindSection.astro';
 import FAQ from '../components/FAQ.astro';
+import DeadlineSection from '../components/DeadlineSection.astro';
 import FinalCTA from '../components/FinalCTA.astro';
-import { cantons } from '../data/cantons.js';
+import { nationalStats, whySection, howItWorksSteps, nationalFaqs } from '../data/national.js';
 
-const canton = cantons['basel-stadt'];
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'prämienhilfe.ch',
+    url: 'https://praemienhilfe.ch',
+    description: 'Unabhängige Hilfe bei der Prämienverbilligung in der ganzen Schweiz',
+    provider: {
+      '@type': 'Organization',
+      name: 'EVO Partners GmbH',
+      description: 'FINMA-registrierter Versicherungsbroker',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Wer hat Anspruch auf Prämienverbilligung in der Schweiz?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Jede Person mit Wohnsitz in der Schweiz, deren steuerbares Einkommen unterhalb der kantonal festgelegten Grenze liegt. Über 2.4 Millionen Personen in der Schweiz sind berechtigt.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Was kostet die Hilfe bei der Prämienverbilligung?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Der Service ist vollständig kostenlos. EVO Partners GmbH ist ein FINMA-registrierter Versicherungsbroker.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Muss ich jedes Jahr einen neuen Antrag stellen?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'In den meisten Kantonen ja. Die Prämienverbilligung wird jährlich neu beantragt. Wir informieren Sie über die genaue Regelung in Ihrem Kanton.',
+        },
+      },
+    ],
+  },
+];
 ---
 
 <Base
-  title="Prämienverbilligung Basel-Stadt 2026 – Antrag stellen | prämienhilfe.ch"
-  description="Prämienverbilligung im Kanton Basel-Stadt beantragen. EVO Partners GmbH hilft Ihnen kostenlos bei der Einreichung Ihres Antrags. Jetzt Anspruch prüfen — in 20 Minuten."
+  title="Prämienverbilligung Schweiz 2026 – Antrag stellen | prämienhilfe.ch"
+  description="Prämienverbilligung in der ganzen Schweiz beantragen. EVO Partners GmbH hilft Ihnen kostenlos bei der Einreichung Ihres Antrags — egal in welchem Kanton."
   canonical="https://praemienhilfe.ch/"
   activePage="home"
-  schema={[
-    {
-      '@context': 'https://schema.org',
-      '@type': 'LocalBusiness',
-      name: 'prämienhilfe.ch – EVO Partners GmbH',
-      description: 'Unabhängige Beratung bei der Prämienverbilligung im Kanton Basel-Stadt',
-      url: 'https://praemienhilfe.ch',
-      areaServed: { '@type': 'AdministrativeArea', name: 'Basel-Stadt' },
-      serviceType: 'Prämienverbilligung Beratung',
-      provider: {
-        '@type': 'Organization',
-        name: 'EVO Partners GmbH',
-        description: 'FINMA-registrierter Versicherungsbroker',
-      },
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: [
-        {
-          '@type': 'Question',
-          name: 'Wer hat Anspruch auf Prämienverbilligung in Basel-Stadt?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Personen mit Wohnsitz in Basel-Stadt in bescheidenen wirtschaftlichen Verhältnissen. Es lohnt sich in jedem Fall, den Anspruch zu prüfen.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'Was kostet die Hilfe bei der Prämienverbilligung?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Die Hilfe bei der Prämienverbilligung ist für Sie kostenlos. EVO Partners GmbH ist ein FINMA-registrierter Versicherungsbroker.',
-          },
-        },
-      ],
-    },
-  ]}
+  schema={schema}
 >
-  <Hero canton={canton} />
-  <TrustBar canton={canton} />
-  <InfoSection canton={canton} />
-  <HowItWorks steps={canton.steps} />
-  <ProblemSection />
-  <FAQ canton={canton} />
-  <FinalCTA />
+  <Hero variant="national" />
+  <TrustBar canton={{ stats: nationalStats }} />
+  <WasIstSection />
+  <KantoneGrid />
+  <HowItWorks steps={howItWorksSteps} heading="So funktioniert unsere Hilfe" id="so-funktioniert-es" />
+  <ProblemSection
+    heading="Warum verzichten viele Berechtigte auf ihre Prämienverbilligung?"
+    intro={whySection.intro}
+    reasons={whySection.reasons}
+    closing={whySection.closing}
+  />
+  <WerWirSindSection />
+  <FAQ canton={{ faqs: nationalFaqs }} />
+  <DeadlineSection />
+  <FinalCTA
+    heading="Jetzt Anspruch prüfen lassen"
+    text="Wählen Sie Ihren Kanton und prüfen Sie in 20 Minuten, ob Sie Anspruch auf Prämienverbilligung haben. Kostenlos und unverbindlich."
+    buttons={[{ label: 'Kanton wählen →', href: '#kanton-selector' }]}
+    disclaimer="prämienhilfe.ch ist ein privater Beratungsservice von EVO Partners GmbH, FINMA-registrierter Versicherungsbroker. Kein offizielles Kantonsorgan."
+  />
 </Base>

@@ -2,6 +2,9 @@
 // src/layouts/Base.astro
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import DisclaimerModal from '../components/DisclaimerModal.jsx';
+import ExitIntentPopup from '../components/ExitIntentPopup.jsx';
+import StickyFunnelWidget from '../components/StickyFunnelWidget.jsx';
 import '../styles/global.css';
 
 export interface Props {
@@ -65,6 +68,10 @@ const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
         </div>
       )
     }
+
+    {chrome && <DisclaimerModal client:load />}
+    {chrome && <ExitIntentPopup client:load />}
+    {chrome && <StickyFunnelWidget client:idle />}
 
     <script>
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {

@@ -1,366 +1,480 @@
-You are building prämienhilfe.ch — a Swiss health insurance 
-subsidy (Prämienverbilligung) lead generation website.
+You are a CRO (Conversion Rate Optimization) and SEO expert.
+Improve the existing prämienhilfe.ch Astro website deployed 
+at https://praemienhilfe.netlify.app/
 
-You have been given an HTML prototype file from Claude Design. 
-Your job is to convert it into a production-ready Astro website 
-with React islands, preserving every design detail exactly as 
-built in the prototype.
+Read the existing codebase first before making any changes.
+This is a REFACTOR — preserve the existing tech stack:
+Astro + React islands + Tailwind + Netlify
 
-━━━ TECH STACK ━━━
-- Framework: Astro (latest)
-- UI components: React (for interactive islands only)
-- Styling: Tailwind CSS
-- Deployment: Netlify
-- Forms: React state (no external form library)
-- Animations: None (keep it fast and clean)
-- Fonts: Inter from Google Fonts
+━━━ CRITICAL CHANGES — DO ALL OF THESE ━━━
 
-━━━ PROJECT SETUP ━━━
-Initialize with:
-npm create astro@latest praemienhilfe -- --template minimal
-cd praemienhilfe
-npx astro add react tailwind netlify
+━━━ 1. LEGAL DISCLAIMER POPUP ━━━
+On first page load (check localStorage 'disclaimer_shown'),
+show a modal overlay BEFORE the user can interact with 
+anything. Inspired by praemienverbilligung-zurich.ch.
 
-File structure to create:
-praemienhilfe/
-├── src/
-│   ├── layouts/
-│   │   └── Base.astro          ← shared HTML shell, head, fonts
-│   ├── pages/
-│   │   ├── index.astro         ← home page (Basel-Stadt default)
-│   │   ├── basel-stadt.astro   ← canton page BS
-│   │   ├── basel-landschaft.astro ← canton page BL
-│   │   ├── so-funktioniert-es.astro
-│   │   ├── faq.astro
-│   │   ├── kontakt.astro
-│   │   ├── impressum.astro
-│   │   └── datenschutz.astro
-│   ├── components/
-│   │   ├── Header.astro        ← logo + navigation
-│   │   ├── Footer.astro        ← 4-col footer + legal
-│   │   ├── Hero.astro          ← hero section with funnel slot
-│   │   ├── Funnel.jsx          ← React island (4-step funnel)
-│   │   ├── TrustBar.astro      ← amber stats bar
-│   │   ├── InfoSection.astro   ← text-heavy canton info
-│   │   ├── HowItWorks.astro    ← numbered steps
-│   │   ├── ProblemSection.astro
-│   │   ├── FAQ.astro           ← static accordion (CSS only)
-│   │   └── FinalCTA.astro      ← teal CTA section
-│   └── styles/
-│       └── global.css          ← Inter font import + base styles
-├── public/
-│   └── favicon.svg
-├── astro.config.mjs
-├── tailwind.config.mjs
-└── vercel.json
+Modal design (white card, centered, max-w-lg, shadow-xl):
+- Header: 🔒 lock icon + "Sicheres Formular"
+- Logo: prämienhilfe.ch logo
+- Title (bold): "Wichtiger Hinweis"
+- Body text:
+  "prämienhilfe.ch ist ein privater und unabhängiger 
+  Beratungsservice, betrieben von EVO Partners GmbH, 
+  einem FINMA-registrierten Versicherungsbroker. 
+  Wir sind weder ein Kantonsamt noch eine staatliche 
+  Behörde.
+  
+  Unser Service umfasst:
+  ✓ Prüfung Ihres Anspruchs auf Prämienverbilligung
+  ✓ Zusammenstellung und Einreichung Ihres Dossiers
+  ✓ Unabhängige Beratung zu Ihrer Krankenversicherung
+  ✓ Optimierung Ihrer Versicherungssituation
+  
+  Die Hilfe bei der Prämienverbilligung ist für Sie 
+  kostenlos. Unsere Vergütung erfolgt ausschliesslich 
+  durch Versicherungspartner im Rahmen unserer 
+  Brokertätigkeit.
+  
+  Der Antrag auf Prämienverbilligung kann auch 
+  eigenständig beim zuständigen Kantonsamt gestellt 
+  werden."
 
-━━━ DESIGN IMPLEMENTATION ━━━
-Extract EVERY design detail from the HTML prototype:
-- All colors exactly as in the prototype
-- All font sizes, weights, spacing
-- The logo (recreate as inline SVG in Header.astro)
-- The decorative circle + arc in the hero
-- The striped circle photo placeholder
-- Amber trust bar with left borders
-- All text content word for word
-- The proof card floating on the circle
-- Every section background color
-- The teal bottom border on header
-- The thin top bar with phone number
+- Stats row (3 columns):
+  +1'000 | FINMA | 4.8/5
+  Dossiers/Jahr | Registriert | Kundenbewertung
 
-━━━ FUNNEL COMPONENT (Funnel.jsx) ━━━
-This is the most critical component. Build it as a 
-React island with client:load directive.
+- CTA button full width teal:
+  "Ich habe gelesen und verstanden — Weiter →"
 
-State management:
-const [step, setStep] = useState(1)
-const [answers, setAnswers] = useState({
-  canton: '',
-  income: '',
-  household: '',
-  firstName: '',
-  lastName: '',
-  phone: '',
-  email: ''
-})
-const [submitted, setSubmitted] = useState(false)
-const [loading, setLoading] = useState(false)
+- Small link below: 
+  "Direkt zum offiziellen Kantonsamt (asb.bs.ch) ↗"
+  (opens new tab)
 
-Step 1 — Canton selection:
-Question: "In welchem Kanton wohnen Sie?"
-Options as clickable rows (auto-advance on click):
-- Basel-Stadt
-- Basel-Landschaft
+Behavior:
+- Blocks all interaction until dismissed
+- Stores 'disclaimer_shown' in localStorage
+- Does NOT show again for 7 days
+- On mobile: full screen takeover
+- Cannot be closed by clicking outside
 
-Step 2 — Income:
-Question: "Wie hoch ist Ihr monatliches Haushaltseinkommen?"
-Options (auto-advance on click):
-- Unter CHF 2'000
-- CHF 2'000 – 4'000
-- CHF 4'000 – 6'000
-- Über CHF 6'000
+━━━ 2. COMPLETE PHONE NUMBER REMOVAL ━━━
+Remove +41 76 779 0449 from:
+- Top bar header
+- Final CTA section phone button
+- Footer Kontakt column (remove phone + email)
+- All tel: links anywhere on the site
 
-Step 3 — Household:
-Question: "Wie viele Personen versichern Sie?"
-Options (auto-advance on click):
-- Nur ich
-- Ich + Partner/in
-- Familie mit Kindern
+Replace phone CTA with:
+"Formular ausfüllen →" scrolling to #funnel
 
-Step 4 — Contact form:
-Show success header: "✓ Gute Nachricht — Sie könnten 
-Anspruch haben!"
+Footer Kontakt column becomes:
+- Antrag stellen (#funnel smooth scroll)
+- Rückruf anfordern (/kontakt)
+- Kontaktformular (/kontakt)
+
+━━━ 3. COMPLETE FUNNEL REBUILD (Funnel.jsx) ━━━
+
+The funnel is now FULLY TRAPPED — once user clicks 
+an option, they CANNOT navigate away from the funnel 
+page. Inspired by praemienverbilligung-zurich.ch 
+second screenshot.
+
+NEW FUNNEL ARCHITECTURE:
+When user clicks any situation option in step 1,
+redirect to /antrag page with the selection as 
+URL param: /antrag?situation=familie
+
+The /antrag page is a FULL PAGE funnel (no header nav,
+no footer) — just the funnel, sidebar trust elements,
+and logo only.
+
+LEFT SIDEBAR on /antrag page (desktop only):
+- prämienhilfe.ch logo (links to / in new tab only)
+- Progress steps list:
+  ● Identifikation (active)
+  ○ Ergänzende Informationen
+  ○ Ihre Situation  
+  ○ Abgeschlossen
+  
+  (same style as praemienverbilligung-zurich.ch)
+
+- Below steps, trust block:
+  EVO Partners GmbH
+  ✓ FINMA-anerkannter Broker
+  ✓ Situationsanalyse · Unverbindlich
+  ★ 4.8/5 von unseren Klienten bewertet
+  +1'000 Dossiers pro Jahr bearbeitet
+
+MAIN CONTENT center:
+White card with "🔒 Sicheres Formular" at top
+
+STEP 1 (on homepage funnel — situation selector):
+Question: "Was beschreibt Ihre Situation am besten?"
+
+6 clickable rows (clicking auto-advances to /antrag):
+[👤 Einzelperson                    →]
+[👨‍👩‍👧 Familie mit Kindern             →]
+[💑 Paar ohne Kinder                →]
+[🎓 Student / Auszubildende         →]
+[💔 Getrennt / Geschieden           →]
+[👴 Rentner / Pensionierte          →]
+
+Each option has icon + label + arrow
+Clicking redirects to /antrag?situation=X
+
+STEP 2 on /antrag — Email capture first (like screenshot):
+Title: "Zu Beginn benötigen wir Ihre E-Mail-Adresse"
+Show "IHR ANTRAG" tag with situation selected + "Ändern" link
+
+Field: E-Mail * (placeholder: nom@exemple.ch)
+Legal text: 
+"Mit dem Fortfahren akzeptieren Sie unsere 
+Datenschutzrichtlinie und die Verarbeitung 
+Ihrer persönlichen Daten."
+[Weiter →] button (disabled until valid email)
+
+STEP 3 — Haushalt:
+Title: "Wie viele Personen leben in Ihrem Haushalt?"
+Number stepper: [−] [1 Person] [+]
+[Weiter →] button
+
+STEP 4 — Einkommen:
+Title: "Wie hoch ist Ihr monatliches Haushaltseinkommen?"
+4 clickable rows:
+[Unter CHF 2'000       →]
+[CHF 2'000 – 4'000     →]
+[CHF 4'000 – 6'000     →]
+[Über CHF 6'000        →]
+
+STEP 5 — Kontaktdaten:
+Title: "Wie können wir Sie erreichen?"
 Fields:
-- Vorname (required)
-- Nachname (required)  
-- Telefon (required, Swiss format +41)
-- E-Mail (required, email format)
-Submit button: "Antrag prüfen lassen →"
-Below button: "Keine Verpflichtung. Diskret."
-
-On submit:
-1. Set loading = true
-2. POST to /api/submit with all answers + UTM params
-3. On success: setSubmitted(true)
-4. Show thank you message:
-   "Vielen Dank! Wir melden uns innerhalb von 
-   24 Stunden bei Ihnen."
-
-Progress indicator:
-4 dots at top, filled dot = current step
-"Schritt X von 4" label
-Back button on steps 2, 3, 4
-
-Auto-advance behavior:
-Steps 1, 2, 3: clicking an option immediately 
-advances to next step (no confirm button needed)
-Step 4: manual submit only
-
-Validation on step 4:
-- All fields required
-- Phone: must start with +41 or 07
-- Email: must contain @ and .
-- Show inline error messages in red
-
-━━━ API ROUTE (src/pages/api/submit.js) ━━━
-Create an Astro API endpoint:
-
-export const POST = async ({ request }) => {
-  const data = await request.json()
+  Vorname * | Nachname *
+  Telefon * (Swiss format)
   
-  // 1. Send to HubSpot
-  const hubspotPayload = {
-    fields: [
-      { name: 'firstname', value: data.firstName },
-      { name: 'lastname', value: data.lastName },
-      { name: 'phone', value: data.phone },
-      { name: 'email', value: data.email },
-      { name: 'canton', value: data.canton },
-      { name: 'income_range', value: data.income },
-      { name: 'household_type', value: data.household },
-      { name: 'lead_source', value: 'praemienhilfe.ch' },
-    ],
-    context: {
-      hutk: data.hutk,
-      pageUri: 'praemienhilfe.ch',
-      pageName: 'Prämienverbilligung Landing'
+Legal checkbox (required):
+☐ Ich akzeptiere die Datenschutzbestimmungen von 
+  EVO Partners GmbH und stimme der Verarbeitung 
+  meiner Daten zum Zweck der Beratung zu.
+
+[Antrag einreichen →] full width teal
+(disabled until checkbox checked + fields valid)
+
+STEP 6 — Confirmation:
+✓ Green checkmark animation
+Title: "Vielen Dank, [Vorname]!"
+"Wir haben Ihre Anfrage erhalten und werden 
+uns innerhalb von 24 Stunden bei Ihnen melden."
+
+Show summary box:
+Situation: [selected]
+Haushalt: [X Personen]
+Einkommen: [range]
+E-Mail: [email]
+
+"Sie erhalten in Kürze eine Bestätigung 
+per E-Mail."
+
+━━━ 4. HOMEPAGE FUNNEL UPDATE ━━━
+The homepage funnel (step 1 only) shows the 
+situation selector as described above.
+
+Remove the canton selector entirely from homepage
+— this page is ONLY for Basel-Stadt.
+
+H1 stays: "Haben Sie Anspruch auf 
+Prämienverbilligung im Kanton Basel-Stadt?"
+
+Add "Basel-Stadt" explicitly to the H1 for SEO.
+
+Social proof counter below funnel card:
+"🔴 LIVE  3 Personen aus Basel-Stadt haben 
+heute einen Antrag eingereicht"
+(Animated — cycles through 2-5 randomly on load)
+
+━━━ 5. REMOVE INCOME THRESHOLDS TABLE ━━━
+In the "Prämienverbilligung im Kanton Basel-Stadt" 
+section, remove the definition list rows:
+- Einkommensgrenze Einzelperson CHF 49'375
+- Einkommensgrenze 4-Pers.-Haushalt CHF 97'000
+
+Keep only:
+- Bezüger im Kanton: ca. 30'000
+- Zuständige Stelle: ASB Basel-Stadt
+- Antragsfrist 2027: September–31. Dezember 2026
+
+Replace the removed rows with this paragraph:
+"Die Einkommensgrenzen variieren je nach 
+Haushaltsgrösse und persönlicher Situation. 
+Viele Personen erhalten Prämienverbilligung, 
+auch wenn sie nicht damit rechnen. Es lohnt 
+sich in jedem Fall, den Anspruch zu prüfen."
+
+━━━ 6. FAQ ADDITIONS ━━━
+Add these two new FAQ items at the top:
+
+Q: Wer sind wir?
+A: prämienhilfe.ch ist ein Service von EVO 
+Partners GmbH, einem FINMA-registrierten 
+unabhängigen Versicherungsbroker mit Sitz in 
+der Schweiz. Wir sind seit 2020 tätig und haben 
+bereits über 1'000 Dossiers für Prämienverbilligung 
+bearbeitet. Neben der Prämienverbilligung beraten 
+wir unsere Klienten auch zu ihrer gesamten 
+Krankenversicherungssituation, um die beste 
+Abdeckung zum besten Preis zu finden.
+
+Q: Sind Sie ein offizielles Kantonsamt?
+A: Nein. prämienhilfe.ch ist eine private, 
+unabhängige Beratungsplattform. Wir sind kein 
+staatliches Organ. Die Prämienverbilligung kann 
+auch direkt beim Amt für Sozialbeiträge (ASB) 
+Basel-Stadt beantragt werden. Unser Service 
+erleichtert Ihnen den Prozess und prüft 
+gleichzeitig, ob Ihre Versicherungssituation 
+insgesamt optimiert werden kann.
+
+━━━ 7. FOOTER SMOOTH SCROLL ━━━
+All footer links that point to sections (#funnel, 
+#so-funktioniert-es, etc.) must use smooth scroll:
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault()
+    const target = document.querySelector(this.getAttribute('href'))
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
-  }
-  
-  // HubSpot Form API call
-  // Replace PORTAL_ID and FORM_ID with env variables
-  const hsResponse = await fetch(
-    `https://api.hsforms.com/submissions/v3/integration/submit/${process.env.HUBSPOT_PORTAL_ID}/${process.env.HUBSPOT_FORM_ID}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(hubspotPayload)
-    }
-  )
-  
-  if (!hsResponse.ok) {
-    return new Response(JSON.stringify({ error: 'Failed' }), { 
-      status: 500 
-    })
-  }
-  
-  return new Response(JSON.stringify({ success: true }), { 
-    status: 200 
   })
+})
+
+━━━ 8. COMPANY NAME — EVO PARTNERS GMBH ━━━
+Replace ALL occurrences of "EVO Partners Sàrl" with 
+"EVO Partners GmbH" everywhere:
+- Footer branding
+- Footer legal text  
+- Disclaimer popup
+- Impressum page
+- Datenschutz page
+- FAQ answers
+- © copyright line
+
+━━━ 9. FOOTER CLEANUP ━━━
+Remove from footer:
+- Phone number (+41 76 779 0449)
+- Email address (msegui@evo-partners.ch)
+- Tel: and mailto: links
+
+Keep contact methods as:
+- Antrag stellen (smooth scroll to #funnel)
+- Rückruf anfordern (/kontakt — new tab if external)
+- Kontaktformular (/kontakt)
+
+━━━ 10. EXTERNAL LINKS — NEW TAB ━━━
+All links that navigate away from the domain 
+MUST open in new tab with security attributes:
+
+Add to ALL external <a> tags:
+target="_blank" rel="noopener noreferrer"
+
+External links to check:
+- asb.bs.ch (official canton office)
+- Any government links in FAQ
+- Any official Swiss admin links
+- Footer legal links if they point to external pages
+- The "Direkt zum offiziellen Kantonsamt" in popup
+
+Internal navigation links stay in same tab.
+
+━━━ 11. SEO OPTIMIZATION — BASEL-STADT SPECIFIC ━━━
+
+Update Base.astro <head> for homepage:
+
+Title: "Prämienverbilligung Basel-Stadt 2026 – 
+Antrag stellen | prämienhilfe.ch"
+
+Meta description: 
+"Prämienverbilligung im Kanton Basel-Stadt 
+beantragen. EVO Partners GmbH hilft Ihnen 
+kostenlos bei der Einreichung Ihres Antrags. 
+Jetzt Anspruch prüfen — in 20 Minuten."
+
+Add schema markup in <head>:
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "prämienhilfe.ch – EVO Partners GmbH",
+  "description": "Unabhängige Beratung bei der Prämienverbilligung im Kanton Basel-Stadt",
+  "url": "https://praemienhilfe.ch",
+  "areaServed": {
+    "@type": "AdministrativeArea",
+    "name": "Basel-Stadt"
+  },
+  "serviceType": "Prämienverbilligung Beratung",
+  "provider": {
+    "@type": "Organization",
+    "name": "EVO Partners GmbH",
+    "description": "FINMA-registrierter Versicherungsbroker"
+  }
 }
-
-Environment variables needed (.env):
-HUBSPOT_PORTAL_ID=your_portal_id
-HUBSPOT_FORM_ID=your_form_id
-
-━━━ UTM TRACKING ━━━
-In Funnel.jsx, capture UTM params on mount:
-
-useEffect(() => {
-  const params = new URLSearchParams(window.location.search)
-  setUtmData({
-    utm_source: params.get('utm_source') || '',
-    utm_medium: params.get('utm_medium') || '',
-    utm_campaign: params.get('utm_campaign') || '',
-    utm_content: params.get('utm_content') || '',
-  })
-}, [])
-
-Include utmData in the API POST payload so HubSpot 
-receives the full attribution data.
-
-━━━ NAVIGATION ━━━
-Header.astro — full navigation:
-
-Top bar (dark bg, white text, small):
-Left: "Ein unabhängiger Beratungsservice"
-Right: "+41 76 779 0449" (tel: link)
-
-Main nav:
-Logo left
-Nav items right:
-- Prämienverbilligung (href="/")
-- Kantone (dropdown):
-    Basel-Stadt (/basel-stadt)
-    Basel-Landschaft (/basel-landschaft)
-    ── coming soon ──
-    Zürich (disabled, grayed)
-    Bern (disabled, grayed)
-- So funktioniert es (/so-funktioniert-es)
-- FAQ (/faq)
-- Kontakt (/kontakt)
-
-Mobile: hamburger toggle, CSS-only drawer
-Active state: teal underline on current page
-
-━━━ CANTON PAGES ━━━
-Each canton page extends Base.astro and includes:
-- Same Hero with funnel (pre-select the canton 
-  in step 1 automatically)
-- Canton-specific info section with correct data
-- All other sections identical to home
-
-For basel-stadt.astro, pass prop:
-<Funnel client:load defaultCanton="Basel-Stadt" />
-
-For basel-landschaft.astro:
-<Funnel client:load defaultCanton="Basel-Landschaft" />
-
-Basel-Landschaft specific data:
-- Zuständige Stelle: SVA Basel-Landschaft
-- Different income thresholds (research and include)
-- Different contact info
-
-━━━ GOOGLE ANALYTICS 4 ━━━
-Add to Base.astro <head>:
-<!-- Replace G-XXXXXXXX with actual GA4 ID -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXX');
 </script>
 
-Track these events in Funnel.jsx:
-- funnel_step_1_complete (canton selected)
-- funnel_step_2_complete (income selected)
-- funnel_step_3_complete (household selected)
-- funnel_form_submit (form submitted)
-- funnel_conversion (API success)
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Wer hat Anspruch auf Prämienverbilligung in Basel-Stadt?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Personen mit Wohnsitz in Basel-Stadt in bescheidenen wirtschaftlichen Verhältnissen. Es lohnt sich in jedem Fall, den Anspruch zu prüfen."
+      }
+    },
+    {
+      "@type": "Question", 
+      "name": "Was kostet die Hilfe bei der Prämienverbilligung?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Die Hilfe bei der Prämienverbilligung ist für Sie kostenlos. EVO Partners GmbH ist ein FINMA-registrierter Versicherungsbroker."
+      }
+    }
+  ]
+}
+</script>
 
-gtag('event', 'funnel_step_1_complete', {
-  'canton': selectedCanton
+Add H1 keyword optimization:
+Change H1 to: 
+"Prämienverbilligung Basel-Stadt — 
+Anspruch prüfen und Antrag stellen"
+
+Add keyword-rich paragraph at top of info section:
+"Die Prämienverbilligung (auch IPV — Individuelle 
+Prämienverbilligung) im Kanton Basel-Stadt wird 
+vom Amt für Sozialbeiträge (ASB) verwaltet. 
+Rund 30'000 Einwohnerinnen und Einwohner des 
+Kantons Basel-Stadt erhalten bereits diese 
+finanzielle Unterstützung zur Reduktion ihrer 
+Krankenkassenprämien."
+
+━━━ 12. EXIT INTENT POPUP ━━━
+Detect when mouse moves toward browser top (exit intent):
+
+document.addEventListener('mouseleave', (e) => {
+  if (e.clientY < 10 && !localStorage.getItem('exit_shown')) {
+    showExitPopup()
+    localStorage.setItem('exit_shown', 'true')
+  }
 })
 
-━━━ SEO ━━━
-Each page passes SEO props to Base.astro:
+Exit popup content (smaller than disclaimer):
+Title: "Warten Sie — prüfen Sie zuerst Ihren Anspruch!"
+Text: "Viele Berechtigte wissen nicht, dass sie 
+Anspruch auf bis zu CHF 3'000 pro Jahr haben. 
+Die Prüfung dauert nur 20 Minuten."
+CTA: [Jetzt prüfen →] (scrolls to funnel)
+Link: "Nein danke, ich verzichte auf meine Verbilligung"
 
-Base.astro accepts:
-- title (string)
-- description (string)
-- canonical (string)
+━━━ 13. STICKY FUNNEL SIDEBAR (desktop) ━━━
+On desktop (lg+), when user scrolls past the hero,
+show a sticky mini-funnel in bottom-right corner:
 
-Home page:
-title: "Prämienverbilligung beantragen | prämienhilfe.ch"
-description: "Prüfen Sie Ihren Anspruch auf 
-Prämienverbilligung kostenlos. Hilfe bei der 
-Beantragung im Kanton Basel-Stadt und Basel-Landschaft."
+Mini widget (w-72, fixed bottom-6 right-6, 
+white card, shadow-xl, rounded-xl):
+Title: "Anspruch prüfen"
+"Kostenlose Prüfung in 20 Min."
+[Jetzt starten →] teal button
 
-Basel-Stadt page:
-title: "Prämienverbilligung Basel-Stadt | prämienhilfe.ch"
-description: "Prämienverbilligung im Kanton Basel-Stadt 
-beantragen. Einkommensgrenze Einzelperson CHF 49'375. 
-Kostenlose Hilfe beim Antrag."
+Hide when user is already in hero viewport.
+Hide on mobile (use mobile sticky bar instead).
 
-Add to Base.astro <head>:
-<meta name="robots" content="index, follow">
-<link rel="canonical" href={canonical}>
-<meta property="og:title" content={title}>
-<meta property="og:description" content={description}>
-<meta property="og:url" content={canonical}>
-<meta property="og:locale" content="de_CH">
+━━━ 14. SOCIAL PROOF ENHANCEMENT ━━━
+Add to trust bar section:
+- "Über 1'000 Dossiers bearbeitet" 
+- "FINMA-registriert" with shield icon
+- "4.8/5 Kundenbewertung" with 5 stars
 
-━━━ PERFORMANCE ━━━
-- All images use lazy loading
-- Inter font with display:swap
-- No unused CSS (Tailwind purge active)
-- Astro static pages = near-instant load
-- Only Funnel.jsx loads JavaScript (client:load)
-- Everything else is zero-JS static HTML
+Add floating notification (bottom-left, mobile hidden):
+Appears after 8 seconds:
+"✓ Marie aus Basel hat soeben ihren 
+Antrag eingereicht"
+Auto-dismisses after 5 seconds
+Cycles through 3 fake names from Basel
 
-━━━ NETLIFY DEPLOYMENT ━━━
-netlify.toml:
-[build]
-  command = "npm run build"
-  publish = "dist"
+━━━ 15. PERFORMANCE & TECHNICAL ━━━
+- Add loading="lazy" to all images
+- Add width and height to all img tags
+- Preconnect to Google Fonts
+- Add netlify.toml cache headers:
+  [[headers]]
+    for = "/_astro/*"
+    [headers.values]
+      Cache-Control = "public, max-age=31536000, immutable"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+━━━ PAGES TO UPDATE ━━━
 
-.env.example file:
-HUBSPOT_PORTAL_ID=
-HUBSPOT_FORM_ID=
+HOMEPAGE (index.astro):
+- Situation funnel (step 1 only)
+- Remove canton selector
+- Add H1 with "Basel-Stadt"
+- Remove income thresholds from info section
+- Add social proof counter
+- All phone numbers removed
+- Schema markup added
+- Exit intent popup
+- Disclaimer popup
 
-━━━ MOBILE STICKY CTA ━━━
-Add to Base.astro, visible only on mobile (md:hidden):
-Fixed bottom bar:
-[Antrag prüfen lassen →] full width teal button
-Links to #funnel anchor on page
+BASEL-STADT page (/basel-stadt):
+- Same as homepage (this IS the Basel-Stadt page)
+- Canonical: https://praemienhilfe.ch/basel-stadt
+- Title: "Prämienverbilligung Basel-Stadt | prämienhilfe.ch"
+- Pre-select Basel-Stadt in funnel
 
-━━━ CRITICAL INSTRUCTIONS ━━━
-1. Start by reading the entire HTML prototype file 
-   provided — extract every color, font, spacing, 
-   and content detail exactly
-2. Do NOT redesign anything — replicate the prototype 
-   precisely in Astro/React
-3. The Funnel.jsx is the most important component — 
-   get the UX exactly right
-4. Test the API route with a console.log before 
-   connecting HubSpot
-5. Use Tailwind custom colors in tailwind.config.mjs:
-   colors: {
-     teal: { DEFAULT: '#0087A0', dark: '#005F73', light: '#E8F4F8' },
-     amber: { DEFAULT: '#F0A500', light: '#FFF8E7' },
-     swiss: { red: '#CC0000', green: '#3D8B37' },
-     dark: '#1A1A2A'
-   }
-6. Every page must have the Header and Footer
-7. The dropdown in nav must work on mobile too
-8. Run npm run build before finishing — fix any 
-   build errors
+/ANTRAG page (NEW — create this):
+- Full page funnel trap (no nav, no footer)
+- Left sidebar with steps + trust elements
+- Center card with steps 2-6
+- Progress breadcrumb: 
+  Identifikation > Ergänzend > Situation > Abgeschlossen
+- Logo only links to / in new tab
 
-━━━ DELIVERABLES ━━━
-When done, confirm:
-✅ Astro project builds without errors
-✅ All pages created and linked
-✅ Funnel works through all 4 steps
-✅ Form submits to API route
-✅ UTM params captured
-✅ GA4 events fire on each step
-✅ Mobile responsive and sticky CTA works
-✅ vercel.json configured for deployment
-✅ .env.example created
-✅ README.md with setup instructions
+FAQ page (/faq):
+- Add "Wer sind wir?" as first question
+- Add "Sind Sie ein offizielles Kantonsamt?" 
+  as second question
+
+IMPRESSUM page:
+- Replace all "Sàrl" with "GmbH"
+- Remove phone and email
+
+DATENSCHUTZ page:
+- Replace all "Sàrl" with "GmbH"
+- Update data processing description to mention
+  the /antrag funnel email collection
+
+━━━ DELIVERABLES CHECKLIST ━━━
+Before finishing, verify:
+✅ Disclaimer popup shows on first visit
+✅ Disclaimer popup doesn't show again for 7 days
+✅ Phone/email removed from all pages
+✅ Funnel step 1: situation selector (6 options)
+✅ /antrag page created with left sidebar
+✅ /antrag has no header nav (trapped funnel)
+✅ Email captured in step 2 before other data
+✅ Legal checkbox required before submit
+✅ Income thresholds table section removed
+✅ FAQ has 2 new "who we are" questions
+✅ Footer links smooth scroll
+✅ All "Sàrl" → "GmbH" everywhere
+✅ No phone/email in footer
+✅ All external links open new tab
+✅ H1 contains "Basel-Stadt" for SEO
+✅ Schema markup added
+✅ Exit intent popup implemented
+✅ Social proof counter in hero
+✅ Sticky mini-funnel desktop
+✅ Build passes: npm run build
+✅ No console errors

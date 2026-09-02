@@ -1,6 +1,8 @@
 // src/components/AntragFunnel.jsx
 import { useState, useEffect } from 'react';
-import { SITUATIONS } from '../data/situations.js';
+import { SITUATIONS, situationList } from '../data/situations.js';
+import PhoneField, { isValidPhoneNumber } from './PhoneField.jsx';
+import PrivacyPolicyModal from './PrivacyPolicyModal.jsx';
 
 const INCOME_OPTIONS = ["Unter CHF 2'000", "CHF 2'000 – 4'000", "CHF 4'000 – 6'000", "Über CHF 6'000"];
 
@@ -39,10 +41,11 @@ export default function AntragFunnel() {
   const [income, setIncome] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState();
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
   const [utmData, setUtmData] = useState({ utm_source: '', utm_medium: '', utm_campaign: '', utm_content: '' });
 
   useEffect(() => {
@@ -58,6 +61,15 @@ export default function AntragFunnel() {
   }, []);
 
   const situationLabel = situationSlug ? SITUATIONS[situationSlug].label : 'Nicht angegeben';
+
+  function changeSituation(slug) {
+    setSituationSlug(slug);
+    track('antrag_situation_changed', { situation: slug });
+    const url = new URL(window.location.href);
+    if (slug) url.searchParams.set('situation', slug);
+    else url.searchParams.delete('situation');
+    window.history.replaceState({}, '', url);
+  }
 
   function isValidEmail(value) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
@@ -88,14 +100,13 @@ export default function AntragFunnel() {
     const errs = {};
     if (!firstName.trim()) errs.firstName = 'Bitte Vorname angeben.';
     if (!lastName.trim()) errs.lastName = 'Bitte Nachname angeben.';
-    const cleanPhone = phone.replace(/\s/g, '');
-    if (!cleanPhone) errs.phone = 'Bitte Telefonnummer angeben.';
-    else if (!/^(\+41|0041|0)\d{6,}$/.test(cleanPhone)) errs.phone = 'Bitte eine gültige Schweizer Telefonnummer angeben.';
+    if (!phone) errs.phone = 'Bitte Telefonnummer angeben.';
+    else if (!isValidPhoneNumber(phone)) errs.phone = 'Bitte eine gültige Telefonnummer angeben.';
     if (!consent) errs.consent = 'Bitte akzeptieren Sie die Datenschutzbestimmungen.';
     return errs;
   }
 
-  const contactReady = firstName.trim() && lastName.trim() && /^(\+41|0041|0)\d{6,}$/.test(phone.replace(/\s/g, '')) && consent;
+  const contactReady = firstName.trim() && lastName.trim() && phone && isValidPhoneNumber(phone) && consent;
 
   async function submitContact() {
     const errs = validateContact();
@@ -148,19 +159,6 @@ export default function AntragFunnel() {
           </span>
         </a>
 
-        <div className="mt-10 grid gap-3.5">
-          {STAGES.map((s, i) => (
-            <div key={s.key} className="flex items-center gap-3">
-              <span
-                className={`inline-block w-2.5 h-2.5 rounded-full flex-shrink-0 ${
-                  i < activeStage ? 'bg-teal' : i === activeStage ? 'bg-teal ring-4 ring-teal-light' : 'bg-white border border-[#C3D5DA]'
-                }`}
-              />
-              <span className={`text-[14px] ${i === activeStage ? 'font-semibold text-dark' : 'text-[#6B7A80]'}`}>{s.label}</span>
-            </div>
-          ))}
-        </div>
-
         <div className="mt-10 pt-6 border-t border-[#E2E8EA]">
           <div className="text-[13px] font-semibold text-dark">EVO Partners GmbH</div>
           <div className="mt-2.5 grid gap-1.5 text-[12.5px] text-[#6B7A80]">
@@ -181,8 +179,25 @@ export default function AntragFunnel() {
         </div>
       </aside>
 
-      <main className="flex-1 flex items-start justify-center px-5 py-10 md:py-16">
+      <main className="flex-1 flex flex-col items-center justify-start px-5 py-10 md:py-16">
         <div className="w-full max-w-[520px]">
+          <div className="mb-6">
+            <div className="flex items-center gap-1.5">
+              {STAGES.map((s, i) => (
+                <div
+                  key={s.key}
+                  className={`h-1.5 flex-1 rounded-full transition-colors ${i <= activeStage ? 'bg-teal' : 'bg-[#DCE4E6]'}`}
+                />
+              ))}
+            </div>
+            <div className="mt-2.5 flex items-center justify-between text-[12.5px] font-medium text-[#6B7A80]">
+              <span className="font-semibold text-dark">{STAGES[activeStage].label}</span>
+              <span>
+                Schritt {activeStage + 1} von {STAGES.length}
+              </span>
+            </div>
+          </div>
+
           <div className="bg-white border border-[#E2E8EA] rounded-[10px] shadow-[0_3px_16px_rgba(26,26,42,0.07)] px-7 pt-6 pb-7">
             <div className="flex items-center gap-2 text-sm font-semibold text-teal mb-6">
               <span>🔒</span>
@@ -192,10 +207,20 @@ export default function AntragFunnel() {
             {step === 'email' && (
               <div>
                 <div className="inline-flex items-center gap-2 bg-teal-light text-teal-dark text-[12px] font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full">
-                  <span>Ihr Antrag: {situationLabel}</span>
-                  <a href="/#pruefen" className="underline font-normal normal-case">
-                    Ändern
-                  </a>
+                  <span>Ihr Antrag:</span>
+                  <select
+                    value={situationSlug}
+                    onChange={(e) => changeSituation(e.target.value)}
+                    aria-label="Situation ändern"
+                    className="bg-transparent text-teal-dark text-[12px] font-semibold uppercase tracking-wide border-0 outline-none underline cursor-pointer"
+                  >
+                    {!situationSlug && <option value="">Nicht angegeben</option>}
+                    {situationList.map((s) => (
+                      <option key={s.slug} value={s.slug}>
+                        {s.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="text-xl font-bold mt-4 mb-4 tracking-tight">Zu Beginn benötigen wir Ihre E-Mail-Adresse</div>
                 <input
@@ -207,8 +232,15 @@ export default function AntragFunnel() {
                 />
                 {errors.email && <div className="text-swiss-red text-xs mt-1">{errors.email}</div>}
                 <p className="text-[12px] leading-relaxed text-[#8A979C] mt-3">
-                  Mit dem Fortfahren akzeptieren Sie unsere Datenschutzrichtlinie und die Verarbeitung Ihrer
-                  persönlichen Daten.
+                  Mit dem Fortfahren akzeptieren Sie unsere{' '}
+                  <button
+                    type="button"
+                    onClick={() => setPrivacyOpen(true)}
+                    className="text-teal underline font-medium cursor-pointer bg-transparent border-0 p-0"
+                  >
+                    Datenschutzrichtlinie
+                  </button>{' '}
+                  und die Verarbeitung Ihrer persönlichen Daten.
                 </p>
                 <button
                   type="button"
@@ -293,14 +325,11 @@ export default function AntragFunnel() {
                   </div>
                 </div>
                 <div className="mt-2.5">
-                  <input
-                    type="tel"
-                    placeholder="Telefon"
+                  <PhoneField
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full px-3.5 py-3 text-[15px] border border-[#D6DFE2] rounded-md bg-white text-dark outline-none focus:border-teal"
+                    onChange={setPhone}
+                    error={errors.phone}
                   />
-                  {errors.phone && <div className="text-swiss-red text-xs mt-1">{errors.phone}</div>}
                 </div>
                 <label className="flex items-start gap-2.5 mt-4 text-[13px] leading-relaxed text-[#3D4A50] cursor-pointer">
                   <input
@@ -310,8 +339,19 @@ export default function AntragFunnel() {
                     className="mt-0.5 w-4 h-4 accent-teal flex-shrink-0"
                   />
                   <span>
-                    Ich akzeptiere die Datenschutzbestimmungen von EVO Partners GmbH und stimme der Verarbeitung meiner
-                    Daten zum Zweck der Beratung zu.
+                    Ich akzeptiere die{' '}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setPrivacyOpen(true);
+                      }}
+                      className="text-teal underline font-medium cursor-pointer bg-transparent border-0 p-0"
+                    >
+                      Datenschutzbestimmungen
+                    </button>{' '}
+                    von EVO Partners GmbH und stimme der Verarbeitung meiner Daten zum Zweck der Beratung zu.
                   </span>
                 </label>
                 {errors.consent && <div className="text-swiss-red text-xs mt-1">{errors.consent}</div>}
@@ -364,6 +404,8 @@ export default function AntragFunnel() {
           </div>
         </div>
       </main>
+
+      <PrivacyPolicyModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} />
     </div>
   );
 }

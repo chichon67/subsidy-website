@@ -1,5 +1,6 @@
 // src/components/Funnel.jsx
 import { useState, useEffect } from 'react';
+import PhoneField, { isValidPhoneNumber } from './PhoneField.jsx';
 
 const CANTON_OPTIONS = ['Basel-Stadt', 'Basel-Landschaft'];
 const INCOME_OPTIONS = ["Unter CHF 2'000", "CHF 2'000 – 4'000", "CHF 4'000 – 6'000", 'Über CHF 6\'000'];
@@ -26,9 +27,9 @@ export default function Funnel({ defaultCanton }) {
     household: '',
     firstName: '',
     lastName: '',
-    phone: '',
     email: '',
   });
+  const [phone, setPhone] = useState();
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -83,9 +84,8 @@ export default function Funnel({ defaultCanton }) {
     const errs = {};
     if (!answers.firstName.trim()) errs.firstName = 'Bitte Vorname angeben.';
     if (!answers.lastName.trim()) errs.lastName = 'Bitte Nachname angeben.';
-    const phone = answers.phone.replace(/\s/g, '');
     if (!phone) errs.phone = 'Bitte Telefonnummer angeben.';
-    else if (!/^(\+41|0041|0)\d{6,}$/.test(phone)) errs.phone = 'Bitte eine gültige Schweizer Telefonnummer angeben.';
+    else if (!isValidPhoneNumber(phone)) errs.phone = 'Bitte eine gültige Telefonnummer angeben.';
     if (!answers.email.trim()) errs.email = 'Bitte E-Mail angeben.';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(answers.email.trim())) errs.email = 'Bitte eine gültige E-Mail-Adresse angeben.';
     return errs;
@@ -104,7 +104,7 @@ export default function Funnel({ defaultCanton }) {
       const res = await fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...answers, ...utmData }),
+        body: JSON.stringify({ ...answers, phone, ...utmData }),
       });
       if (!res.ok) throw new Error('submit failed');
       track('funnel_conversion', { canton: answers.canton });
@@ -117,7 +117,8 @@ export default function Funnel({ defaultCanton }) {
   }
 
   function restart() {
-    setAnswers({ canton: '', income: '', household: '', firstName: '', lastName: '', phone: '', email: '' });
+    setAnswers({ canton: '', income: '', household: '', firstName: '', lastName: '', email: '' });
+    setPhone(undefined);
     setErrors({});
     setSubmitted(false);
     setStep(1);
@@ -216,14 +217,7 @@ export default function Funnel({ defaultCanton }) {
               {errors.lastName && <div className="text-swiss-red text-xs mt-1">{errors.lastName}</div>}
             </div>
             <div>
-              <input
-                type="tel"
-                placeholder="Telefon"
-                value={answers.phone}
-                onChange={updateField('phone')}
-                className="w-full px-3.5 py-3 text-[15px] border border-[#D6DFE2] rounded-md bg-white text-dark outline-none focus:border-teal"
-              />
-              {errors.phone && <div className="text-swiss-red text-xs mt-1">{errors.phone}</div>}
+              <PhoneField value={phone} onChange={setPhone} error={errors.phone} />
             </div>
             <div>
               <input

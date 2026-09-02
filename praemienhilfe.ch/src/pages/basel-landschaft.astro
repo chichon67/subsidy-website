@@ -22,8 +22,13 @@ const canton = cantons['basel-landschaft'];
   <Hero canton={canton} defaultCanton="Basel-Landschaft" useSituationFunnel={false} />
   <TrustBar canton={canton} />
   <InfoSection canton={canton} />
-  <HowItWorks steps={canton.steps} />
+  <HowItWorks steps={canton.steps} id="so-funktioniert-es" />
   <ProblemSection />
   <FAQ canton={canton} />
-  <FinalCTA />
+  <FinalCTA
+    buttons={[
+      { label: 'Antrag prüfen lassen →', href: '#pruefen' },
+      { label: 'Formular ausfüllen →', href: '#pruefen' },
+    ]}
+  />
 </Base>

@@ -18,7 +18,8 @@ export interface Props {
 
 const { title, description, canonical, activePage = 'home', chrome = true, schema = [] } = Astro.props;
 const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
-const mobileCtaHref = activePage === 'basel-stadt' ? '#funnel' : activePage === 'basel-landschaft' ? '#pruefen' : '/#pruefen';
+const mobileCtaHref =
+  activePage === 'basel-stadt' ? '#funnel' : activePage === 'basel-landschaft' || activePage === 'home' ? '#pruefen' : '/#pruefen';
 ---
 
 <!doctype html>

@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 
 export default function StickyFunnelWidget({ activePage }) {
   const [pastHero, setPastHero] = useState(false);
-  const href = activePage === 'basel-stadt' ? '#funnel' : activePage === 'basel-landschaft' ? '#pruefen' : '/#pruefen';
+  const href =
+    activePage === 'basel-stadt' ? '#funnel' : activePage === 'basel-landschaft' || activePage === 'home' ? '#pruefen' : '/#pruefen';
 
   useEffect(() => {
     const hero = document.querySelector('#pruefen');

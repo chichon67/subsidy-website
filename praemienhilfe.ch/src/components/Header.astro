@@ -7,6 +7,7 @@ const { activePage = 'home' } = Astro.props;
 const isCantonLanding = activePage === 'basel-stadt' || activePage === 'basel-landschaft';
 const cantonFunnelHref = activePage === 'basel-stadt' ? '#funnel' : '#pruefen';
 const showWerWirSind = activePage === 'basel-stadt';
+const pruefenHref = activePage === 'home' ? '#pruefen' : '/#pruefen';
 
 const navLink = (key: string) =>
   activePage === key
@@ -61,7 +62,7 @@ const navLink = (key: string) =>
         <a href="/so-funktioniert-es" class={navLink('ablauf')}>So funktioniert es</a>
         <a href="/faq" class={navLink('faq')}>FAQ</a>
         <a href="/kontakt" class={navLink('kontakt')}>Kontakt</a>
-        <a href="/#pruefen" class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">Antrag prüfen</a>
+        <a href={pruefenHref} class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">Antrag prüfen</a>
       </nav>
     )}
 
@@ -105,7 +106,7 @@ const navLink = (key: string) =>
       <a href="/so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
       <a href="/faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
       <a href="/kontakt" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Kontakt</a>
-      <a href="/#pruefen" class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen lassen →</a>
+      <a href={pruefenHref} class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen lassen →</a>
     </div>
   )}
 </div>
@@ -120,6 +121,15 @@ const navLink = (key: string) =>
     }
     setHeaderHeightVar();
     window.addEventListener('resize', setHeaderHeightVar);
+
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    if (mobileMenuToggle instanceof HTMLInputElement) {
+      document.querySelectorAll('#mobile-menu-toggle ~ div a').forEach((link) => {
+        link.addEventListener('click', () => {
+          mobileMenuToggle.checked = false;
+        });
+      });
+    }
 
     let lastScrollY = window.scrollY;
     window.addEventListener(

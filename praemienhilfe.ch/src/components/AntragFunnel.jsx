@@ -14,7 +14,7 @@ const STAGES = [
 ];
 
 function stageIndexForStep(step) {
-  if (step === 'email') return 0;
+  if (step === 'situation' || step === 'email') return 0;
   if (step === 'household' || step === 'income') return 1;
   if (step === 'contact') return 2;
   return 3;
@@ -35,6 +35,7 @@ function rowClass(selected) {
 
 export default function AntragFunnel() {
   const [situationSlug, setSituationSlug] = useState('');
+  const [cantonName, setCantonName] = useState('');
   const [step, setStep] = useState('email');
   const [email, setEmail] = useState('');
   const [household, setHousehold] = useState(1);
@@ -51,7 +52,11 @@ export default function AntragFunnel() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const s = params.get('situation') || '';
-    setSituationSlug(SITUATIONS[s] ? s : '');
+    const c = params.get('canton') || '';
+    const validSituation = SITUATIONS[s] ? s : '';
+    setSituationSlug(validSituation);
+    setCantonName(c);
+    if (!validSituation) setStep('situation');
     setUtmData({
       utm_source: params.get('utm_source') || '',
       utm_medium: params.get('utm_medium') || '',
@@ -61,6 +66,15 @@ export default function AntragFunnel() {
   }, []);
 
   const situationLabel = situationSlug ? SITUATIONS[situationSlug].label : 'Nicht angegeben';
+
+  function chooseSituation(slug) {
+    setSituationSlug(slug);
+    track('antrag_step_situation_complete', { situation: slug });
+    const url = new URL(window.location.href);
+    url.searchParams.set('situation', slug);
+    window.history.replaceState({}, '', url);
+    setStep('email');
+  }
 
   function changeSituation(slug) {
     setSituationSlug(slug);
@@ -126,7 +140,7 @@ export default function AntragFunnel() {
           lastName,
           phone,
           email,
-          canton: 'Basel-Stadt',
+          canton: cantonName || 'Nicht angegeben',
           situation: situationSlug,
           household: `${household} ${household === 1 ? 'Person' : 'Personen'}`,
           income,
@@ -204,6 +218,25 @@ export default function AntragFunnel() {
               <span>Sicheres Formular</span>
             </div>
 
+            {step === 'situation' && (
+              <div>
+                {cantonName && (
+                  <div className="inline-flex items-center gap-2 bg-teal-light text-teal-dark text-[12px] font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full mb-4">
+                    <span>Ihr Kanton: {cantonName}</span>
+                  </div>
+                )}
+                <div className="text-xl font-bold mb-4 tracking-tight">Was beschreibt Ihre Situation am besten?</div>
+                <div className="grid gap-2.5">
+                  {situationList.map((s) => (
+                    <button key={s.slug} type="button" onClick={() => chooseSituation(s.slug)} className={rowClass(situationSlug === s.slug)}>
+                      <span>{s.label}</span>
+                      <span className="text-teal font-bold">→</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {step === 'email' && (
               <div>
                 <div className="inline-flex items-center gap-2 bg-teal-light text-teal-dark text-[12px] font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full">
@@ -221,6 +254,7 @@ export default function AntragFunnel() {
                       </option>
                     ))}
                   </select>
+                  {cantonName && <span className="normal-case font-normal">· {cantonName}</span>}
                 </div>
                 <div className="text-xl font-bold mt-4 mb-4 tracking-tight">Zu Beginn benötigen wir Ihre E-Mail-Adresse</div>
                 <input
@@ -383,6 +417,12 @@ export default function AntragFunnel() {
                     <span className="text-[#6B7A80]">Situation:</span>
                     <span className="font-semibold text-dark">{situationLabel}</span>
                   </div>
+                  {cantonName && (
+                    <div className="flex justify-between">
+                      <span className="text-[#6B7A80]">Kanton:</span>
+                      <span className="font-semibold text-dark">{cantonName}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between">
                     <span className="text-[#6B7A80]">Haushalt:</span>
                     <span className="font-semibold text-dark">

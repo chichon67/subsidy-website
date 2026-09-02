@@ -4,8 +4,8 @@ import { Image } from 'astro:assets';
 import Funnel from './Funnel.jsx';
 import SituationFunnel from './SituationFunnel.jsx';
 import SituationSelector from './SituationSelector.astro';
-import CantonSelector from './CantonSelector.astro';
 import heroPhoto from '../assets/hero-photo.jpg';
+import swissHeroBg from '../assets/swiss-hero-bg.jpg';
 import { heroCopy } from '../data/national.js';
 
 export interface Props {
@@ -19,8 +19,22 @@ const { canton, defaultCanton, useSituationFunnel = true, variant = 'canton', em
 const isNational = variant === 'national';
 ---
 
-<section id="pruefen" class="bg-white">
-  <div class="max-w-[1240px] mx-auto px-8 pt-[58px] pb-[72px]">
+<section id="pruefen" class="relative bg-white overflow-hidden">
+  {isNational && (
+    <>
+      <Image
+        src={swissHeroBg}
+        alt=""
+        width={2400}
+        height={1350}
+        class="absolute inset-0 w-full h-full object-cover"
+        loading="eager"
+        aria-hidden="true"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/55"></div>
+    </>
+  )}
+  <div class="relative max-w-[1240px] mx-auto px-8 pt-[58px] pb-[72px]">
     <div class="grid grid-cols-1 md:grid-cols-[55fr_45fr] gap-14 items-start">
       <div>
         <h1 class="text-[32px] md:text-[48px] leading-[1.08] font-bold tracking-tight m-0">
@@ -32,7 +46,7 @@ const isNational = variant === 'national';
             : 'Der Kanton gewährt Einwohnerinnen und Einwohnern in bescheidenen wirtschaftlichen Verhältnissen Beiträge zur Reduktion der Krankenkassenprämien. Wir helfen Ihnen, Ihren Anspruch zu prüfen und Ihren Antrag korrekt einzureichen.'}
         </p>
 
-        {isNational ? <CantonSelector /> : embeddedFunnel ? <SituationFunnel client:load /> : useSituationFunnel ? <SituationSelector /> : <Funnel client:load defaultCanton={defaultCanton} />}
+        {isNational ? <SituationSelector /> : embeddedFunnel ? <SituationFunnel client:load /> : useSituationFunnel ? <SituationSelector /> : <Funnel client:load defaultCanton={defaultCanton} />}
       </div>
 
       <div class="hidden md:block relative pt-1.5">

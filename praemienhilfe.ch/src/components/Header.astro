@@ -4,7 +4,9 @@ export interface Props {
   activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'ablauf' | 'faq' | 'kontakt';
 }
 const { activePage = 'home' } = Astro.props;
-const isBaselLanding = activePage === 'basel-stadt';
+const isCantonLanding = activePage === 'basel-stadt' || activePage === 'basel-landschaft';
+const cantonFunnelHref = activePage === 'basel-stadt' ? '#funnel' : '#pruefen';
+const showWerWirSind = activePage === 'basel-stadt';
 
 const navLink = (key: string) =>
   activePage === key
@@ -17,7 +19,7 @@ const navLink = (key: string) =>
     <a
       href="/"
       class="flex items-center gap-3 no-underline"
-      {...isBaselLanding ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+      {...isCantonLanding ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
     >
       <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
         <rect x="2" y="2" width="24" height="24" rx="6" fill="#0087A0"></rect>
@@ -30,12 +32,12 @@ const navLink = (key: string) =>
       </span>
     </a>
 
-    {isBaselLanding ? (
+    {isCantonLanding ? (
       <nav class="hidden [@media(min-width:980px)]:flex items-center gap-6 text-[14.5px] font-medium">
         <a href="#so-funktioniert-es" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">So funktioniert es</a>
         <a href="#faq" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">FAQ</a>
-        <a href="#wer-wir-sind" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">Über uns</a>
-        <a href="#funnel" class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">Antrag prüfen →</a>
+        {showWerWirSind && <a href="#wer-wir-sind" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">Über uns</a>}
+        <a href={cantonFunnelHref} class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">Antrag prüfen →</a>
       </nav>
     ) : (
       <nav class="hidden [@media(min-width:980px)]:flex items-center gap-6 text-[14.5px] font-medium">
@@ -88,12 +90,12 @@ const navLink = (key: string) =>
     </div>
     <label for="mobile-menu-toggle" class="w-10 h-10 flex items-center justify-center border border-[#D6DFE2] rounded cursor-pointer text-xl text-dark" aria-label="Menü schliessen">×</label>
   </div>
-  {isBaselLanding ? (
+  {isCantonLanding ? (
     <div class="px-6 py-7 grid gap-1">
       <a href="#so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
       <a href="#faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
-      <a href="#wer-wir-sind" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Über uns</a>
-      <a href="#funnel" class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen →</a>
+      {showWerWirSind && <a href="#wer-wir-sind" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Über uns</a>}
+      <a href={cantonFunnelHref} class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen →</a>
     </div>
   ) : (
     <div class="px-6 py-7 grid gap-1">

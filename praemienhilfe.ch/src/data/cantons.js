@@ -1,6 +1,6 @@
 // src/data/cantons.js
 const PHONE = '+41 76 779 0449';
-const EMAIL = 'msegui@evo-partners.ch';
+const EMAIL = 'office@evo-partners.ch';
 
 const closingParagraph =
   "Haben sich Ihre persönlichen oder finanziellen Verhältnisse verändert? Auch bestehende Bezüger müssen Änderungen melden. Wir begleiten Sie durch den gesamten Prozess.";

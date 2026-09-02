@@ -1,11 +1,18 @@
 ---
 // src/components/Footer.astro
+export interface Props {
+  activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'ablauf' | 'faq' | 'kontakt';
+}
+const { activePage = 'home' } = Astro.props;
+const isCantonPage = activePage === 'basel-stadt' || activePage === 'basel-landschaft';
+const cantonFunnelHref = activePage === 'basel-stadt' ? '#funnel' : '#pruefen';
+const showWerWirSind = activePage === 'basel-stadt';
 const year = new Date().getFullYear();
 ---
 
 <footer class="bg-dark text-white pb-24 md:pb-0">
   <div class="max-w-[1240px] mx-auto px-8 pt-14 pb-10">
-    <div class="grid grid-cols-1 md:grid-cols-[1.6fr_1fr_1fr_1fr] gap-8 md:gap-11">
+    <div class={`grid grid-cols-1 gap-8 md:gap-11 ${isCantonPage ? 'md:grid-cols-[1.6fr_1fr_1fr]' : 'md:grid-cols-[1.6fr_1fr_1fr_1fr]'}`}>
       <div>
         <div class="flex items-center gap-3">
           <svg width="38" height="38" viewBox="0 0 40 40" aria-hidden="true">
@@ -24,25 +31,35 @@ const year = new Date().getFullYear();
         <p class="text-[13px] leading-relaxed text-[#9AA6AC] mt-4">Betrieben von:<br>EVO Partners GmbH<br>FINMA-registrierter Versicherungsbroker<br>Zürich, Schweiz</p>
       </div>
 
-      <div>
-        <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">Kantone</div>
-        <div class="grid gap-2.5 mt-4 text-sm">
-          <a href="/basel-stadt" class="text-[#D8DEE1] hover:text-white">Basel-Stadt</a>
-          <a href="/basel-landschaft" class="text-[#D8DEE1] hover:text-white">Basel-Landschaft</a>
-          <span class="text-[#5C666B] cursor-default">Zürich (demnächst)</span>
-          <span class="text-[#5C666B] cursor-default">Bern (demnächst)</span>
-          <span class="text-[#5C666B] cursor-default">Aargau (demnächst)</span>
+      {!isCantonPage && (
+        <div>
+          <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">Kantone</div>
+          <div class="grid gap-2.5 mt-4 text-sm">
+            <a href="/basel-stadt" class="text-[#D8DEE1] hover:text-white">Basel-Stadt</a>
+            <a href="/basel-landschaft" class="text-[#D8DEE1] hover:text-white">Basel-Landschaft</a>
+          </div>
         </div>
-      </div>
+      )}
 
       <div>
         <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">Informationen</div>
         <div class="grid gap-2.5 mt-4 text-sm">
-          <a href="/#was-ist" class="text-[#D8DEE1] hover:text-white">Was ist Prämienverbilligung?</a>
-          <a href="/#so-funktioniert-es" class="text-[#D8DEE1] hover:text-white">So funktioniert es</a>
-          <a href="/#faq" class="text-[#D8DEE1] hover:text-white">FAQ</a>
-          <a href="/#wer-wir-sind" class="text-[#D8DEE1] hover:text-white">Über uns</a>
-          <a href="/kontakt" class="text-[#D8DEE1] hover:text-white">Kontakt</a>
+          {isCantonPage ? (
+            <>
+              <a href="#so-funktioniert-es" class="text-[#D8DEE1] hover:text-white">So funktioniert es</a>
+              <a href="#faq" class="text-[#D8DEE1] hover:text-white">FAQ</a>
+              {showWerWirSind && <a href="#wer-wir-sind" class="text-[#D8DEE1] hover:text-white">Über uns</a>}
+              <a href={cantonFunnelHref} class="text-[#D8DEE1] hover:text-white">Kontakt</a>
+            </>
+          ) : (
+            <>
+              <a href="/#was-ist" class="text-[#D8DEE1] hover:text-white">Was ist Prämienverbilligung?</a>
+              <a href="/#so-funktioniert-es" class="text-[#D8DEE1] hover:text-white">So funktioniert es</a>
+              <a href="/#faq" class="text-[#D8DEE1] hover:text-white">FAQ</a>
+              <a href="/#wer-wir-sind" class="text-[#D8DEE1] hover:text-white">Über uns</a>
+              <a href="/kontakt" class="text-[#D8DEE1] hover:text-white">Kontakt</a>
+            </>
+          )}
         </div>
       </div>
 

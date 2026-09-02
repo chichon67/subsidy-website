@@ -39,6 +39,8 @@ import { situationList } from '../data/situations.js';
       const slug = btn.getAttribute('data-situation');
       if (typeof window.startFunnel === 'function') {
         window.startFunnel(slug);
+      } else {
+        window.location.href = `/antrag?situation=${slug}`;
       }
     });
   });

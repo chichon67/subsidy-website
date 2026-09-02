@@ -11,7 +11,7 @@ export interface Props {
   title: string;
   description: string;
   canonical: string;
-  activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'ablauf' | 'faq' | 'kontakt';
+  activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt';
   chrome?: boolean;
   schema?: Record<string, unknown>[];
 }
@@ -19,7 +19,11 @@ export interface Props {
 const { title, description, canonical, activePage = 'home', chrome = true, schema = [] } = Astro.props;
 const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
 const mobileCtaHref =
-  activePage === 'basel-stadt' ? '#funnel' : activePage === 'basel-landschaft' || activePage === 'home' ? '#pruefen' : '/#pruefen';
+  activePage === 'basel-stadt'
+    ? '#funnel'
+    : activePage === 'basel-landschaft' || activePage === 'home' || activePage === 'canton'
+      ? '#pruefen'
+      : '/#pruefen';
 ---
 
 <!doctype html>
@@ -82,6 +86,29 @@ const mobileCtaHref =
     {chrome && <StickyFunnelWidget client:idle activePage={activePage} />}
 
     <script>
+      const SCROLL_DURATION_MS = 300;
+
+      function easeInOutCubic(t: number) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      function smoothScrollTo(target: Element) {
+        const scrollMarginTop = parseFloat(getComputedStyle(target).scrollMarginTop || '0');
+        const targetY = target.getBoundingClientRect().top + window.scrollY - scrollMarginTop;
+        const startY = window.scrollY;
+        const distance = targetY - startY;
+        const startTime = performance.now();
+
+        function step(now: number) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / SCROLL_DURATION_MS, 1);
+          window.scrollTo(0, startY + distance * easeInOutCubic(progress));
+          if (progress < 1) requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+      }
+
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener('click', function (this: Element, e) {
           const href = this.getAttribute('href');
@@ -89,7 +116,7 @@ const mobileCtaHref =
           const target = document.querySelector(href);
           if (target) {
             e.preventDefault();
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            smoothScrollTo(target);
           }
         });
       });

@@ -14,7 +14,7 @@ import { deutschschweizCantons } from '../data/deutschschweiz.js';
       {
         deutschschweizCantons.map((c) => (
           <a
-            href={c.active ? `/${c.slug}` : `/antrag?canton=${encodeURIComponent(c.name)}`}
+            href={`/${c.slug}`}
             onclick={`if (window.gtag) window.gtag('event', 'canton_directory_selected', { canton: '${c.slug}' })`}
             class="flex items-center gap-3 bg-white border border-[#E2E8EA] rounded-[10px] px-4 py-4 no-underline transition-colors hover:border-teal hover:bg-teal-light"
           >

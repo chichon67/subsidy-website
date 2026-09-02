@@ -1,7 +1,9 @@
 ---
 // src/components/Footer.astro
+import { deutschschweizCantons } from '../data/deutschschweiz.js';
+
 export interface Props {
-  activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'ablauf' | 'faq' | 'kontakt';
+  activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt';
 }
 const { activePage = 'home' } = Astro.props;
 const isCantonPage = activePage === 'basel-stadt' || activePage === 'basel-landschaft';
@@ -36,10 +38,18 @@ const year = new Date().getFullYear();
       {!isCantonPage && (
         <div>
           <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">Kantone</div>
-          <div class="grid gap-2.5 mt-4 text-sm">
-            <a href="/basel-stadt" class="text-[#D8DEE1] hover:text-white">Basel-Stadt</a>
-            <a href="/basel-landschaft" class="text-[#D8DEE1] hover:text-white">Basel-Landschaft</a>
-          </div>
+          {isHome ? (
+            <div class="grid grid-cols-2 gap-x-4 gap-y-2.5 mt-4 text-sm">
+              {deutschschweizCantons.map((c) => (
+                <a href={`/${c.slug}`} class="text-[#D8DEE1] hover:text-white">{c.name}</a>
+              ))}
+            </div>
+          ) : (
+            <div class="grid gap-2.5 mt-4 text-sm">
+              <a href="/basel-stadt" class="text-[#D8DEE1] hover:text-white">Basel-Stadt</a>
+              <a href="/basel-landschaft" class="text-[#D8DEE1] hover:text-white">Basel-Landschaft</a>
+            </div>
+          )}
         </div>
       )}
 

@@ -3,13 +3,19 @@
 import { deutschschweizCantons } from '../data/deutschschweiz.js';
 
 export interface Props {
-  activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'ablauf' | 'faq' | 'kontakt';
+  activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt';
 }
 const { activePage = 'home' } = Astro.props;
 const isCantonLanding = activePage === 'basel-stadt' || activePage === 'basel-landschaft';
 const cantonFunnelHref = activePage === 'basel-stadt' ? '#funnel' : '#pruefen';
 const showWerWirSind = activePage === 'basel-stadt';
-const pruefenHref = activePage === 'home' ? '#pruefen' : '/#pruefen';
+// Pages that render their own #so-funktioniert-es / #faq / #pruefen sections
+// (home + generic canton pages) link to those in-page; every other page
+// (dedicated /so-funktioniert-es, /faq, /kontakt, basel-stadt, basel-landschaft)
+// falls back to the homepage's copy of that section.
+const hasOwnSections = activePage === 'home' || activePage === 'canton';
+const pruefenHref = hasOwnSections ? '#pruefen' : '/#pruefen';
+const sectionHref = (id: string) => (hasOwnSections ? `#${id}` : `/#${id}`);
 
 const navLink = (key: string) =>
   activePage === key
@@ -46,25 +52,33 @@ const navLink = (key: string) =>
       <nav class="hidden [@media(min-width:980px)]:flex items-center gap-6 text-[14.5px] font-medium">
         <a href="/" class={navLink('home')}>Prämienverbilligung</a>
 
-        <div class="relative group">
-          <button type="button" class="flex items-center gap-1.5 bg-transparent border-0 p-0 cursor-pointer text-[14.5px] font-medium text-dark group-hover:text-teal">
+        <div class="relative">
+          <button
+            type="button"
+            id="kantone-menu-trigger"
+            aria-expanded="false"
+            aria-controls="kantone-menu-panel"
+            class="flex items-center gap-1.5 bg-transparent border-0 p-0 cursor-pointer text-[14.5px] font-medium text-dark hover:text-teal"
+          >
             <span>Kantone</span>
-            <span class="text-[11px] text-teal transition-transform duration-150 group-hover:rotate-180">▾</span>
+            <span id="kantone-menu-caret" class="text-[11px] text-teal transition-transform duration-150">▾</span>
           </button>
-          <div class="hidden group-hover:block fixed inset-x-0 top-[var(--header-h)] bg-white border-t border-[#E2E8EA] shadow-[0_16px_32px_rgba(26,26,42,0.12)]">
+          <div
+            id="kantone-menu-panel"
+            class="hidden fixed inset-x-0 top-[var(--header-h)] bg-white border-t border-[#E2E8EA] shadow-[0_16px_32px_rgba(26,26,42,0.12)]"
+          >
             <div class="max-w-[1240px] mx-auto px-8 py-8">
               <h3 class="text-[12px] font-semibold uppercase tracking-wide text-[#6B7780] m-0 mb-4">Deutschschweiz</h3>
               <div class="grid grid-cols-4 gap-3">
                 {
                   deutschschweizCantons.map((c) => (
                     <a
-                      href={c.active ? `/${c.slug}` : `/antrag?canton=${encodeURIComponent(c.name)}`}
+                      href={`/${c.slug}`}
                       onclick={`if (window.gtag) window.gtag('event', 'header_canton_menu_selected', { canton: '${c.slug}' })`}
                       class="flex items-center gap-3 bg-white border border-[#E2E8EA] rounded-[10px] px-4 py-3 no-underline transition-colors hover:border-teal hover:bg-teal-light"
                     >
                       <img src={c.wappen} alt="" width="26" height="26" class="flex-shrink-0" loading="lazy" />
                       <span class="text-[14px] font-medium text-dark leading-tight">{c.name}</span>
-                      {!c.active && <span class="ml-auto text-[10.5px] text-[#A9B4B9] flex-shrink-0">Demnächst</span>}
                     </a>
                   ))
                 }
@@ -73,8 +87,8 @@ const navLink = (key: string) =>
           </div>
         </div>
 
-        <a href="/so-funktioniert-es" class={navLink('ablauf')}>So funktioniert es</a>
-        <a href="/faq" class={navLink('faq')}>FAQ</a>
+        <a href={sectionHref('so-funktioniert-es')} class={navLink('ablauf')}>So funktioniert es</a>
+        <a href={sectionHref('faq')} class={navLink('faq')}>FAQ</a>
         <a href="/kontakt" class={navLink('kontakt')}>Kontakt</a>
         <a href={pruefenHref} class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">Antrag prüfen</a>
       </nav>
@@ -165,5 +179,49 @@ const navLink = (key: string) =>
     );
   }
 
+  function initKantoneMenu() {
+    const trigger = document.getElementById('kantone-menu-trigger');
+    const panel = document.getElementById('kantone-menu-panel');
+    const caret = document.getElementById('kantone-menu-caret');
+    if (!trigger || !panel || !caret) return;
+
+    // Trigger and panel are separated by the header's own padding, so a
+    // straight mouse move from one to the other briefly crosses space that
+    // belongs to neither element. A short close delay bridges that gap
+    // instead of hiding the panel mid-transit (which made it impossible to
+    // ever reach a canton link).
+    let closeTimer: ReturnType<typeof setTimeout> | null = null;
+
+    function open() {
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = null;
+      }
+      panel.classList.remove('hidden');
+      trigger.setAttribute('aria-expanded', 'true');
+      caret.classList.add('rotate-180');
+    }
+
+    function scheduleClose() {
+      closeTimer = setTimeout(() => {
+        panel.classList.add('hidden');
+        trigger.setAttribute('aria-expanded', 'false');
+        caret.classList.remove('rotate-180');
+      }, 250);
+    }
+
+    trigger.addEventListener('mouseenter', open);
+    trigger.addEventListener('mouseleave', scheduleClose);
+    panel.addEventListener('mouseenter', open);
+    panel.addEventListener('mouseleave', scheduleClose);
+    trigger.addEventListener('focus', open);
+    panel.addEventListener('focusout', (e) => {
+      const next = (e as FocusEvent).relatedTarget;
+      if (next instanceof Node && (panel.contains(next) || next === trigger)) return;
+      scheduleClose();
+    });
+  }
+
   initHeader();
+  initKantoneMenu();
 </script>

@@ -28,3 +28,18 @@ Task 8: complete (commit 5b649b9..1679341, review clean)
 Task 9: complete (commit 1679341..d445cc4, review clean; all component prop-name pairings independently re-verified by reviewer, no mismatches)
 Task 10: complete (commit d445cc4..c2979c0, review clean)
 Final whole-branch review (d184992..c2979c0): clean — no Critical/Important findings. 3 Minor notes: (1) shared mobile sticky CTA keeps generic "Antrag prüfen lassen" label/target instead of brief's homepage-specific "Kanton wählen" — reasonable given it's shared chrome, not fixed; (2) FAQPage JSON-LD Q&A doesn't verbatim-match visible FAQ (as specified by brief, may just miss Google rich-result eligibility); (3) WebSite schema's non-standard `provider` property (copied verbatim from brief). Final `npm run build` re-run clean post-review.
+
+# Progress Ledger — Basel-Stadt Landing Page Fixes (2026-09-01-basel-stadt-fixes.md)
+Task 1: complete (verification only, no commit; build clean, routing already correct per plan assumption)
+Task 2: complete (commit 1644b0a..87f63bf, review clean)
+Task 3: complete (commit 87f63bf..83eabb3, review clean; minor readability nit on scroll-handler branching noted, not blocking)
+Task 4: complete (commit 83eabb3..f0ccfb3, review clean)
+Task 5: complete (commit f0ccfb3..46b323c, review clean; Important finding on hardcoded #2E6B29 fixed to swiss-green token, re-review clean)
+Task 6+7: complete (commit 46b323c..be426a0, review clean; minor note on fast-click race before hydration, non-blocking)
+Task 8: complete (verification only, no commit; all 4 anchors present, no scroll trap CSS found)
+Task 9: complete (commit be426a0..721427e, review clean)
+Task 10: complete (commit 721427e..46f5031, review clean)
+Task 11: complete (commit 46f5031..2e20e37, review clean)
+Task 12: complete (verification only, no commit; repo-wide grep for Sàrl/Sarl returned zero matches)
+Task 13: complete (verification found 1 real defect: mobile sticky CTA on basel-stadt pointed at /#pruefen instead of #funnel; fixed in commit 2e20e37..c90428b, review clean; all 19 instructions.md checklist items PASS)
+Final whole-branch review (1644b0a..04efe55): found Critical (mobile menu overlay clipped by fixed-header containing-block bug, site-wide) + Important (desktop StickyFunnelWidget hardcoded /#pruefen redirecting basel-stadt users home) — both fixed in 04efe55, re-review clean, ready to merge. Minor pre-launch note: [ADRESSE]/[DEINE FINMA-NR HIER] placeholders still need real values. Final npm run build re-confirmed clean by controller.

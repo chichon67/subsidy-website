@@ -14,12 +14,6 @@ export const nationalStats = [
   { value: 'FINMA', label: 'Registriert' },
 ];
 
-// Shown in the hero canton-selector card (6 grayed-out rows, per instructions.md §Section 1)
-export const heroComingSoonCantons = ['Zürich', 'Bern', 'Aargau', 'Luzern', 'Solothurn', 'Genf'];
-
-// Shown as grayed-out cards in the Section 4 grid (4 cards, per instructions.md §Section 4)
-export const gridComingSoonCantons = ['Zürich', 'Bern', 'Aargau', 'Luzern'];
-
 export const wasIst = {
   // First paragraph is split around the phrase that becomes an inline link
   // to /so-funktioniert-es (instructions.md §INTERNAL LINKING FOR SEO).

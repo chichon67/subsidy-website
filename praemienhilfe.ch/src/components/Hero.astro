@@ -7,6 +7,7 @@ import SituationSelector from './SituationSelector.astro';
 import heroPhoto from '../assets/hero-photo.jpg';
 import swissVillage from '../assets/swiss-village-lake.jpg';
 import { national } from '../data/national.js';
+import { useTranslations } from '../i18n/useTranslations.js';
 
 export interface Props {
   canton?: { name: string; heroProof: string };
@@ -19,6 +20,7 @@ export interface Props {
 const { canton, defaultCanton, useSituationFunnel = true, variant = 'canton', embeddedFunnel = false, locale = 'de' } = Astro.props;
 const isNational = variant === 'national';
 const heroCopy = national[locale].heroCopy;
+const t = useTranslations(locale);
 ---
 
 <section id="pruefen" class="relative bg-white overflow-hidden">
@@ -54,10 +56,10 @@ const heroCopy = national[locale].heroCopy;
       <div class="grid grid-cols-1 md:grid-cols-[55fr_45fr] gap-14 items-start">
         <div>
           <h1 class="text-[32px] md:text-[48px] leading-[1.08] font-bold tracking-tight m-0">
-            {canton?.name ? `Prämienverbilligung ${canton.name} — Anspruch prüfen und Antrag stellen` : 'Haben Sie Anspruch auf Prämienverbilligung?'}
+            {canton?.name ? t('hero.cantonTitle', canton.name) : t('hero.cantonTitleDefault')}
           </h1>
           <p class="text-base leading-[1.68] text-[#3D4A50] mt-5 max-w-[34em]">
-            Der Kanton gewährt Einwohnerinnen und Einwohnern in bescheidenen wirtschaftlichen Verhältnissen Beiträge zur Reduktion der Krankenkassenprämien. Wir helfen Ihnen, Ihren Anspruch zu prüfen und Ihren Antrag korrekt einzureichen.
+            {t('hero.cantonParagraph')}
           </p>
 
           {embeddedFunnel ? <SituationFunnel client:load canton={defaultCanton} locale={locale} /> : useSituationFunnel ? <SituationSelector locale={locale} /> : <Funnel client:load defaultCanton={defaultCanton} locale={locale} />}

@@ -1,14 +1,29 @@
 ---
-// src/pages/antrag.astro
+// src/page-templates/Antrag.astro
 import Base from '../layouts/Base.astro';
 import AntragFunnel from '../components/AntragFunnel.jsx';
+
+const locale = Astro.currentLocale ?? 'de';
+
+const titleByLocale = {
+  de: 'Antrag stellen | prämienhilfe.ch',
+  en: 'Apply now | prämienhilfe.ch',
+  es: 'Solicitar ahora | prämienhilfe.ch',
+};
+const descriptionByLocale = {
+  de: 'Stellen Sie Ihren Antrag auf Prämienverbilligung im Kanton Basel-Stadt — schnell und unverbindlich.',
+  en: 'Submit your premium subsidy application in just a few minutes — fast and non-binding.',
+  es: 'Presente su solicitud de reducción de primas en pocos minutos — rápido y sin compromiso.',
+};
 ---
 
 <Base
-  title="Antrag stellen | prämienhilfe.ch"
-  description="Stellen Sie Ihren Antrag auf Prämienverbilligung im Kanton Basel-Stadt — schnell und unverbindlich."
-  canonical="https://praemienhilfe.ch/antrag"
+  title={titleByLocale[locale]}
+  description={descriptionByLocale[locale]}
+  canonical={`https://praemienhilfe.ch/${locale}/antrag`}
+  locale={locale}
+  translationKey="antrag"
   chrome={false}
 >
-  <AntragFunnel client:load />
+  <AntragFunnel client:load locale={locale} />
 </Base>

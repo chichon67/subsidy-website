@@ -132,6 +132,10 @@ export const ui = {
     'funnel.thankYouBody': 'Wir melden uns innerhalb von 24 Stunden bei Ihnen. Bei Fragen erreichen Sie uns unter +41 76 779 0449.',
     'funnel.restartButton': 'Neue Prüfung starten',
     'funnel.back': '← Zurück',
+    'sidebar.finmaApproved': 'FINMA-anerkannter Broker',
+    'sidebar.situationAnalysis': 'Situationsanalyse · Unverbindlich',
+    'sidebar.rating': '4.8/5 von unseren Klienten bewertet',
+    'sidebar.dossiers': "+1'000 Dossiers pro Jahr bearbeitet",
   },
   en: {
     'nav.home': 'Premium subsidy',
@@ -260,6 +264,10 @@ export const ui = {
     'funnel.thankYouBody': 'We will get in touch with you within 24 hours. If you have questions, reach us at +41 76 779 0449.',
     'funnel.restartButton': 'Start a new check',
     'funnel.back': '← Back',
+    'sidebar.finmaApproved': 'FINMA-approved broker',
+    'sidebar.situationAnalysis': 'Situation analysis · No obligation',
+    'sidebar.rating': '4.8/5 rated by our clients',
+    'sidebar.dossiers': 'Over 1,000 applications handled per year',
   },
   es: {
     'nav.home': 'Subsidio de primas',
@@ -388,5 +396,9 @@ export const ui = {
     'funnel.thankYouBody': 'Nos pondremos en contacto con usted en 24 horas. Si tiene preguntas, contáctenos al +41 76 779 0449.',
     'funnel.restartButton': 'Iniciar una nueva comprobación',
     'funnel.back': '← Atrás',
+    'sidebar.finmaApproved': 'Corredor aprobado por FINMA',
+    'sidebar.situationAnalysis': 'Análisis de situación · Sin compromiso',
+    'sidebar.rating': '4.8/5 valorado por nuestros clientes',
+    'sidebar.dossiers': 'Más de 1,000 expedientes gestionados al año',
   },
 };

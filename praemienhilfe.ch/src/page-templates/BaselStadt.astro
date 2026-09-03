@@ -1,5 +1,5 @@
 ---
-// src/pages/basel-stadt.astro
+// src/page-templates/BaselStadt.astro
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
@@ -11,60 +11,41 @@ import FAQ from '../components/FAQ.astro';
 import SituationFinalCTA from '../components/SituationFinalCTA.astro';
 import { cantons } from '../data/cantons.js';
 
-const canton = cantons['basel-stadt'];
+const locale = Astro.currentLocale ?? 'de';
+const base = cantons['basel-stadt'];
+const canton = { ...base, ...base[locale] };
+
+const titleByLocale = {
+  de: 'Prämienverbilligung Basel-Stadt | prämienhilfe.ch',
+  en: 'Premium Subsidy Basel-Stadt | prämienhilfe.ch',
+  es: 'Reducción de primas Basilea-Ciudad | prämienhilfe.ch',
+};
+const descriptionByLocale = {
+  de: 'Prämienverbilligung im Kanton Basel-Stadt beantragen. EVO Partners GmbH hilft Ihnen kostenlos bei der Einreichung Ihres Antrags. Jetzt Anspruch prüfen — in 20 Minuten.',
+  en: 'Apply for the premium subsidy in the canton of Basel-Stadt. EVO Partners GmbH helps you submit your application for free. Check your eligibility now — in 20 minutes.',
+  es: 'Solicite la reducción de primas en el cantón de Basilea-Ciudad. EVO Partners GmbH le ayuda gratis a presentar su solicitud. Compruebe su derecho ahora — en 20 minutos.',
+};
 ---
 
 <Base
-  title="Prämienverbilligung Basel-Stadt | prämienhilfe.ch"
-  description="Prämienverbilligung im Kanton Basel-Stadt beantragen. EVO Partners GmbH hilft Ihnen kostenlos bei der Einreichung Ihres Antrags. Jetzt Anspruch prüfen — in 20 Minuten."
-  canonical="https://praemienhilfe.ch/basel-stadt"
+  title={titleByLocale[locale]}
+  description={descriptionByLocale[locale]}
+  canonical={`https://praemienhilfe.ch/${locale}/basel-stadt`}
+  locale={locale}
+  translationKey="basel-stadt"
   activePage="basel-stadt"
   cantonName="Basel-Stadt"
   schema={[
-    {
-      '@context': 'https://schema.org',
-      '@type': 'LocalBusiness',
-      name: 'prämienhilfe.ch – EVO Partners GmbH',
-      description: 'Unabhängige Beratung bei der Prämienverbilligung im Kanton Basel-Stadt',
-      url: 'https://praemienhilfe.ch',
-      areaServed: { '@type': 'AdministrativeArea', name: 'Basel-Stadt' },
-      serviceType: 'Prämienverbilligung Beratung',
-      provider: {
-        '@type': 'Organization',
-        name: 'EVO Partners GmbH',
-        description: 'FINMA-registrierter Versicherungsbroker',
-      },
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: [
-        {
-          '@type': 'Question',
-          name: 'Wer hat Anspruch auf Prämienverbilligung in Basel-Stadt?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Personen mit Wohnsitz in Basel-Stadt in bescheidenen wirtschaftlichen Verhältnissen. Es lohnt sich in jedem Fall, den Anspruch zu prüfen.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'Was kostet die Hilfe bei der Prämienverbilligung?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Die Hilfe bei der Prämienverbilligung ist für Sie kostenlos. EVO Partners GmbH ist ein FINMA-registrierter Versicherungsbroker.',
-          },
-        },
-      ],
-    },
+    { '@context': 'https://schema.org', '@type': 'LocalBusiness', name: 'prämienhilfe.ch – EVO Partners GmbH', description: 'Unabhängige Beratung bei der Prämienverbilligung im Kanton Basel-Stadt', url: 'https://praemienhilfe.ch', areaServed: { '@type': 'AdministrativeArea', name: 'Basel-Stadt' }, serviceType: 'Prämienverbilligung Beratung', provider: { '@type': 'Organization', name: 'EVO Partners GmbH', description: 'FINMA-registrierter Versicherungsbroker' } },
+    { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: canton.faqs.slice(0, 2).map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
   ]}
 >
-  <Hero canton={canton} defaultCanton="Basel-Stadt" embeddedFunnel={true} />
+  <Hero canton={canton} defaultCanton="Basel-Stadt" embeddedFunnel={true} locale={locale} />
   <TrustBar canton={canton} />
   <InfoSection canton={canton} />
-  <HowItWorks steps={canton.steps} id="so-funktioniert-es" />
-  <ProblemSection />
-  <WerWirSindSection />
-  <FAQ canton={canton} />
-  <SituationFinalCTA />
+  <HowItWorks steps={canton.steps} id="so-funktioniert-es" locale={locale} />
+  <ProblemSection reasons={canton.reasons} locale={locale} />
+  <WerWirSindSection locale={locale} />
+  <FAQ canton={canton} locale={locale} />
+  <SituationFinalCTA locale={locale} />
 </Base>

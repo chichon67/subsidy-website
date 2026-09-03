@@ -4,7 +4,8 @@ import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import { cantons } from '../data/cantons.js';
 
-const canton = cantons['basel-stadt'];
+const base = cantons['basel-stadt'];
+const canton = { ...base, ...base.de };
 ---
 
 <Base

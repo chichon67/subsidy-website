@@ -1,5 +1,5 @@
 ---
-// src/pages/basel-landschaft.astro
+// src/page-templates/BaselLandschaft.astro
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
@@ -9,27 +9,45 @@ import ProblemSection from '../components/ProblemSection.astro';
 import FAQ from '../components/FAQ.astro';
 import FinalCTA from '../components/FinalCTA.astro';
 import { cantons } from '../data/cantons.js';
+import { useTranslations } from '../i18n/useTranslations.js';
 
-const canton = cantons['basel-landschaft'];
+const locale = Astro.currentLocale ?? 'de';
+const base = cantons['basel-landschaft'];
+const canton = { ...base, ...base[locale] };
+const t = useTranslations(locale);
+
+const titleByLocale = {
+  de: 'Prämienverbilligung Basel-Landschaft | prämienhilfe.ch',
+  en: 'Premium Subsidy Basel-Landschaft | prämienhilfe.ch',
+  es: 'Reducción de primas Basilea-Campo | prämienhilfe.ch',
+};
+const descriptionByLocale = {
+  de: 'Prämienverbilligung im Kanton Basel-Landschaft beantragen. Kostenlose Hilfe bei Prüfung und Antrag durch die SVA Basel-Landschaft.',
+  en: 'Apply for the premium subsidy in the canton of Basel-Landschaft. Free help with assessment and application through SVA Basel-Landschaft.',
+  es: 'Solicite la reducción de primas en el cantón de Basilea-Campo. Ayuda gratuita para la evaluación y la solicitud a través de la SVA Basel-Landschaft.',
+};
 ---
 
 <Base
-  title="Prämienverbilligung Basel-Landschaft | prämienhilfe.ch"
-  description="Prämienverbilligung im Kanton Basel-Landschaft beantragen. Kostenlose Hilfe bei Prüfung und Antrag durch die SVA Basel-Landschaft."
-  canonical="https://praemienhilfe.ch/basel-landschaft"
+  title={titleByLocale[locale]}
+  description={descriptionByLocale[locale]}
+  canonical={`https://praemienhilfe.ch/${locale}/basel-landschaft`}
+  locale={locale}
+  translationKey="basel-landschaft"
   activePage="basel-landschaft"
   cantonName="Basel-Landschaft"
 >
-  <Hero canton={canton} defaultCanton="Basel-Landschaft" embeddedFunnel={true} />
+  <Hero canton={canton} defaultCanton="Basel-Landschaft" embeddedFunnel={true} locale={locale} />
   <TrustBar canton={canton} />
   <InfoSection canton={canton} />
-  <HowItWorks steps={canton.steps} id="so-funktioniert-es" />
-  <ProblemSection />
-  <FAQ canton={canton} />
+  <HowItWorks steps={canton.steps} id="so-funktioniert-es" locale={locale} />
+  <ProblemSection reasons={canton.reasons} locale={locale} />
+  <FAQ canton={canton} locale={locale} />
   <FinalCTA
+    locale={locale}
     buttons={[
-      { label: 'Antrag prüfen lassen →', href: '#funnel' },
-      { label: 'Formular ausfüllen →', href: '#funnel' },
+      { label: t('finalCta.button1'), href: '#funnel' },
+      { label: t('finalCta.button2'), href: '#funnel' },
     ]}
   />
 </Base>

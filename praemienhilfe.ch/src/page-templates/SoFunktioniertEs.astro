@@ -42,7 +42,7 @@ const heroByLocale = {
       <p class="text-base leading-relaxed text-[#3D4A50] mt-5 max-w-[34em]">{heroByLocale[locale].p}</p>
     </div>
   </div>
-  <HowItWorks steps={canton.steps} />
+  <HowItWorks steps={canton.steps} locale={locale} />
   <FinalCTA
     heading={content.finalCta.heading}
     text={content.finalCta.text}

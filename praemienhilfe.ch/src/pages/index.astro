@@ -8,7 +8,7 @@ const SUPPORTED = ['de', 'en', 'es'];
 
 function localeFromCookie(cookieHeader) {
   if (!cookieHeader) return null;
-  const match = cookieHeader.match(/(?:^|;\s*)pv_lang=([a-z]{2})/);
+  const match = cookieHeader.match(/(?:^|;\s*)pv_lang=([a-z]{2})(?:;|$)/);
   const value = match?.[1];
   return SUPPORTED.includes(value) ? value : null;
 }

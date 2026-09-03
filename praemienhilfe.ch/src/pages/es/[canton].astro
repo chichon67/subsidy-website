@@ -1,0 +1,14 @@
+---
+// src/pages/es/[canton].astro
+import Page from '../../page-templates/Canton.astro';
+import { deutschschweizCantons } from '../../data/deutschschweiz.js';
+
+export function getStaticPaths() {
+  return deutschschweizCantons
+    .filter((c) => !c.active)
+    .map((c) => ({ params: { canton: c.slug }, props: { slug: c.slug, name: c.name } }));
+}
+
+const { slug, name } = Astro.props;
+---
+<Page slug={slug} name={name} />

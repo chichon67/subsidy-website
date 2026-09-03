@@ -11,6 +11,15 @@ import netlify from '@astrojs/netlify';
 export default defineConfig({
   integrations: [react()],
 
+  i18n: {
+    locales: ['de', 'en', 'es'],
+    defaultLocale: 'de',
+    routing: {
+      prefixDefaultLocale: true,
+      redirectToDefaultLocale: false,
+    },
+  },
+
   vite: {
     plugins: [tailwindcss()]
   },

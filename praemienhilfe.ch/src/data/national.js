@@ -132,10 +132,3 @@ export const nationalFaqs = [
     a: 'Sie erhalten eine Zusammenfassung Ihrer Situation sowie klare Handlungsempfehlungen. Wenn Sie möchten, begleiten wir Sie bei der Zusammenstellung des Dossiers und der Einreichung beim Kantonsamt. Es besteht keinerlei Verpflichtung.',
   },
 ];
-
-export const deadlines = [
-  { canton: 'Basel-Stadt', frist: 'September – 31. Dezember 2026' },
-  { canton: 'Basel-Landschaft', frist: 'September – 31. Dezember 2026' },
-  { canton: 'Zürich', frist: 'Oktober – 31. Dezember 2026' },
-  { canton: 'Bern', frist: 'Oktober – 31. Dezember 2026' },
-];

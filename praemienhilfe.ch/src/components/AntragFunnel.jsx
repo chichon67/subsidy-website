@@ -1,6 +1,7 @@
 // src/components/AntragFunnel.jsx
 import { useState, useEffect } from 'react';
 import { SITUATIONS, situationList } from '../data/situations.js';
+import { deutschschweizCantons } from '../data/deutschschweiz.js';
 import PhoneField, { isValidPhoneNumber } from './PhoneField.jsx';
 import PrivacyPolicyModal from './PrivacyPolicyModal.jsx';
 
@@ -14,7 +15,7 @@ const STAGES = [
 ];
 
 function stageIndexForStep(step) {
-  if (step === 'situation' || step === 'email') return 0;
+  if (step === 'canton' || step === 'situation' || step === 'email') return 0;
   if (step === 'household' || step === 'income') return 1;
   if (step === 'contact') return 2;
   return 3;
@@ -56,7 +57,8 @@ export default function AntragFunnel() {
     const validSituation = SITUATIONS[s] ? s : '';
     setSituationSlug(validSituation);
     setCantonName(c);
-    if (!validSituation) setStep('situation');
+    if (!c) setStep('canton');
+    else if (!validSituation) setStep('situation');
     setUtmData({
       utm_source: params.get('utm_source') || '',
       utm_medium: params.get('utm_medium') || '',
@@ -66,6 +68,15 @@ export default function AntragFunnel() {
   }, []);
 
   const situationLabel = situationSlug ? SITUATIONS[situationSlug].label : 'Nicht angegeben';
+
+  function chooseCanton(name) {
+    setCantonName(name);
+    track('antrag_step_canton_complete', { canton: name });
+    const url = new URL(window.location.href);
+    url.searchParams.set('canton', name);
+    window.history.replaceState({}, '', url);
+    setStep(situationSlug ? 'email' : 'situation');
+  }
 
   function chooseSituation(slug) {
     setSituationSlug(slug);
@@ -217,6 +228,25 @@ export default function AntragFunnel() {
               <span>🔒</span>
               <span>Sicheres Formular</span>
             </div>
+
+            {step === 'canton' && (
+              <div>
+                <div className="text-xl font-bold mb-4 tracking-tight">In welchem Kanton wohnen Sie?</div>
+                <select
+                  value=""
+                  onChange={(e) => e.target.value && chooseCanton(e.target.value)}
+                  aria-label="Kanton wählen"
+                  className="w-full px-3.5 py-3 text-[15px] border border-[#D6DFE2] rounded-md bg-white text-dark outline-none focus:border-teal"
+                >
+                  <option value="">Kanton auswählen…</option>
+                  {deutschschweizCantons.map((c) => (
+                    <option key={c.slug} value={c.name}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             {step === 'situation' && (
               <div>

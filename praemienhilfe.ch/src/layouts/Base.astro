@@ -20,6 +20,7 @@ export interface Props {
 
 const { title, description, canonical, activePage = 'home', cantonName, chrome = true, robots = 'index, follow', schema = [] } = Astro.props;
 const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
+const adsId = 'AW-18005574565';
 // Pages that render their own embedded funnel link straight to it in-page:
 // the homepage (#pruefen) and every canton-landing page, which all share the
 // same embedded SituationFunnel (#funnel). Everything else (FAQ, Kontakt,
@@ -48,8 +49,10 @@ const mobileCtaLabel = cantonName ? `Anspruch ${cantonName} prüfen →` : 'Ansp
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    <!-- Single gtag.js loader shared by GA4 and the Google Ads tag below —
+         do not add a second googletagmanager.com/gtag/js script tag. -->
     <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
-    <script define:vars={{ ga4Id }}>
+    <script define:vars={{ ga4Id, adsId }}>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
@@ -57,6 +60,7 @@ const mobileCtaLabel = cantonName ? `Anspruch ${cantonName} prüfen →` : 'Ansp
       window.gtag = gtag;
       gtag('js', new Date());
       gtag('config', ga4Id);
+      gtag('config', adsId);
     </script>
 
     {schema.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block)} />)}

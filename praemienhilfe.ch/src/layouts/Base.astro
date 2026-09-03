@@ -11,19 +11,23 @@ export interface Props {
   title: string;
   description: string;
   canonical: string;
-  activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt';
+  activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt' | 'legal';
+  cantonName?: string;
   chrome?: boolean;
   schema?: Record<string, unknown>[];
 }
 
-const { title, description, canonical, activePage = 'home', chrome = true, schema = [] } = Astro.props;
+const { title, description, canonical, activePage = 'home', cantonName, chrome = true, schema = [] } = Astro.props;
 const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
-const mobileCtaHref =
-  activePage === 'basel-stadt'
-    ? '#funnel'
-    : activePage === 'basel-landschaft' || activePage === 'home' || activePage === 'canton'
-      ? '#pruefen'
-      : '/#pruefen';
+// Pages that render their own embedded funnel link straight to it in-page:
+// the homepage (#pruefen) and every canton-landing page, which all share the
+// same embedded SituationFunnel (#funnel). Everything else (FAQ, Kontakt,
+// So funktioniert es, Impressum, Datenschutz...) has no funnel of its own,
+// so it must go to the dedicated /antrag funnel entry point instead of
+// bouncing through the homepage.
+const isCantonLandingPage = activePage === 'basel-stadt' || activePage === 'basel-landschaft' || activePage === 'canton';
+const mobileCtaHref = isCantonLandingPage ? '#funnel' : activePage === 'home' ? '#pruefen' : '/antrag';
+const mobileCtaLabel = cantonName ? `Anspruch ${cantonName} prüfen →` : 'Anspruch prüfen →';
 ---
 
 <!doctype html>
@@ -75,7 +79,7 @@ const mobileCtaHref =
             href={mobileCtaHref}
             class="block text-center px-5 py-3.5 bg-teal text-white rounded-md text-base font-bold no-underline"
           >
-            Antrag prüfen lassen →
+            {mobileCtaLabel}
           </a>
         </div>
       )
@@ -83,7 +87,7 @@ const mobileCtaHref =
 
     {chrome && <DisclaimerModal client:load />}
     {chrome && <ExitIntentPopup client:load />}
-    {chrome && <StickyFunnelWidget client:idle activePage={activePage} />}
+    {chrome && <StickyFunnelWidget client:idle activePage={activePage} cantonName={cantonName} />}
 
     <script>
       const SCROLL_DURATION_MS = 300;

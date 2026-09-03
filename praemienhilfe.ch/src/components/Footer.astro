@@ -3,11 +3,12 @@
 import { deutschschweizCantons } from '../data/deutschschweiz.js';
 
 export interface Props {
-  activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt';
+  activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt' | 'legal';
 }
 const { activePage = 'home' } = Astro.props;
 const isCantonPage = activePage === 'basel-stadt' || activePage === 'basel-landschaft' || activePage === 'canton';
-const cantonFunnelHref = activePage === 'basel-stadt' ? '#funnel' : '#pruefen';
+// All canton-landing pages render the same embedded SituationFunnel (id="funnel").
+const cantonFunnelHref = '#funnel';
 const showWerWirSind = activePage === 'basel-stadt' || activePage === 'canton';
 const isHome = activePage === 'home';
 const homeAnchor = (id: string) => (isHome ? `#${id}` : `/#${id}`);

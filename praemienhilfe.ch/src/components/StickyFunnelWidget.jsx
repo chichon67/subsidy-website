@@ -1,10 +1,11 @@
 // src/components/StickyFunnelWidget.jsx
 import { useState, useEffect } from 'react';
 
-export default function StickyFunnelWidget({ activePage }) {
+export default function StickyFunnelWidget({ activePage, cantonName }) {
   const [pastHero, setPastHero] = useState(false);
-  const href =
-    activePage === 'basel-stadt' ? '#funnel' : activePage === 'basel-landschaft' || activePage === 'home' ? '#pruefen' : '/#pruefen';
+  const isCantonLandingPage = activePage === 'basel-stadt' || activePage === 'basel-landschaft' || activePage === 'canton';
+  const href = isCantonLandingPage ? '#funnel' : activePage === 'home' ? '#pruefen' : '/antrag';
+  const heading = cantonName ? `Anspruch ${cantonName} prüfen` : 'Anspruch prüfen';
 
   useEffect(() => {
     const hero = document.querySelector('#pruefen');
@@ -26,7 +27,7 @@ export default function StickyFunnelWidget({ activePage }) {
 
   return (
     <div className="hidden lg:block fixed bottom-6 right-6 z-30 w-72 bg-white rounded-xl shadow-xl border border-[#E2E8EA] px-5 pt-4 pb-4">
-      <div className="text-[15px] font-bold text-dark tracking-tight">Anspruch prüfen</div>
+      <div className="text-[15px] font-bold text-dark tracking-tight">{heading}</div>
       <div className="text-[13px] text-[#6B7A80] mt-1">Kostenlose Prüfung in 20 Min.</div>
       <a
         href={href}

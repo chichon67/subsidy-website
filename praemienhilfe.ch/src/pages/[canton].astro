@@ -34,6 +34,7 @@ const canton = buildGenericCantonData(name);
   description={`Prämienverbilligung im Kanton ${name} beantragen. EVO Partners GmbH hilft Ihnen kostenlos bei der Einreichung Ihres Antrags. Jetzt Anspruch prüfen — in 20 Minuten.`}
   canonical={`https://praemienhilfe.ch/${slug}`}
   activePage="canton"
+  cantonName={name}
   schema={[
     {
       '@context': 'https://schema.org',
@@ -51,7 +52,7 @@ const canton = buildGenericCantonData(name);
     },
   ]}
 >
-  <Hero canton={canton} defaultCanton={name} useSituationFunnel={false} />
+  <Hero canton={canton} defaultCanton={name} embeddedFunnel={true} />
   <TrustBar canton={canton} />
   <InfoSection canton={canton} />
   <HowItWorks steps={canton.steps} id="so-funktioniert-es" />
@@ -60,8 +61,8 @@ const canton = buildGenericCantonData(name);
   <FAQ canton={canton} />
   <FinalCTA
     buttons={[
-      { label: 'Antrag prüfen lassen →', href: '#pruefen' },
-      { label: 'Formular ausfüllen →', href: '#pruefen' },
+      { label: 'Antrag prüfen lassen →', href: '#funnel' },
+      { label: 'Formular ausfüllen →', href: '#funnel' },
     ]}
   />
 </Base>

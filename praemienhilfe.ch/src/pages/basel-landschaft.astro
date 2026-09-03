@@ -18,8 +18,9 @@ const canton = cantons['basel-landschaft'];
   description="Prämienverbilligung im Kanton Basel-Landschaft beantragen. Kostenlose Hilfe bei Prüfung und Antrag durch die SVA Basel-Landschaft."
   canonical="https://praemienhilfe.ch/basel-landschaft"
   activePage="basel-landschaft"
+  cantonName="Basel-Landschaft"
 >
-  <Hero canton={canton} defaultCanton="Basel-Landschaft" useSituationFunnel={false} />
+  <Hero canton={canton} defaultCanton="Basel-Landschaft" embeddedFunnel={true} />
   <TrustBar canton={canton} />
   <InfoSection canton={canton} />
   <HowItWorks steps={canton.steps} id="so-funktioniert-es" />
@@ -27,8 +28,8 @@ const canton = cantons['basel-landschaft'];
   <FAQ canton={canton} />
   <FinalCTA
     buttons={[
-      { label: 'Antrag prüfen lassen →', href: '#pruefen' },
-      { label: 'Formular ausfüllen →', href: '#pruefen' },
+      { label: 'Antrag prüfen lassen →', href: '#funnel' },
+      { label: 'Formular ausfüllen →', href: '#funnel' },
     ]}
   />
 </Base>

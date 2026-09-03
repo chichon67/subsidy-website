@@ -4,7 +4,7 @@ export const heroCopy = {
   title: 'Prämienverbilligung beantragen — in jedem Kanton',
   paragraph:
     'Die Prämienverbilligung (IPV) steht Tausenden von Schweizer Einwohnerinnen und Einwohnern zu — doch viele beantragen sie nie. Wir helfen Ihnen, Ihren Anspruch zu prüfen und Ihren Antrag korrekt einzureichen. Kostenlos und unverbindlich.',
-  proof: "Über 1'000 Dossiers erfolgreich bearbeitet",
+  proof: "Über 1'000 Dossiers bearbeitet seit 2020",
 };
 
 export const nationalStats = [

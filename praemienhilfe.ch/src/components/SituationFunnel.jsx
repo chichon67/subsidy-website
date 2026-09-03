@@ -8,19 +8,21 @@ function track(name, params) {
   }
 }
 
-function goToAntrag(slug) {
+function goToAntrag(slug, canton) {
   if (!SITUATIONS[slug]) return;
-  track('funnel_step_1_complete', { situation: slug });
-  window.location.href = `/antrag?situation=${slug}`;
+  track('funnel_step_1_complete', { situation: slug, canton });
+  const params = new URLSearchParams({ situation: slug });
+  if (canton) params.set('canton', canton);
+  window.location.href = `/antrag?${params.toString()}`;
 }
 
-export default function SituationFunnel() {
+export default function SituationFunnel({ canton }) {
   useEffect(() => {
-    window.startFunnel = (slug) => goToAntrag(slug);
+    window.startFunnel = (slug) => goToAntrag(slug, canton);
     return () => {
       delete window.startFunnel;
     };
-  }, []);
+  }, [canton]);
 
   return (
     <div
@@ -33,7 +35,7 @@ export default function SituationFunnel() {
           <button
             key={s.slug}
             type="button"
-            onClick={() => goToAntrag(s.slug)}
+            onClick={() => goToAntrag(s.slug, canton)}
             className="w-full flex items-center justify-between gap-4 text-left cursor-pointer rounded-md text-[15.5px] font-medium text-dark bg-white border border-[#D6DFE2] px-[18px] py-[15px] transition-colors hover:border-teal hover:bg-teal-light"
           >
             <span>{s.label}</span>

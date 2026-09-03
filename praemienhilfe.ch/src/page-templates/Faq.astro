@@ -1,20 +1,41 @@
 ---
-// src/pages/faq.astro
+// src/page-templates/Faq.astro
 import Base from '../layouts/Base.astro';
 import FAQ from '../components/FAQ.astro';
 import FinalCTA from '../components/FinalCTA.astro';
 import { cantons } from '../data/cantons.js';
+import { national } from '../data/national.js';
 
+const locale = Astro.currentLocale ?? 'de';
 const base = cantons['basel-stadt'];
-const canton = { ...base, ...base.de };
+const canton = { ...base, ...base[locale] };
+const content = national[locale];
+
+const titleByLocale = {
+  de: 'Häufige Fragen | prämienhilfe.ch',
+  en: 'Frequently Asked Questions | prämienhilfe.ch',
+  es: 'Preguntas frecuentes | prämienhilfe.ch',
+};
+const descriptionByLocale = {
+  de: 'Antworten auf häufige Fragen zur Prämienverbilligung: Anspruch, Höhe, Kosten, Bearbeitungsdauer.',
+  en: 'Answers to frequently asked questions about the premium subsidy: eligibility, amount, cost, processing time.',
+  es: 'Respuestas a las preguntas frecuentes sobre la reducción de primas: derecho, importe, coste, tiempo de tramitación.',
+};
 ---
 
 <Base
-  title="Häufige Fragen | prämienhilfe.ch"
-  description="Antworten auf häufige Fragen zur Prämienverbilligung: Anspruch, Höhe, Kosten, Bearbeitungsdauer."
-  canonical="https://praemienhilfe.ch/faq"
+  title={titleByLocale[locale]}
+  description={descriptionByLocale[locale]}
+  canonical={`https://praemienhilfe.ch/${locale}/faq`}
+  locale={locale}
+  translationKey="faq"
   activePage="faq"
 >
   <FAQ canton={canton} />
-  <FinalCTA />
+  <FinalCTA
+    heading={content.finalCta.heading}
+    text={content.finalCta.text}
+    buttons={[{ label: content.finalCta.buttonLabel, href: '#pruefen' }]}
+    disclaimer={content.finalCta.disclaimer}
+  />
 </Base>

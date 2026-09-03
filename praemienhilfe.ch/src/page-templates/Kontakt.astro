@@ -1,18 +1,32 @@
 ---
-// src/pages/kontakt.astro
+// src/page-templates/Kontakt.astro
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import { cantons } from '../data/cantons.js';
 
+const locale = Astro.currentLocale ?? 'de';
 const base = cantons['basel-stadt'];
-const canton = { ...base, ...base.de };
+const canton = { ...base, ...base[locale] };
+
+const titleByLocale = {
+  de: 'Kontakt | prämienhilfe.ch',
+  en: 'Contact | prämienhilfe.ch',
+  es: 'Contacto | prämienhilfe.ch',
+};
+const descriptionByLocale = {
+  de: 'Kontaktieren Sie uns für eine kostenlose Prüfung Ihres Anspruchs auf Prämienverbilligung.',
+  en: 'Contact us for a free assessment of your eligibility for the premium subsidy.',
+  es: 'Contáctenos para una evaluación gratuita de su derecho a la reducción de primas.',
+};
 ---
 
 <Base
-  title="Kontakt | prämienhilfe.ch"
-  description="Kontaktieren Sie uns für eine kostenlose Prüfung Ihres Anspruchs auf Prämienverbilligung."
-  canonical="https://praemienhilfe.ch/kontakt"
+  title={titleByLocale[locale]}
+  description={descriptionByLocale[locale]}
+  canonical={`https://praemienhilfe.ch/${locale}/kontakt`}
+  locale={locale}
+  translationKey="kontakt"
   activePage="kontakt"
 >
-  <Hero canton={canton} />
+  <Hero canton={canton} locale={locale} />
 </Base>

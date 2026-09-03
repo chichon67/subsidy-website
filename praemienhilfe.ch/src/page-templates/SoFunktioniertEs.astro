@@ -1,28 +1,52 @@
 ---
-// src/pages/so-funktioniert-es.astro
+// src/page-templates/SoFunktioniertEs.astro
 import Base from '../layouts/Base.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import FinalCTA from '../components/FinalCTA.astro';
 import { cantons } from '../data/cantons.js';
+import { national } from '../data/national.js';
 
+const locale = Astro.currentLocale ?? 'de';
 const base = cantons['basel-stadt'];
-const canton = { ...base, ...base.de };
+const canton = { ...base, ...base[locale] };
+const content = national[locale];
+
+const titleByLocale = {
+  de: 'So funktioniert es | prämienhilfe.ch',
+  en: 'How it works | prämienhilfe.ch',
+  es: 'Cómo funciona | prämienhilfe.ch',
+};
+const descriptionByLocale = {
+  de: 'So funktioniert die Beantragung der Prämienverbilligung: Anspruch prüfen, Dossier zusammenstellen, Antrag einreichen.',
+  en: 'How applying for the premium subsidy works: check eligibility, assemble your file, submit your application.',
+  es: 'Cómo funciona la solicitud de la reducción de primas: comprobar el derecho, preparar el expediente, presentar la solicitud.',
+};
+const heroByLocale = {
+  de: { h1: 'So funktioniert die Beantragung', p: 'Von der Prüfung bis zur Einreichung — wir begleiten Sie durch den gesamten Prozess der Prämienverbilligung.' },
+  en: { h1: 'How applying works', p: 'From assessment to submission — we guide you through the entire premium subsidy process.' },
+  es: { h1: 'Cómo funciona la solicitud', p: 'Desde la evaluación hasta la presentación — le acompañamos durante todo el proceso de la reducción de primas.' },
+};
 ---
 
 <Base
-  title="So funktioniert es | prämienhilfe.ch"
-  description="So funktioniert die Beantragung der Prämienverbilligung: Anspruch prüfen, Dossier zusammenstellen, Antrag einreichen."
-  canonical="https://praemienhilfe.ch/so-funktioniert-es"
+  title={titleByLocale[locale]}
+  description={descriptionByLocale[locale]}
+  canonical={`https://praemienhilfe.ch/${locale}/so-funktioniert-es`}
+  locale={locale}
+  translationKey="so-funktioniert-es"
   activePage="ablauf"
 >
   <div class="bg-white">
     <div class="max-w-[1240px] mx-auto px-8 pt-16 pb-4">
-      <h1 class="text-[32px] md:text-[40px] font-bold tracking-tight m-0">So funktioniert die Beantragung</h1>
-      <p class="text-base leading-relaxed text-[#3D4A50] mt-5 max-w-[34em]">
-        Von der Prüfung bis zur Einreichung — wir begleiten Sie durch den gesamten Prozess der Prämienverbilligung.
-      </p>
+      <h1 class="text-[32px] md:text-[40px] font-bold tracking-tight m-0">{heroByLocale[locale].h1}</h1>
+      <p class="text-base leading-relaxed text-[#3D4A50] mt-5 max-w-[34em]">{heroByLocale[locale].p}</p>
     </div>
   </div>
   <HowItWorks steps={canton.steps} />
-  <FinalCTA />
+  <FinalCTA
+    heading={content.finalCta.heading}
+    text={content.finalCta.text}
+    buttons={[{ label: content.finalCta.buttonLabel, href: '#pruefen' }]}
+    disclaimer={content.finalCta.disclaimer}
+  />
 </Base>

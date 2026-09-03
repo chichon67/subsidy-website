@@ -1,12 +1,8 @@
 ---
 // src/pages/kontakt.astro
-import Base from '../../layouts/Base.astro';
-import Hero from '../../components/Hero.astro';
-import { cantons } from '../../data/cantons.js';
-
-export function getStaticPaths() {
-  return ['de', 'en', 'es'].map((locale) => ({ params: { locale } }));
-}
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import { cantons } from '../data/cantons.js';
 
 const canton = cantons['basel-stadt'];
 ---

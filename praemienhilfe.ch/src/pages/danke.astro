@@ -5,12 +5,8 @@
 // rather than an inline "done" step so it can be set as a Google Ads
 // conversion-tracking destination. noindex: it's a mid-funnel confirmation,
 // not content that should show up in search results.
-import Base from '../../layouts/Base.astro';
-import DankeSummary from '../../components/DankeSummary.jsx';
-
-export function getStaticPaths() {
-  return ['de', 'en', 'es'].map((locale) => ({ params: { locale } }));
-}
+import Base from '../layouts/Base.astro';
+import DankeSummary from '../components/DankeSummary.jsx';
 ---
 
 <Base

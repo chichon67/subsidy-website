@@ -7,24 +7,22 @@
 // error. Content is intentionally Swiss-wide/generic — see
 // src/data/genericCanton.js — since verified per-canton figures (income
 // thresholds, deadlines, office names) aren't available yet.
-import Base from '../../layouts/Base.astro';
-import Hero from '../../components/Hero.astro';
-import TrustBar from '../../components/TrustBar.astro';
-import InfoSection from '../../components/InfoSection.astro';
-import HowItWorks from '../../components/HowItWorks.astro';
-import ProblemSection from '../../components/ProblemSection.astro';
-import WerWirSindSection from '../../components/WerWirSindSection.astro';
-import FAQ from '../../components/FAQ.astro';
-import FinalCTA from '../../components/FinalCTA.astro';
-import { deutschschweizCantons } from '../../data/deutschschweiz.js';
-import { buildGenericCantonData } from '../../data/genericCanton.js';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import InfoSection from '../components/InfoSection.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import ProblemSection from '../components/ProblemSection.astro';
+import WerWirSindSection from '../components/WerWirSindSection.astro';
+import FAQ from '../components/FAQ.astro';
+import FinalCTA from '../components/FinalCTA.astro';
+import { deutschschweizCantons } from '../data/deutschschweiz.js';
+import { buildGenericCantonData } from '../data/genericCanton.js';
 
 export function getStaticPaths() {
-  return ['de', 'en', 'es'].flatMap((locale) =>
-    deutschschweizCantons
-      .filter((c) => !c.active)
-      .map((c) => ({ params: { locale, canton: c.slug }, props: { slug: c.slug, name: c.name } }))
-  );
+  return deutschschweizCantons
+    .filter((c) => !c.active)
+    .map((c) => ({ params: { canton: c.slug }, props: { slug: c.slug, name: c.name } }));
 }
 
 const { slug, name } = Astro.props;

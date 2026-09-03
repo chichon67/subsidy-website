@@ -1,19 +1,15 @@
 ---
 // src/pages/basel-stadt.astro
-import Base from '../../layouts/Base.astro';
-import Hero from '../../components/Hero.astro';
-import TrustBar from '../../components/TrustBar.astro';
-import InfoSection from '../../components/InfoSection.astro';
-import HowItWorks from '../../components/HowItWorks.astro';
-import ProblemSection from '../../components/ProblemSection.astro';
-import WerWirSindSection from '../../components/WerWirSindSection.astro';
-import FAQ from '../../components/FAQ.astro';
-import SituationFinalCTA from '../../components/SituationFinalCTA.astro';
-import { cantons } from '../../data/cantons.js';
-
-export function getStaticPaths() {
-  return ['de', 'en', 'es'].map((locale) => ({ params: { locale } }));
-}
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import InfoSection from '../components/InfoSection.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import ProblemSection from '../components/ProblemSection.astro';
+import WerWirSindSection from '../components/WerWirSindSection.astro';
+import FAQ from '../components/FAQ.astro';
+import SituationFinalCTA from '../components/SituationFinalCTA.astro';
+import { cantons } from '../data/cantons.js';
 
 const canton = cantons['basel-stadt'];
 ---

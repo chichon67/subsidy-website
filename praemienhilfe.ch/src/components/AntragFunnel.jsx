@@ -54,7 +54,7 @@ export default function AntragFunnel() {
     const params = new URLSearchParams(window.location.search);
     const s = params.get('situation') || '';
     const c = params.get('canton') || '';
-    const validSituation = SITUATIONS[s] ? s : '';
+    const validSituation = SITUATIONS('de')[s] ? s : '';
     setSituationSlug(validSituation);
     setCantonName(c);
     if (!c) setStep('canton');
@@ -67,7 +67,7 @@ export default function AntragFunnel() {
     });
   }, []);
 
-  const situationLabel = situationSlug ? SITUATIONS[situationSlug].label : 'Nicht angegeben';
+  const situationLabel = situationSlug ? SITUATIONS('de')[situationSlug].label : 'Nicht angegeben';
 
   function chooseCanton(name) {
     setCantonName(name);
@@ -274,7 +274,7 @@ export default function AntragFunnel() {
                 )}
                 <div className="text-xl font-bold mb-4 tracking-tight">Was beschreibt Ihre Situation am besten?</div>
                 <div className="grid gap-2.5">
-                  {situationList.map((s) => (
+                  {situationList('de').map((s) => (
                     <button key={s.slug} type="button" onClick={() => chooseSituation(s.slug)} className={rowClass(situationSlug === s.slug)}>
                       <span>{s.label}</span>
                       <span className="text-teal font-bold">→</span>
@@ -295,7 +295,7 @@ export default function AntragFunnel() {
                     className="bg-transparent text-teal-dark text-[12px] font-semibold uppercase tracking-wide border-0 outline-none underline cursor-pointer"
                   >
                     {!situationSlug && <option value="">Nicht angegeben</option>}
-                    {situationList.map((s) => (
+                    {situationList('de').map((s) => (
                       <option key={s.slug} value={s.slug}>
                         {s.label}
                       </option>

@@ -1,10 +1,9 @@
 // src/components/Funnel.jsx
 import { useState, useEffect } from 'react';
 import PhoneField, { isValidPhoneNumber } from './PhoneField.jsx';
+import { useTranslations } from '../i18n/useTranslations.js';
 
 const CANTON_OPTIONS = ['Basel-Stadt', 'Basel-Landschaft'];
-const INCOME_OPTIONS = ["Unter CHF 2'000", "CHF 2'000 – 4'000", "CHF 4'000 – 6'000", 'Über CHF 6\'000'];
-const HOUSEHOLD_OPTIONS = ['Nur ich', 'Ich + Partner/in', 'Familie mit Kindern'];
 
 function track(name, params) {
   if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
@@ -19,7 +18,11 @@ function rowClass(selected) {
   ].join(' ');
 }
 
-export default function Funnel({ defaultCanton }) {
+export default function Funnel({ defaultCanton, locale = 'de' }) {
+  const t = useTranslations(locale);
+  const INCOME_OPTIONS = [t('form.income.under2000'), t('form.income.2000to4000'), t('form.income.4000to6000'), t('form.income.over6000')];
+  const HOUSEHOLD_OPTIONS = [t('funnel.household.onlyMe'), t('funnel.household.mePlusPartner'), t('funnel.household.familyWithChildren')];
+
   const [step, setStep] = useState(defaultCanton ? 2 : 1);
   const [answers, setAnswers] = useState({
     canton: defaultCanton || '',
@@ -82,12 +85,12 @@ export default function Funnel({ defaultCanton }) {
 
   function validate() {
     const errs = {};
-    if (!answers.firstName.trim()) errs.firstName = 'Bitte Vorname angeben.';
-    if (!answers.lastName.trim()) errs.lastName = 'Bitte Nachname angeben.';
-    if (!phone) errs.phone = 'Bitte Telefonnummer angeben.';
-    else if (!isValidPhoneNumber(phone)) errs.phone = 'Bitte eine gültige Telefonnummer angeben.';
-    if (!answers.email.trim()) errs.email = 'Bitte E-Mail angeben.';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(answers.email.trim())) errs.email = 'Bitte eine gültige E-Mail-Adresse angeben.';
+    if (!answers.firstName.trim()) errs.firstName = t('form.firstNameRequired');
+    if (!answers.lastName.trim()) errs.lastName = t('form.lastNameRequired');
+    if (!phone) errs.phone = t('form.phoneRequired');
+    else if (!isValidPhoneNumber(phone)) errs.phone = t('form.phoneInvalid');
+    if (!answers.email.trim()) errs.email = t('form.emailInvalid');
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(answers.email.trim())) errs.email = t('form.emailInvalid');
     return errs;
   }
 
@@ -110,7 +113,7 @@ export default function Funnel({ defaultCanton }) {
       track('funnel_conversion', { canton: answers.canton });
       setSubmitted(true);
     } catch (err) {
-      setErrors({ submit: 'Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder rufen Sie uns unter +41 76 779 0449 an.' });
+      setErrors({ submit: t('funnel.submitError') });
     } finally {
       setLoading(false);
     }
@@ -139,12 +142,12 @@ export default function Funnel({ defaultCanton }) {
             />
           ))}
         </div>
-        <div className="text-xs font-medium tracking-wider uppercase text-[#6B7A80]">Schritt {stepNo} von 4</div>
+        <div className="text-xs font-medium tracking-wider uppercase text-[#6B7A80]">{t('form.step', stepNo, 4)}</div>
       </div>
 
       {!submitted && step === 1 && (
         <div>
-          <div className="text-xl font-bold mt-[18px] mb-4 tracking-tight">In welchem Kanton wohnen Sie?</div>
+          <div className="text-xl font-bold mt-[18px] mb-4 tracking-tight">{t('form.cantonQuestion')}</div>
           <div className="grid gap-2.5">
             {CANTON_OPTIONS.map((opt) => (
               <button key={opt} type="button" onClick={() => chooseCanton(opt)} className={rowClass(answers.canton === opt)}>
@@ -165,7 +168,7 @@ export default function Funnel({ defaultCanton }) {
 
       {!submitted && step === 2 && (
         <div>
-          <div className="text-xl font-bold mt-[18px] mb-4 tracking-tight">Wie hoch ist Ihr monatliches Haushaltseinkommen?</div>
+          <div className="text-xl font-bold mt-[18px] mb-4 tracking-tight">{t('form.incomeQuestion')}</div>
           <div className="grid gap-2.5">
             {INCOME_OPTIONS.map((opt) => (
               <button key={opt} type="button" onClick={() => chooseIncome(opt)} className={rowClass(answers.income === opt)}>
@@ -179,7 +182,7 @@ export default function Funnel({ defaultCanton }) {
 
       {!submitted && step === 3 && (
         <div>
-          <div className="text-xl font-bold mt-[18px] mb-4 tracking-tight">Wie viele Personen versichern Sie?</div>
+          <div className="text-xl font-bold mt-[18px] mb-4 tracking-tight">{t('funnel.householdQuestion')}</div>
           <div className="grid gap-2.5">
             {HOUSEHOLD_OPTIONS.map((opt) => (
               <button key={opt} type="button" onClick={() => chooseHousehold(opt)} className={rowClass(answers.household === opt)}>
@@ -193,13 +196,13 @@ export default function Funnel({ defaultCanton }) {
 
       {!submitted && step === 4 && (
         <div>
-          <div className="text-lg font-bold mt-[18px] mb-1 tracking-tight text-[#2E6B29]">✓ Gute Nachricht — Sie könnten Anspruch haben!</div>
-          <div className="text-xl font-bold mt-3 mb-4 tracking-tight">Ihre Kontaktangaben</div>
+          <div className="text-lg font-bold mt-[18px] mb-1 tracking-tight text-[#2E6B29]">{t('funnel.goodNews')}</div>
+          <div className="text-xl font-bold mt-3 mb-4 tracking-tight">{t('funnel.contactDetailsHeading')}</div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             <div>
               <input
                 type="text"
-                placeholder="Vorname"
+                placeholder={t('form.firstName')}
                 value={answers.firstName}
                 onChange={updateField('firstName')}
                 className="w-full px-3.5 py-3 text-[15px] border border-[#D6DFE2] rounded-md bg-white text-dark outline-none focus:border-teal"
@@ -209,7 +212,7 @@ export default function Funnel({ defaultCanton }) {
             <div>
               <input
                 type="text"
-                placeholder="Nachname"
+                placeholder={t('form.lastName')}
                 value={answers.lastName}
                 onChange={updateField('lastName')}
                 className="w-full px-3.5 py-3 text-[15px] border border-[#D6DFE2] rounded-md bg-white text-dark outline-none focus:border-teal"
@@ -222,7 +225,7 @@ export default function Funnel({ defaultCanton }) {
             <div>
               <input
                 type="email"
-                placeholder="E-Mail"
+                placeholder={t('form.email')}
                 value={answers.email}
                 onChange={updateField('email')}
                 className="w-full px-3.5 py-3 text-[15px] border border-[#D6DFE2] rounded-md bg-white text-dark outline-none focus:border-teal"
@@ -237,24 +240,22 @@ export default function Funnel({ defaultCanton }) {
             disabled={loading}
             className="mt-3.5 w-full px-5 py-4 bg-teal text-white border-0 rounded-md text-[16.5px] font-bold cursor-pointer tracking-tight hover:bg-teal-dark disabled:opacity-60"
           >
-            {loading ? 'Wird gesendet…' : 'Antrag prüfen lassen →'}
+            {loading ? t('form.submitting') : t('finalCta.button1')}
           </button>
-          <div className="mt-2.5 text-xs text-[#8A979C] text-center">Keine Verpflichtung. Diskret.</div>
+          <div className="mt-2.5 text-xs text-[#8A979C] text-center">{t('funnel.noObligation')}</div>
         </div>
       )}
 
       {submitted && (
         <div className="pt-4 pb-1">
-          <div className="text-xl font-bold tracking-tight text-[#2E6B29]">Vielen Dank!</div>
-          <p className="text-[15px] leading-relaxed text-[#3D4A50] mt-2.5">
-            Wir melden uns innerhalb von 24 Stunden bei Ihnen. Bei Fragen erreichen Sie uns unter +41 76 779 0449.
-          </p>
+          <div className="text-xl font-bold tracking-tight text-[#2E6B29]">{t('funnel.thankYouHeading')}</div>
+          <p className="text-[15px] leading-relaxed text-[#3D4A50] mt-2.5">{t('funnel.thankYouBody')}</p>
           <button
             type="button"
             onClick={restart}
             className="mt-4 px-4.5 py-2.5 bg-white text-teal border border-teal rounded-md text-sm font-semibold cursor-pointer hover:bg-teal-light"
           >
-            Neue Prüfung starten
+            {t('funnel.restartButton')}
           </button>
         </div>
       )}
@@ -265,7 +266,7 @@ export default function Funnel({ defaultCanton }) {
           onClick={() => setStep((s) => Math.max(1, s - 1))}
           className="mt-4.5 bg-transparent border-0 p-0 text-[#6B7A80] text-[13.5px] font-medium cursor-pointer hover:text-teal"
         >
-          ← Zurück
+          {t('funnel.back')}
         </button>
       )}
     </div>

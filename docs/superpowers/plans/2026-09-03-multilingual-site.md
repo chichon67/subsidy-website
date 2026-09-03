@@ -25,6 +25,8 @@ Wherever a task below says "Create/Modify: `src/pages/[locale]/<name>.astro`", r
 
 Task 1 must be redone under this corrected convention before any later task proceeds.
 
+**Addendum (post-redo):** the `fallback: { en: 'de', es: 'de' }` block was dropped from `astro.config.mjs`'s `i18n` config — on Astro 7.2.9, with every locale already having a real physical file for every page (including the generic canton pages, whose `de`/`en`/`es` delegators all render the same untranslated `Canton.astro` template directly), the config-level fallback caused self-conflicting route warnings and isn't needed: it would only matter if some locale were missing a real route for a page that another locale has, which no longer happens anywhere in this plan's scope. Any later task text that mentions "Astro's fallback" rewriting German-only canton content into `/en/`/`/es/` should be read as: that already happens directly, because the per-locale canton delegator files render the same German content verbatim — no fallback mechanism is involved or required.
+
 ## Global Constraints
 
 - Work happens in `/Users/marco/Documents/repos/subsidy-website/.claude/worktrees/basel-stadt-fixes/praemienhilfe.ch` (all paths below are relative to this directory).

@@ -1,0 +1,40 @@
+{
+  "nav": { "home": "Reducción de primas", "cantons": "Cantones", "howItWorks": "Cómo funciona", "faq": "Preguntas frecuentes", "contact": "Contacto", "checkEligibility": "Comprobar si tiene derecho", "checkEligibilityShort": "Solicitar ahora", "allCantons": "Todos los cantones" },
+  "langSwitcher": { "de": "DE", "en": "EN", "es": "ES", "ariaLabel": "Seleccionar idioma" },
+  "footer": {
+    "tagline": "Le ayudamos a obtener la reducción de primas del seguro médico en Suiza",
+    "cantonsHeading": "Cantones",
+    "infoHeading": "Información",
+    "legalHeading": "Legal",
+    "impressum": "Aviso legal",
+    "datenschutz": "Política de privacidad",
+    "operatedBy": "Operado por"
+  },
+  "mobileCta": { "default": "Comprobar si tiene derecho →", "canton": "Comprobar derecho en {canton} →" },
+  "form": {
+    "stages": { "identification": "Identificación", "additional": "Información adicional", "situation": "Su situación", "done": "Completado" },
+    "stepOf": "Paso {n} de {total}",
+    "secureForm": "🔒 Formulario seguro",
+    "sidebar": { "finma": "Corredor reconocido por FINMA", "analysis": "Análisis de situación · Sin compromiso", "rating": "4.8/5 valorado por nuestros clientes", "volume": "Más de 1.000 solicitudes tramitadas al año" },
+    "canton": { "question": "¿En qué cantón reside?", "placeholder": "Seleccione un cantón…", "ariaLabel": "Seleccionar cantón" },
+    "situation": { "yourCanton": "Su cantón: {canton}", "question": "¿Qué describe mejor su situación?" },
+    "email": { "summaryTitle": "Su solicitud:", "notProvided": "No indicado", "prompt": "Primero necesitamos su dirección de correo electrónico", "placeholder": "nombre@ejemplo.ch", "consent": "Al continuar, acepta nuestra política de privacidad y el tratamiento de sus datos personales.", "continue": "Continuar →", "invalid": "Indique una dirección de correo electrónico válida." },
+    "household": { "question": "¿Cuántas personas viven en su hogar?", "personSingular": "persona", "personPlural": "personas", "continue": "Continuar →" },
+    "income": { "question": "¿Cuál es el ingreso mensual de su hogar?", "under2000": "Menos de CHF 2.000", "2000to4000": "CHF 2.000 – 4.000", "4000to6000": "CHF 4.000 – 6.000", "over6000": "Más de CHF 6.000" },
+    "contact": { "question": "¿Cómo podemos contactarle?", "firstName": "Nombre", "lastName": "Apellido", "consent": "Acepto la política de privacidad de EVO Partners GmbH y el tratamiento de mis datos con fines de asesoramiento.", "submit": "Enviar solicitud →", "submitting": "Enviando…" },
+    "errors": { "firstName": "Indique su nombre.", "lastName": "Indique su apellido.", "phone": "Indique su número de teléfono.", "phoneInvalid": "Indique un número de teléfono válido.", "consent": "Debe aceptar la política de privacidad.", "submitFailed": "Ha ocurrido un error. Inténtelo de nuevo." }
+  },
+  "situationSelector": { "heading": "¿Qué describe mejor su situación?" },
+  "widgets": {
+    "sticky": { "default": "Comprobar si tiene derecho", "canton": "Comprobar derecho en {canton}", "sub": "Comprobación gratuita en 20 min.", "cta": "Empezar ahora →" },
+    "exitIntent": { "heading": "Espere — ¡compruebe primero si tiene derecho!", "cta": "Comprobar ahora →", "decline": "No, gracias, renuncio a mi subsidio" },
+    "disclaimer": { "heading": "Aviso importante", "cta": "Entendido — Continuar →" }
+  },
+  "thankYou": {
+    "titleWithName": "¡Muchas gracias, {firstName}!",
+    "titleGeneric": "¡Gracias por su solicitud!",
+    "labels": { "situation": "Situación:", "canton": "Cantón:", "household": "Hogar:", "income": "Ingresos:", "email": "Correo electrónico:" },
+    "confirmationNote": "En breve recibirá una confirmación por correo electrónico.",
+    "backHome": "Volver al inicio"
+  }
+}

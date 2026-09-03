@@ -1,0 +1,40 @@
+{
+  "nav": { "home": "Prämienverbilligung", "cantons": "Kantone", "howItWorks": "So funktioniert es", "faq": "FAQ", "contact": "Kontakt", "checkEligibility": "Anspruch prüfen", "checkEligibilityShort": "Antrag prüfen", "allCantons": "Alle Kantone" },
+  "langSwitcher": { "de": "DE", "en": "EN", "es": "ES", "ariaLabel": "Sprache wählen" },
+  "footer": {
+    "tagline": "Hilfe bei der Prämienverbilligung in der Schweiz",
+    "cantonsHeading": "Kantone",
+    "infoHeading": "Informationen",
+    "legalHeading": "Rechtliches",
+    "impressum": "Impressum",
+    "datenschutz": "Datenschutz",
+    "operatedBy": "Betrieben von"
+  },
+  "mobileCta": { "default": "Anspruch prüfen →", "canton": "Anspruch {canton} prüfen →" },
+  "form": {
+    "stages": { "identification": "Identifikation", "additional": "Ergänzende Informationen", "situation": "Ihre Situation", "done": "Abgeschlossen" },
+    "stepOf": "Schritt {n} von {total}",
+    "secureForm": "🔒 Sicheres Formular",
+    "sidebar": { "finma": "FINMA-anerkannter Broker", "analysis": "Situationsanalyse · Unverbindlich", "rating": "4.8/5 von unseren Klienten bewertet", "volume": "+1'000 Dossiers pro Jahr bearbeitet" },
+    "canton": { "question": "In welchem Kanton wohnen Sie?", "placeholder": "Kanton auswählen…", "ariaLabel": "Kanton wählen" },
+    "situation": { "yourCanton": "Ihr Kanton: {canton}", "question": "Was beschreibt Ihre Situation am besten?" },
+    "email": { "summaryTitle": "Ihr Antrag:", "notProvided": "Nicht angegeben", "prompt": "Zu Beginn benötigen wir Ihre E-Mail-Adresse", "placeholder": "name@beispiel.ch", "consent": "Mit dem Fortfahren akzeptieren Sie unsere Datenschutzrichtlinie und die Verarbeitung Ihrer persönlichen Daten.", "continue": "Weiter →", "invalid": "Bitte eine gültige E-Mail-Adresse angeben." },
+    "household": { "question": "Wie viele Personen leben in Ihrem Haushalt?", "personSingular": "Person", "personPlural": "Personen", "continue": "Weiter →" },
+    "income": { "question": "Wie hoch ist Ihr monatliches Haushaltseinkommen?", "under2000": "Unter CHF 2'000", "2000to4000": "CHF 2'000 – 4'000", "4000to6000": "CHF 4'000 – 6'000", "over6000": "Über CHF 6'000" },
+    "contact": { "question": "Wie können wir Sie erreichen?", "firstName": "Vorname", "lastName": "Nachname", "consent": "Ich akzeptiere die Datenschutzbestimmungen von EVO Partners GmbH und stimme der Verarbeitung meiner Daten zum Zweck der Beratung zu.", "submit": "Antrag einreichen →", "submitting": "Wird gesendet…" },
+    "errors": { "firstName": "Bitte Vorname angeben.", "lastName": "Bitte Nachname angeben.", "phone": "Bitte Telefonnummer angeben.", "phoneInvalid": "Bitte eine gültige Telefonnummer angeben.", "consent": "Bitte akzeptieren Sie die Datenschutzbestimmungen.", "submitFailed": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut." }
+  },
+  "situationSelector": { "heading": "Was beschreibt Ihre Situation am besten?" },
+  "widgets": {
+    "sticky": { "default": "Anspruch prüfen", "canton": "Anspruch {canton} prüfen", "sub": "Kostenlose Prüfung in 20 Min.", "cta": "Jetzt starten →" },
+    "exitIntent": { "heading": "Warten Sie — prüfen Sie zuerst Ihren Anspruch!", "cta": "Jetzt prüfen →", "decline": "Nein danke, ich verzichte auf meine Verbilligung" },
+    "disclaimer": { "heading": "Wichtiger Hinweis", "cta": "Verstanden — Weiter →" }
+  },
+  "thankYou": {
+    "titleWithName": "Vielen Dank, {firstName}!",
+    "titleGeneric": "Vielen Dank für Ihre Anfrage!",
+    "labels": { "situation": "Situation:", "canton": "Kanton:", "household": "Haushalt:", "income": "Einkommen:", "email": "E-Mail:" },
+    "confirmationNote": "Sie erhalten in Kürze eine Bestätigung per E-Mail.",
+    "backHome": "Zurück zur Startseite"
+  }
+}

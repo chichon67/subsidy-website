@@ -7,7 +7,7 @@ export default function StickyFunnelWidget({ activePage, cantonName, locale }) {
   const [pastHero, setPastHero] = useState(false);
   const isCantonLandingPage = activePage === 'basel-stadt' || activePage === 'basel-landschaft' || activePage === 'canton';
   const href = isCantonLandingPage ? '#funnel' : activePage === 'home' ? '#pruefen' : `/${locale}/antrag`;
-  const heading = cantonName ? `${t('stickyCta.title')} ${cantonName}` : t('stickyCta.title');
+  const heading = cantonName ? t('stickyCta.titleWithCanton', cantonName) : t('stickyCta.title');
 
   useEffect(() => {
     const hero = document.querySelector('#pruefen');

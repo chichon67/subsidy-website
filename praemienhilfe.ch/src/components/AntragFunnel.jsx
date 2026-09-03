@@ -160,7 +160,10 @@ export default function AntragFunnel() {
       });
       if (!res.ok) throw new Error('submit failed');
       track('antrag_conversion', { situation: situationSlug });
-      setStep('done');
+      // Navigate to a dedicated URL (rather than an inline "done" step) so it
+      // can be used as a Google Ads conversion-tracking destination.
+      window.location.href = '/danke';
+      return;
     } catch (err) {
       setErrors({ submit: 'Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.' });
     } finally {
@@ -428,47 +431,6 @@ export default function AntragFunnel() {
                 >
                   {loading ? 'Wird gesendet…' : 'Antrag einreichen →'}
                 </button>
-              </div>
-            )}
-
-            {step === 'done' && (
-              <div>
-                <div className="w-12 h-12 rounded-full bg-swiss-green/10 flex items-center justify-center">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D8B37" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
-                    <path d="M4 13l5 5L20 7"></path>
-                  </svg>
-                </div>
-                <div className="text-xl font-bold mt-4 tracking-tight text-[#2E6B29]">Vielen Dank, {firstName}!</div>
-                <p className="text-[15px] leading-relaxed text-[#3D4A50] mt-2.5">
-                  Wir haben Ihre Anfrage erhalten und werden uns innerhalb von 24 Stunden bei Ihnen melden.
-                </p>
-                <div className="mt-5 bg-[#F5F7F8] rounded-md px-4 py-3.5 grid gap-1.5 text-[13.5px]">
-                  <div className="flex justify-between">
-                    <span className="text-[#6B7A80]">Situation:</span>
-                    <span className="font-semibold text-dark">{situationLabel}</span>
-                  </div>
-                  {cantonName && (
-                    <div className="flex justify-between">
-                      <span className="text-[#6B7A80]">Kanton:</span>
-                      <span className="font-semibold text-dark">{cantonName}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between">
-                    <span className="text-[#6B7A80]">Haushalt:</span>
-                    <span className="font-semibold text-dark">
-                      {household} {household === 1 ? 'Person' : 'Personen'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#6B7A80]">Einkommen:</span>
-                    <span className="font-semibold text-dark">{income}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#6B7A80]">E-Mail:</span>
-                    <span className="font-semibold text-dark">{email}</span>
-                  </div>
-                </div>
-                <p className="text-[13px] text-[#8A979C] mt-4">Sie erhalten in Kürze eine Bestätigung per E-Mail.</p>
               </div>
             )}
           </div>

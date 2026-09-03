@@ -1,0 +1,35 @@
+---
+// src/pages/[lang]/antrag.astro
+import Base from '../../layouts/Base.astro';
+import AntragFunnel from '../../components/AntragFunnel.jsx';
+import { LOCALES } from '../../i18n/locales.js';
+import { canonicalFor } from '../../i18n/pageUrls.js';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+
+const TITLES = {
+  de: 'Antrag stellen | prämienhilfe.ch',
+  en: 'Submit your application | prämienhilfe.ch',
+  es: 'Presentar la solicitud | prämienhilfe.ch',
+};
+const DESCRIPTIONS = {
+  de: 'Stellen Sie Ihren Antrag auf Prämienverbilligung im Kanton Basel-Stadt — schnell und unverbindlich.',
+  en: 'Submit your application for the premium reduction in the canton of Basel-Stadt — fast and with no obligation.',
+  es: 'Presente su solicitud de reducción de primas en el cantón de Basel-Stadt — rápido y sin compromiso.',
+};
+---
+
+<Base
+  title={TITLES[lang]}
+  description={DESCRIPTIONS[lang]}
+  canonical={canonicalFor('antrag', lang, Astro.url.pathname)}
+  chrome={false}
+  lang={lang}
+  pageKey="antrag"
+>
+  <AntragFunnel client:load />
+</Base>

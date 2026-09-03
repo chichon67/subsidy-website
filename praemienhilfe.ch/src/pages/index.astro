@@ -11,7 +11,13 @@ import WerWirSindSection from '../components/WerWirSindSection.astro';
 import FAQ from '../components/FAQ.astro';
 import DeadlineSection from '../components/DeadlineSection.astro';
 import FinalCTA from '../components/FinalCTA.astro';
-import { nationalStats, whySection, howItWorksSteps, nationalFaqs } from '../data/national.js';
+import { getNational } from '../data/national.js';
+
+// Task 2 made national.js locale-aware; this root page still serves the
+// unprefixed German homepage until Task 9 turns it into a locale detector
+// that redirects to /de/, /en/, or /es/. Minimal fix to keep this building —
+// not a content change.
+const { nationalStats, whySection, howItWorksSteps, nationalFaqs } = getNational('de');
 
 const schema = [
   {

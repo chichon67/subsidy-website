@@ -1,13 +1,26 @@
 ---
-// src/pages/datenschutz.astro
-import Base from '../layouts/Base.astro';
+// src/pages/[lang]/datenschutz.astro
+// NOTE: legal prose intentionally stays German-only for now regardless of
+// `lang` — a dedicated later task translates it with manual-review flagging
+// for ambiguous legal phrases. This task only moves routing/meta/canonical.
+import Base from '../../layouts/Base.astro';
+import { LOCALES } from '../../i18n/locales.js';
+import { canonicalFor } from '../../i18n/pageUrls.js';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
 ---
 
 <Base
   title="Datenschutzbestimmungen | prämienhilfe.ch"
   description="Datenschutzbestimmungen von prämienhilfe.ch: welche Daten wir erheben, wie wir sie verwenden und wie wir sie schützen."
-  canonical="https://praemienhilfe.ch/datenschutz"
+  canonical={canonicalFor('datenschutz', lang, Astro.url.pathname)}
   activePage="legal"
+  lang={lang}
+  pageKey="datenschutz"
 >
   <div class="bg-white">
     <div class="max-w-[900px] mx-auto px-8 py-16">

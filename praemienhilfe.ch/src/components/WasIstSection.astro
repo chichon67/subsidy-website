@@ -1,6 +1,12 @@
 ---
 // src/components/WasIstSection.astro
-import { wasIst } from '../data/national.js';
+import { getNational } from '../data/national.js';
+
+// Task 2 made national.js locale-aware; this component isn't wired up to
+// `lang` yet (a later task does that), so it keeps its current German-only
+// behavior for now via the default locale. Minimal fix to keep this
+// building — not a content or i18n change.
+const { wasIst } = getNational('de');
 ---
 
 <section id="was-ist" class="bg-white">

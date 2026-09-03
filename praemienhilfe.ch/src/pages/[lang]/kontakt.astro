@@ -1,0 +1,37 @@
+---
+// src/pages/[lang]/kontakt.astro
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import { LOCALES } from '../../i18n/locales.js';
+import { canonicalFor } from '../../i18n/pageUrls.js';
+import { getCanton } from '../../data/cantons.js';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const canton = getCanton('basel-stadt', lang);
+
+const TITLES = {
+  de: 'Kontakt | prämienhilfe.ch',
+  en: 'Contact | prämienhilfe.ch',
+  es: 'Contacto | prämienhilfe.ch',
+};
+const DESCRIPTIONS = {
+  de: 'Kontaktieren Sie uns für eine kostenlose Prüfung Ihres Anspruchs auf Prämienverbilligung.',
+  en: 'Contact us for a free check of your entitlement to the premium reduction.',
+  es: 'Contáctenos para una comprobación gratuita de su derecho a la reducción de primas.',
+};
+---
+
+<Base
+  title={TITLES[lang]}
+  description={DESCRIPTIONS[lang]}
+  canonical={canonicalFor('kontakt', lang, Astro.url.pathname)}
+  activePage="kontakt"
+  lang={lang}
+  pageKey="kontakt"
+>
+  <Hero canton={canton} />
+</Base>

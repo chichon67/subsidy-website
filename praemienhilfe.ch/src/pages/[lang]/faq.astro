@@ -1,0 +1,39 @@
+---
+// src/pages/[lang]/faq.astro
+import Base from '../../layouts/Base.astro';
+import FAQ from '../../components/FAQ.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
+import { LOCALES } from '../../i18n/locales.js';
+import { canonicalFor } from '../../i18n/pageUrls.js';
+import { getCanton } from '../../data/cantons.js';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const canton = getCanton('basel-stadt', lang);
+
+const TITLES = {
+  de: 'Häufige Fragen | prämienhilfe.ch',
+  en: 'Frequently Asked Questions | prämienhilfe.ch',
+  es: 'Preguntas frecuentes | prämienhilfe.ch',
+};
+const DESCRIPTIONS = {
+  de: 'Antworten auf häufige Fragen zur Prämienverbilligung: Anspruch, Höhe, Kosten, Bearbeitungsdauer.',
+  en: 'Answers to frequently asked questions about the premium reduction: eligibility, amount, cost, processing time.',
+  es: 'Respuestas a las preguntas frecuentes sobre la reducción de primas: derecho, importe, coste, plazos de tramitación.',
+};
+---
+
+<Base
+  title={TITLES[lang]}
+  description={DESCRIPTIONS[lang]}
+  canonical={canonicalFor('faq', lang, Astro.url.pathname)}
+  activePage="faq"
+  lang={lang}
+  pageKey="faq"
+>
+  <FAQ canton={canton} />
+  <FinalCTA />
+</Base>

@@ -1,0 +1,98 @@
+---
+// src/pages/[lang]/[canton].astro
+// Generic canton landing pages for every Deutschschweiz canton that doesn't
+// have a bespoke page yet. Basel-Stadt and Basel-Landschaft keep their own
+// dedicated files (src/pages/[lang]/basel-stadt.astro, basel-landschaft.astro)
+// and are excluded from getStaticPaths below to avoid a duplicate-route build
+// error. Content is intentionally Swiss-wide/generic — see
+// src/data/genericCanton.js — since verified per-canton figures (income
+// thresholds, deadlines, office names) aren't available yet.
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import TrustBar from '../../components/TrustBar.astro';
+import InfoSection from '../../components/InfoSection.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import ProblemSection from '../../components/ProblemSection.astro';
+import WerWirSindSection from '../../components/WerWirSindSection.astro';
+import FAQ from '../../components/FAQ.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
+import { LOCALES } from '../../i18n/locales.js';
+import { deutschschweizCantons } from '../../data/deutschschweiz.js';
+import { buildGenericCantonData } from '../../data/genericCanton.js';
+
+export function getStaticPaths() {
+  return LOCALES.flatMap((lang) =>
+    deutschschweizCantons
+      .filter((c) => !c.active)
+      .map((c) => ({ params: { lang, canton: c.slug }, props: { slug: c.slug, name: c.name } }))
+  );
+}
+
+const { lang } = Astro.params;
+const { slug, name } = Astro.props;
+const canton = buildGenericCantonData(name, lang);
+
+const TITLES = {
+  de: `Prämienverbilligung ${name} | prämienhilfe.ch`,
+  en: `Premium reduction ${name} | prämienhilfe.ch`,
+  es: `Reducción de primas ${name} | prämienhilfe.ch`,
+};
+const DESCRIPTIONS = {
+  de: `Prämienverbilligung im Kanton ${name} beantragen. EVO Partners GmbH hilft Ihnen kostenlos bei der Einreichung Ihres Antrags. Jetzt Anspruch prüfen — in 20 Minuten.`,
+  en: `Apply for the premium reduction in the canton of ${name}. EVO Partners GmbH helps you file your application for free. Check your entitlement now — in 20 minutes.`,
+  es: `Solicite la reducción de primas en el cantón de ${name}. EVO Partners GmbH le ayuda gratis a presentar su solicitud. Compruebe su derecho ahora — en 20 minutos.`,
+};
+const LOCAL_BUSINESS_DESC = {
+  de: `Unabhängige Beratung bei der Prämienverbilligung im Kanton ${name}`,
+  en: `Independent advice on the premium reduction in the canton of ${name}`,
+  es: `Asesoramiento independiente sobre la reducción de primas en el cantón de ${name}`,
+};
+const BUTTONS = {
+  de: [
+    { label: 'Antrag prüfen lassen →', href: '#funnel' },
+    { label: 'Formular ausfüllen →', href: '#funnel' },
+  ],
+  en: [
+    { label: 'Have your claim checked →', href: '#funnel' },
+    { label: 'Fill out the form →', href: '#funnel' },
+  ],
+  es: [
+    { label: 'Comprobar mi derecho →', href: '#funnel' },
+    { label: 'Rellenar el formulario →', href: '#funnel' },
+  ],
+};
+---
+
+<Base
+  title={TITLES[lang]}
+  description={DESCRIPTIONS[lang]}
+  canonical={`https://praemienhilfe.ch/${lang}/${slug}`}
+  activePage="canton"
+  cantonName={name}
+  lang={lang}
+  schema={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'LocalBusiness',
+      name: 'prämienhilfe.ch – EVO Partners GmbH',
+      description: LOCAL_BUSINESS_DESC[lang],
+      url: 'https://praemienhilfe.ch',
+      areaServed: { '@type': 'AdministrativeArea', name },
+      serviceType: 'Prämienverbilligung Beratung',
+      provider: {
+        '@type': 'Organization',
+        name: 'EVO Partners GmbH',
+        description: 'FINMA-registrierter Versicherungsbroker',
+      },
+    },
+  ]}
+>
+  <Hero canton={canton} defaultCanton={name} embeddedFunnel={true} />
+  <TrustBar canton={canton} />
+  <InfoSection canton={canton} />
+  <HowItWorks steps={canton.steps} id="so-funktioniert-es" />
+  <ProblemSection />
+  <WerWirSindSection />
+  <FAQ canton={canton} />
+  <FinalCTA buttons={BUTTONS[lang]} />
+</Base>

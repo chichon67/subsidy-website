@@ -1,0 +1,64 @@
+---
+// src/pages/[lang]/basel-landschaft.astro
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import TrustBar from '../../components/TrustBar.astro';
+import InfoSection from '../../components/InfoSection.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import ProblemSection from '../../components/ProblemSection.astro';
+import FAQ from '../../components/FAQ.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
+import { LOCALES } from '../../i18n/locales.js';
+import { canonicalFor } from '../../i18n/pageUrls.js';
+import { getCanton } from '../../data/cantons.js';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const canton = getCanton('basel-landschaft', lang);
+
+const TITLES = {
+  de: 'Prämienverbilligung Basel-Landschaft | prämienhilfe.ch',
+  en: 'Premium reduction Basel-Landschaft | prämienhilfe.ch',
+  es: 'Reducción de primas Basel-Landschaft | prämienhilfe.ch',
+};
+const DESCRIPTIONS = {
+  de: 'Prämienverbilligung im Kanton Basel-Landschaft beantragen. Kostenlose Hilfe bei Prüfung und Antrag durch die SVA Basel-Landschaft.',
+  en: 'Apply for the premium reduction in the canton of Basel-Landschaft. Free help checking eligibility and applying via SVA Basel-Landschaft.',
+  es: 'Solicite la reducción de primas en el cantón de Basel-Landschaft. Ayuda gratuita para comprobar el derecho y presentar la solicitud ante la SVA Basel-Landschaft.',
+};
+const BUTTONS = {
+  de: [
+    { label: 'Antrag prüfen lassen →', href: '#funnel' },
+    { label: 'Formular ausfüllen →', href: '#funnel' },
+  ],
+  en: [
+    { label: 'Have your claim checked →', href: '#funnel' },
+    { label: 'Fill out the form →', href: '#funnel' },
+  ],
+  es: [
+    { label: 'Comprobar mi derecho →', href: '#funnel' },
+    { label: 'Rellenar el formulario →', href: '#funnel' },
+  ],
+};
+---
+
+<Base
+  title={TITLES[lang]}
+  description={DESCRIPTIONS[lang]}
+  canonical={canonicalFor('basel-landschaft', lang, Astro.url.pathname)}
+  activePage="basel-landschaft"
+  cantonName="Basel-Landschaft"
+  lang={lang}
+  pageKey="basel-landschaft"
+>
+  <Hero canton={canton} defaultCanton="Basel-Landschaft" embeddedFunnel={true} />
+  <TrustBar canton={canton} />
+  <InfoSection canton={canton} />
+  <HowItWorks steps={canton.steps} id="so-funktioniert-es" />
+  <ProblemSection />
+  <FAQ canton={canton} />
+  <FinalCTA buttons={BUTTONS[lang]} />
+</Base>

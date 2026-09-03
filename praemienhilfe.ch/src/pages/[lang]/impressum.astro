@@ -1,13 +1,26 @@
 ---
-// src/pages/impressum.astro
-import Base from '../layouts/Base.astro';
+// src/pages/[lang]/impressum.astro
+// NOTE: legal prose intentionally stays German-only for now regardless of
+// `lang` — a dedicated later task translates it with manual-review flagging
+// for ambiguous legal phrases. This task only moves routing/meta/canonical.
+import Base from '../../layouts/Base.astro';
+import { LOCALES } from '../../i18n/locales.js';
+import { canonicalFor } from '../../i18n/pageUrls.js';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
 ---
 
 <Base
   title="Impressum | prämienhilfe.ch"
   description="Impressum und rechtliche Hinweise zu prämienhilfe.ch, einem Service von EVO Partners GmbH."
-  canonical="https://praemienhilfe.ch/impressum"
+  canonical={canonicalFor('impressum', lang, Astro.url.pathname)}
   activePage="legal"
+  lang={lang}
+  pageKey="impressum"
 >
   <div class="bg-white">
     <div class="max-w-[900px] mx-auto px-8 py-16">

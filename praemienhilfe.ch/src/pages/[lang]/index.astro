@@ -1,0 +1,117 @@
+---
+// src/pages/[lang]/index.astro
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import TrustBar from '../../components/TrustBar.astro';
+import WasIstSection from '../../components/WasIstSection.astro';
+import CantonDirectory from '../../components/CantonDirectory.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import ProblemSection from '../../components/ProblemSection.astro';
+import WerWirSindSection from '../../components/WerWirSindSection.astro';
+import FAQ from '../../components/FAQ.astro';
+import DeadlineSection from '../../components/DeadlineSection.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
+import { LOCALES } from '../../i18n/locales.js';
+import { getDictionary, t } from '../../i18n/index.js';
+import { canonicalFor } from '../../i18n/pageUrls.js';
+import { getNational } from '../../data/national.js';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const dict = getDictionary(lang);
+const national = getNational(lang);
+
+const TITLES = {
+  de: 'Prämienverbilligung Schweiz 2026 – Antrag stellen | prämienhilfe.ch',
+  en: 'Swiss Health Insurance Premium Reduction 2026 – Apply Now | prämienhilfe.ch',
+  es: 'Reducción de primas Suiza 2026 – Solicitar ahora | prämienhilfe.ch',
+};
+const DESCRIPTIONS = {
+  de: 'Prämienverbilligung in der ganzen Schweiz beantragen. EVO Partners GmbH hilft Ihnen kostenlos bei der Einreichung Ihres Antrags — egal in welchem Kanton.',
+  en: 'Apply for the premium reduction (IPV) anywhere in Switzerland. EVO Partners GmbH helps you file your application for free — no matter which canton.',
+  es: 'Solicite la reducción de primas en toda Suiza. EVO Partners GmbH le ayuda gratis a presentar su solicitud, sea cual sea su cantón.',
+};
+const HOW_IT_WORKS_HEADING = {
+  de: 'So funktioniert unsere Hilfe',
+  en: 'How our help works',
+  es: 'Cómo funciona nuestra ayuda',
+};
+const PROBLEM_HEADING = {
+  de: 'Warum verzichten viele Berechtigte auf ihre Prämienverbilligung?',
+  en: 'Why do so many eligible people miss out on their premium reduction?',
+  es: '¿Por qué muchas personas con derecho renuncian a su reducción de primas?',
+};
+const FINAL_CTA_HEADING = {
+  de: 'Jetzt Anspruch prüfen lassen',
+  en: 'Check your entitlement now',
+  es: 'Compruebe su derecho ahora',
+};
+const FINAL_CTA_TEXT = {
+  de: 'Wählen Sie Ihre Situation und prüfen Sie in 20 Minuten, ob Sie Anspruch auf Prämienverbilligung haben. Kostenlos und unverbindlich.',
+  en: 'Select your situation and find out in 20 minutes whether you qualify for the premium reduction. Free and with no obligation.',
+  es: 'Seleccione su situación y compruebe en 20 minutos si tiene derecho a la reducción de primas. Gratuito y sin compromiso.',
+};
+const FINAL_CTA_DISCLAIMER = {
+  de: 'prämienhilfe.ch ist ein privater Beratungsservice von EVO Partners GmbH, FINMA-registrierter Versicherungsbroker. Kein offizielles Kantonsorgan.',
+  en: 'prämienhilfe.ch is a private advisory service run by EVO Partners GmbH, a FINMA-registered insurance broker. Not an official cantonal authority.',
+  es: 'prämienhilfe.ch es un servicio de asesoramiento privado de EVO Partners GmbH, corredor de seguros registrado en FINMA. No es un organismo cantonal oficial.',
+};
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'prämienhilfe.ch',
+    url: 'https://praemienhilfe.ch',
+    description: DESCRIPTIONS[lang],
+    provider: {
+      '@type': 'Organization',
+      name: 'EVO Partners GmbH',
+      description: 'FINMA-registrierter Versicherungsbroker',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: national.nationalFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
+    })),
+  },
+];
+---
+
+<Base
+  title={TITLES[lang]}
+  description={DESCRIPTIONS[lang]}
+  canonical={canonicalFor('home', lang, Astro.url.pathname)}
+  activePage="home"
+  lang={lang}
+  pageKey="home"
+  schema={schema}
+>
+  <Hero variant="national" />
+  <TrustBar canton={{ stats: national.nationalStats }} />
+  <WasIstSection />
+  <CantonDirectory />
+  <HowItWorks steps={national.howItWorksSteps} heading={HOW_IT_WORKS_HEADING[lang]} id="so-funktioniert-es" />
+  <ProblemSection
+    heading={PROBLEM_HEADING[lang]}
+    intro={national.whySection.intro}
+    reasons={national.whySection.reasons}
+    closing={national.whySection.closing}
+  />
+  <WerWirSindSection />
+  <FAQ canton={{ faqs: national.nationalFaqs }} />
+  <DeadlineSection />
+  <FinalCTA
+    heading={FINAL_CTA_HEADING[lang]}
+    text={FINAL_CTA_TEXT[lang]}
+    buttons={[{ label: t(dict, 'mobileCta.default'), href: '#pruefen' }]}
+    disclaimer={FINAL_CTA_DISCLAIMER[lang]}
+  />
+</Base>

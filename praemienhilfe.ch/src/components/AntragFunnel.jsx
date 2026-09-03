@@ -1,6 +1,13 @@
 // src/components/AntragFunnel.jsx
 import { useState, useEffect } from 'react';
-import { SITUATIONS, situationList } from '../data/situations.js';
+import { getSituationList } from '../data/situations.js';
+
+// Task 2 made situations.js locale-aware; this component isn't wired up to
+// `lang` yet (a later task does that), so it keeps its current German-only
+// behavior for now via the default locale. Minimal fix to keep this
+// building — not a content or i18n change.
+const situationList = getSituationList('de');
+const SITUATIONS = Object.fromEntries(situationList.map(({ slug, ...rest }) => [slug, rest]));
 import { deutschschweizCantons } from '../data/deutschschweiz.js';
 import PhoneField, { isValidPhoneNumber } from './PhoneField.jsx';
 import PrivacyPolicyModal from './PrivacyPolicyModal.jsx';

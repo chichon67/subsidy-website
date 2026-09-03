@@ -1,6 +1,13 @@
 // src/components/SituationFunnel.jsx
 import { useEffect } from 'react';
-import { situationList, SITUATIONS } from '../data/situations.js';
+import { getSituationList } from '../data/situations.js';
+
+// Task 2 made situations.js locale-aware; this component isn't wired up to
+// `lang` yet (a later task does that), so it keeps its current German-only
+// behavior for now via the default locale. Minimal fix to keep this
+// building — not a content or i18n change.
+const situationList = getSituationList('de');
+const SITUATIONS = Object.fromEntries(situationList.map(({ slug, ...rest }) => [slug, rest]));
 
 function track(name, params) {
   if (typeof window !== 'undefined' && typeof window.gtag === 'function') {

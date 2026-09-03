@@ -1,0 +1,57 @@
+---
+// src/pages/[lang]/so-funktioniert-es.astro
+import Base from '../../layouts/Base.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
+import { LOCALES } from '../../i18n/locales.js';
+import { canonicalFor } from '../../i18n/pageUrls.js';
+import { getCanton } from '../../data/cantons.js';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params;
+const canton = getCanton('basel-stadt', lang);
+
+const TITLES = {
+  de: 'So funktioniert es | prämienhilfe.ch',
+  en: 'How it works | prämienhilfe.ch',
+  es: 'Cómo funciona | prämienhilfe.ch',
+};
+const DESCRIPTIONS = {
+  de: 'So funktioniert die Beantragung der Prämienverbilligung: Anspruch prüfen, Dossier zusammenstellen, Antrag einreichen.',
+  en: 'How applying for the premium reduction works: check your entitlement, put together your file, submit your application.',
+  es: 'Así funciona la solicitud de la reducción de primas: comprobar el derecho, preparar el expediente, presentar la solicitud.',
+};
+const H1 = {
+  de: 'So funktioniert die Beantragung',
+  en: 'How applying works',
+  es: 'Así funciona la solicitud',
+};
+const INTRO = {
+  de: 'Von der Prüfung bis zur Einreichung — wir begleiten Sie durch den gesamten Prozess der Prämienverbilligung.',
+  en: 'From the initial check to the final submission — we guide you through the entire premium reduction process.',
+  es: 'Desde la comprobación hasta la presentación: le acompañamos durante todo el proceso de la reducción de primas.',
+};
+---
+
+<Base
+  title={TITLES[lang]}
+  description={DESCRIPTIONS[lang]}
+  canonical={canonicalFor('so-funktioniert-es', lang, Astro.url.pathname)}
+  activePage="ablauf"
+  lang={lang}
+  pageKey="so-funktioniert-es"
+>
+  <div class="bg-white">
+    <div class="max-w-[1240px] mx-auto px-8 pt-16 pb-4">
+      <h1 class="text-[32px] md:text-[40px] font-bold tracking-tight m-0">{H1[lang]}</h1>
+      <p class="text-base leading-relaxed text-[#3D4A50] mt-5 max-w-[34em]">
+        {INTRO[lang]}
+      </p>
+    </div>
+  </div>
+  <HowItWorks steps={canton.steps} />
+  <FinalCTA />
+</Base>

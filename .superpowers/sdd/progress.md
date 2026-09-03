@@ -43,3 +43,9 @@ Task 11: complete (commit 46f5031..2e20e37, review clean)
 Task 12: complete (verification only, no commit; repo-wide grep for Sàrl/Sarl returned zero matches)
 Task 13: complete (verification found 1 real defect: mobile sticky CTA on basel-stadt pointed at /#pruefen instead of #funnel; fixed in commit 2e20e37..c90428b, review clean; all 19 instructions.md checklist items PASS)
 Final whole-branch review (1644b0a..04efe55): found Critical (mobile menu overlay clipped by fixed-header containing-block bug, site-wide) + Important (desktop StickyFunnelWidget hardcoded /#pruefen redirecting basel-stadt users home) — both fixed in 04efe55, re-review clean, ready to merge. Minor pre-launch note: [ADRESSE]/[DEINE FINMA-NR HIER] placeholders still need real values. Final npm run build re-confirmed clean by controller.
+
+# Progress Ledger — Multilingual DE/EN/ES Site (2026-09-03-multilingual-site.md)
+Task 1: complete (commits 78bba65..23c841f, redo after initial [locale]-routing approach conflicted with Astro's native i18n route synthesis; review clean, Minor: stale path comments in 2 templates, incidental astro.config.mjs formatting churn)
+Task 2: complete (commits 23c841f..b61d4b4, review found Important cookie-regex anchoring bug, fixed, re-review clean)
+Task 3: complete (commits b61d4b4..dafe5bf, review found Critical syntax error from straight-vs-curly apostrophe transcription slip, fixed, re-review clean)
+Task 4: complete (commit dafe5bf..804d455, redispatched clean after prior implementer was killed mid-task by session rate limit leaving inconsistent partial edits which were reverted first; review clean/Approved, Minor: readyState guard comment slightly inaccurate rationale, footer.info.about key reused in Header, switcher markup duplicated 4x per brief's own literal snippet)

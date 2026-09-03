@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { isDisclaimerDue, markDisclaimerShown } from '../lib/disclaimer.js';
+import { useTranslations } from '../i18n/useTranslations.js';
 
-export default function DisclaimerModal() {
+export default function DisclaimerModal({ locale }) {
+  const t = useTranslations(locale);
   const [checked, setChecked] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -24,13 +26,12 @@ export default function DisclaimerModal() {
         prämienhilfe<span className="text-teal">.ch</span>
       </div>
 
-      <div className="text-base font-bold text-dark tracking-tight mt-4">Wichtiger Hinweis</div>
+      <div className="text-base font-bold text-dark tracking-tight mt-4">{t('disclaimer.title')}</div>
       <p className="text-sm leading-relaxed text-[#3D4A50] mt-2.5">
-        prämienhilfe.ch ist ein privater und unabhängiger Beratungsservice von EVO Partners GmbH — kein Kantonsamt
-        und keine staatliche Behörde.
+        {t('disclaimer.body1')}
       </p>
       <p className="text-sm leading-relaxed text-[#3D4A50] mt-2.5">
-        Unsere Hilfe bei der Prämienverbilligung ist für Sie kostenlos.
+        {t('disclaimer.body2')}
       </p>
 
       <button
@@ -38,7 +39,7 @@ export default function DisclaimerModal() {
         onClick={dismiss}
         className="mt-5 w-full px-5 py-3.5 bg-teal text-white border-0 rounded-md text-[15px] font-bold cursor-pointer hover:bg-teal-dark"
       >
-        Verstanden — Weiter →
+        {t('disclaimer.cta')}
       </button>
     </div>
   );

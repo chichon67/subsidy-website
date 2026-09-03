@@ -1,10 +1,12 @@
 // src/components/ExitIntentPopup.jsx
 import { useState, useEffect, useRef } from 'react';
 import { isDisclaimerDue } from '../lib/disclaimer.js';
+import { useTranslations } from '../i18n/useTranslations.js';
 
 const KEY = 'exit_shown';
 
-export default function ExitIntentPopup() {
+export default function ExitIntentPopup({ locale }) {
+  const t = useTranslations(locale);
   const [visible, setVisible] = useState(false);
   const armedRef = useRef(false);
 
@@ -50,25 +52,24 @@ export default function ExitIntentPopup() {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="text-lg font-bold text-dark tracking-tight">
-          Warten Sie — prüfen Sie zuerst Ihren Anspruch!
+          {t('exitPopup.title')}
         </div>
         <p className="text-[14px] leading-relaxed text-[#3D4A50] mt-2.5">
-          Viele Berechtigte wissen nicht, dass sie Anspruch auf bis zu CHF 3'000 pro Jahr haben. Die Prüfung dauert
-          nur 20 Minuten.
+          {t('exitPopup.body')}
         </p>
         <button
           type="button"
           onClick={goToFunnel}
           className="mt-4 w-full px-5 py-3.5 bg-teal text-white border-0 rounded-md text-[15px] font-bold cursor-pointer hover:bg-teal-dark"
         >
-          Jetzt prüfen →
+          {t('exitPopup.cta')}
         </button>
         <button
           type="button"
           onClick={() => setVisible(false)}
           className="mt-3 w-full text-center text-[12.5px] text-[#8A979C] bg-transparent border-0 cursor-pointer hover:text-[#6B7A80]"
         >
-          Nein danke, ich verzichte auf meine Verbilligung
+          {t('exitPopup.decline')}
         </button>
       </div>
     </div>

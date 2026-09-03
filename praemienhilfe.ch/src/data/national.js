@@ -94,6 +94,51 @@ export const national = {
       buttonLabel: 'Anspruch prüfen →',
       disclaimer: 'prämienhilfe.ch ist ein privater Beratungsservice von EVO Partners GmbH, FINMA-registrierter Versicherungsbroker. Kein offizielles Kantonsorgan.',
     },
+    // TRANSLATED FROM GERMAN LEGAL SOURCE — HAS NOT BEEN REVIEWED BY LEGAL COUNSEL
+    privacyModal: {
+      title: 'Datenschutzbestimmungen',
+      responsibleParty: {
+        heading: 'Verantwortliche Stelle',
+        address: 'EVO Partners GmbH\nc/o ExpertFid & Audit AG\nStrehlgasse 2, 8001 Zürich',
+      },
+      purpose: {
+        heading: 'Zweck der Datenerhebung',
+        intro: 'Wir erheben personenbezogene Daten (Name, Telefon, E-Mail, Situation) ausschliesslich zu folgenden Zwecken:',
+        items: [
+          'Prüfung Ihres Anspruchs auf Prämienverbilligung',
+          'Kontaktaufnahme durch EVO Partners GmbH oder akkreditierte FINMA-Partner für Beratungsleistungen im Bereich Krankenversicherung',
+          'Zusammenstellung und Einreichung Ihres Dossiers beim zuständigen Kantonsamt',
+        ],
+      },
+      sharing: {
+        heading: 'Datenweitergabe',
+        body: 'Ihre Daten können an akkreditierte FINMA-Partner weitergegeben werden, sofern dies zur Erbringung unserer Dienstleistungen erforderlich ist. Eine Weitergabe an Dritte zu Werbezwecken findet nicht statt.',
+      },
+      retention: {
+        heading: 'Speicherdauer',
+        body: 'Ihre Daten werden so lange gespeichert, wie es für die Erbringung unserer Dienstleistungen erforderlich ist, längstens jedoch 5 Jahre.',
+      },
+      rights: {
+        heading: 'Ihre Rechte',
+        intro: 'Sie haben das Recht auf:',
+        items: [
+          'Auskunft über Ihre gespeicherten Daten',
+          'Berichtigung unrichtiger Daten',
+          'Löschung Ihrer Daten',
+          'Widerspruch gegen die Verarbeitung',
+        ],
+        contact: 'Anfragen richten Sie an:',
+      },
+      cookies: {
+        heading: 'Cookies und Tracking',
+        body: 'Diese Website verwendet Google Analytics 4 zur Analyse des Nutzerverhaltens. Sie können der Verwendung jederzeit widersprechen.',
+      },
+      finma: {
+        heading: 'FINMA-Registernummer',
+        number: 'F01552602',
+      },
+      fullPolicyLink: 'Vollständige Datenschutzerklärung öffnen →',
+    },
   },
   en: {
     heroCopy: {
@@ -187,6 +232,51 @@ export const national = {
       buttonLabel: 'Check eligibility →',
       disclaimer: 'prämienhilfe.ch is a private advisory service run by EVO Partners GmbH, a FINMA-registered insurance broker. Not an official cantonal body.',
     },
+    // TRANSLATED FROM GERMAN LEGAL SOURCE — HAS NOT BEEN REVIEWED BY LEGAL COUNSEL
+    privacyModal: {
+      title: 'Privacy Policy',
+      responsibleParty: {
+        heading: 'Data controller',
+        address: 'EVO Partners GmbH\nc/o ExpertFid & Audit AG\nStrehlgasse 2, 8001 Zürich',
+      },
+      purpose: {
+        heading: 'Purpose of data collection',
+        intro: 'We collect personal data (name, phone, email, situation) exclusively for the following purposes:',
+        items: [
+          'Assessing your entitlement to a premium subsidy',
+          'Contact by EVO Partners GmbH or accredited FINMA partners for advisory services in the field of health insurance',
+          'Compiling and submitting your dossier to the responsible cantonal office',
+        ],
+      },
+      sharing: {
+        heading: 'Data disclosure',
+        body: 'Your data may be shared with accredited FINMA partners where this is necessary to provide our services. Your data is not disclosed to third parties for advertising purposes.',
+      },
+      retention: {
+        heading: 'Retention period',
+        body: 'Your data is stored for as long as necessary to provide our services, and for a maximum of 5 years.',
+      },
+      rights: {
+        heading: 'Your rights',
+        intro: 'You have the right to:',
+        items: [
+          'Access the data we hold about you',
+          'Correction of inaccurate data',
+          'Deletion of your data',
+          'Object to the processing',
+        ],
+        contact: 'Please direct requests to:',
+      },
+      cookies: {
+        heading: 'Cookies and tracking',
+        body: 'This website uses Google Analytics 4 to analyze user behavior. You can object to this use at any time.',
+      },
+      finma: {
+        heading: 'FINMA register number',
+        number: 'F01552602',
+      },
+      fullPolicyLink: 'Open the full privacy policy →',
+    },
   },
   es: {
     heroCopy: {
@@ -279,6 +369,51 @@ export const national = {
       text: 'Seleccione su situación y compruebe en 20 minutos si tiene derecho a la reducción de primas. Gratuito y sin compromiso.',
       buttonLabel: 'Comprobar derecho →',
       disclaimer: 'prämienhilfe.ch es un servicio de asesoría privado de EVO Partners GmbH, corredor de seguros registrado ante FINMA. No es un organismo cantonal oficial.',
+    },
+    // TRANSLATED FROM GERMAN LEGAL SOURCE — HAS NOT BEEN REVIEWED BY LEGAL COUNSEL
+    privacyModal: {
+      title: 'Política de privacidad',
+      responsibleParty: {
+        heading: 'Responsable del tratamiento',
+        address: 'EVO Partners GmbH\nc/o ExpertFid & Audit AG\nStrehlgasse 2, 8001 Zürich',
+      },
+      purpose: {
+        heading: 'Finalidad de la recopilación de datos',
+        intro: 'Recopilamos datos personales (nombre, teléfono, correo electrónico, situación) exclusivamente para los siguientes fines:',
+        items: [
+          'Comprobación de su derecho a la reducción de primas',
+          'Contacto por parte de EVO Partners GmbH o de socios acreditados por FINMA para servicios de asesoría en el ámbito del seguro médico',
+          'Compilación y presentación de su expediente ante la oficina cantonal competente',
+        ],
+      },
+      sharing: {
+        heading: 'Cesión de datos',
+        body: 'Sus datos pueden ser cedidos a socios acreditados por FINMA cuando ello sea necesario para la prestación de nuestros servicios. No se cederán datos a terceros con fines publicitarios.',
+      },
+      retention: {
+        heading: 'Duración de la conservación',
+        body: 'Sus datos se conservan durante el tiempo necesario para la prestación de nuestros servicios, con un máximo de 5 años.',
+      },
+      rights: {
+        heading: 'Sus derechos',
+        intro: 'Usted tiene derecho a:',
+        items: [
+          'Acceso a los datos almacenados sobre usted',
+          'Rectificación de datos incorrectos',
+          'Supresión de sus datos',
+          'Oposición al tratamiento',
+        ],
+        contact: 'Dirija sus solicitudes a:',
+      },
+      cookies: {
+        heading: 'Cookies y seguimiento',
+        body: 'Este sitio web utiliza Google Analytics 4 para analizar el comportamiento de los usuarios. Puede oponerse a este uso en cualquier momento.',
+      },
+      finma: {
+        heading: 'Número de registro FINMA',
+        number: 'F01552602',
+      },
+      fullPolicyLink: 'Abrir la política de privacidad completa →',
     },
   },
 };

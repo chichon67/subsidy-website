@@ -1,6 +1,10 @@
 // src/components/PrivacyPolicyModal.jsx
-export default function PrivacyPolicyModal({ open, onClose }) {
+import { national } from '../data/national.js';
+
+export default function PrivacyPolicyModal({ open, onClose, locale }) {
   if (!open) return null;
+
+  const t = national[locale]?.privacyModal ?? national.de.privacyModal;
 
   return (
     <div className="fixed inset-0 z-[100] bg-dark/50 flex items-center justify-center p-4" onClick={onClose}>
@@ -9,7 +13,7 @@ export default function PrivacyPolicyModal({ open, onClose }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between gap-4">
-          <div className="text-lg font-bold text-dark tracking-tight">Datenschutzbestimmungen</div>
+          <div className="text-lg font-bold text-dark tracking-tight">{t.title}</div>
           <button
             type="button"
             onClick={onClose}
@@ -22,72 +26,58 @@ export default function PrivacyPolicyModal({ open, onClose }) {
 
         <div className="mt-5 grid gap-5 text-[14.5px] leading-relaxed text-[#3D4A50]">
           <div>
-            <div className="font-semibold text-dark">Verantwortliche Stelle</div>
+            <div className="font-semibold text-dark">{t.responsibleParty.heading}</div>
             <p className="mt-1">
-              EVO Partners GmbH
-              <br />
-              c/o ExpertFid &amp; Audit AG
-              <br />
-              Strehlgasse 2, 8001 Zürich
-              <br />
+              {t.responsibleParty.address.split('\n').map((line, i) => (
+                <span key={i}>
+                  {line}
+                  <br />
+                </span>
+              ))}
               <a href="mailto:office@evo-partners.ch" className="text-teal">
                 office@evo-partners.ch
               </a>
             </p>
           </div>
           <div>
-            <div className="font-semibold text-dark">Zweck der Datenerhebung</div>
-            <p className="mt-1">
-              Wir erheben personenbezogene Daten (Name, Telefon, E-Mail, Situation) ausschliesslich zu folgenden
-              Zwecken:
-            </p>
+            <div className="font-semibold text-dark">{t.purpose.heading}</div>
+            <p className="mt-1">{t.purpose.intro}</p>
             <ul className="mt-2 grid gap-1.5 list-disc pl-5">
-              <li>Prüfung Ihres Anspruchs auf Prämienverbilligung</li>
-              <li>Kontaktaufnahme durch EVO Partners GmbH oder akkreditierte FINMA-Partner für Beratungsleistungen im Bereich Krankenversicherung</li>
-              <li>Zusammenstellung und Einreichung Ihres Dossiers beim zuständigen Kantonsamt</li>
+              {t.purpose.items.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
             </ul>
           </div>
           <div>
-            <div className="font-semibold text-dark">Datenweitergabe</div>
-            <p className="mt-1">
-              Ihre Daten können an akkreditierte FINMA-Partner weitergegeben werden, sofern dies zur Erbringung
-              unserer Dienstleistungen erforderlich ist. Eine Weitergabe an Dritte zu Werbezwecken findet nicht
-              statt.
-            </p>
+            <div className="font-semibold text-dark">{t.sharing.heading}</div>
+            <p className="mt-1">{t.sharing.body}</p>
           </div>
           <div>
-            <div className="font-semibold text-dark">Speicherdauer</div>
-            <p className="mt-1">
-              Ihre Daten werden so lange gespeichert, wie es für die Erbringung unserer Dienstleistungen erforderlich
-              ist, längstens jedoch 5 Jahre.
-            </p>
+            <div className="font-semibold text-dark">{t.retention.heading}</div>
+            <p className="mt-1">{t.retention.body}</p>
           </div>
           <div>
-            <div className="font-semibold text-dark">Ihre Rechte</div>
-            <p className="mt-1">Sie haben das Recht auf:</p>
+            <div className="font-semibold text-dark">{t.rights.heading}</div>
+            <p className="mt-1">{t.rights.intro}</p>
             <ul className="mt-2 grid gap-1.5 list-disc pl-5">
-              <li>Auskunft über Ihre gespeicherten Daten</li>
-              <li>Berichtigung unrichtiger Daten</li>
-              <li>Löschung Ihrer Daten</li>
-              <li>Widerspruch gegen die Verarbeitung</li>
+              {t.rights.items.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
             </ul>
             <p className="mt-2">
-              Anfragen richten Sie an:{' '}
+              {t.rights.contact}{' '}
               <a href="mailto:office@evo-partners.ch" className="text-teal">
                 office@evo-partners.ch
               </a>
             </p>
           </div>
           <div>
-            <div className="font-semibold text-dark">Cookies und Tracking</div>
-            <p className="mt-1">
-              Diese Website verwendet Google Analytics 4 zur Analyse des Nutzerverhaltens. Sie können der Verwendung
-              jederzeit widersprechen.
-            </p>
+            <div className="font-semibold text-dark">{t.cookies.heading}</div>
+            <p className="mt-1">{t.cookies.body}</p>
           </div>
           <div>
-            <div className="font-semibold text-dark">FINMA-Registernummer</div>
-            <p className="mt-1">F01552602</p>
+            <div className="font-semibold text-dark">{t.finma.heading}</div>
+            <p className="mt-1">{t.finma.number}</p>
           </div>
         </div>
 
@@ -97,7 +87,7 @@ export default function PrivacyPolicyModal({ open, onClose }) {
           rel="noopener noreferrer"
           className="mt-6 inline-block text-teal text-sm font-semibold underline"
         >
-          Vollständige Datenschutzerklärung öffnen →
+          {t.fullPolicyLink}
         </a>
       </div>
     </div>

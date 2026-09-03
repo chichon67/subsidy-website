@@ -160,8 +160,22 @@ export default function AntragFunnel() {
       });
       if (!res.ok) throw new Error('submit failed');
       track('antrag_conversion', { situation: situationSlug });
-      // Navigate to a dedicated URL (rather than an inline "done" step) so it
-      // can be used as a Google Ads conversion-tracking destination.
+      // Stash a summary for the /danke page to read (sessionStorage instead
+      // of query params so names/emails don't end up in the URL, browser
+      // history, or referrer headers), then navigate there — a dedicated URL
+      // (rather than an inline "done" step) so it can be used as a Google
+      // Ads conversion-tracking destination.
+      sessionStorage.setItem(
+        'antragSummary',
+        JSON.stringify({
+          firstName,
+          situationLabel,
+          cantonName,
+          household: `${household} ${household === 1 ? 'Person' : 'Personen'}`,
+          income,
+          email,
+        })
+      );
       window.location.href = '/danke';
       return;
     } catch (err) {

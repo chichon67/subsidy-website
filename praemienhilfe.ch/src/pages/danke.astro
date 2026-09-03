@@ -6,6 +6,7 @@
 // conversion-tracking destination. noindex: it's a mid-funnel confirmation,
 // not content that should show up in search results.
 import Base from '../layouts/Base.astro';
+import DankeSummary from '../components/DankeSummary.jsx';
 ---
 
 <Base
@@ -16,23 +17,6 @@ import Base from '../layouts/Base.astro';
   chrome={false}
 >
   <div class="min-h-screen bg-[#F5F7F8] flex items-center justify-center px-5 py-16">
-    <div class="w-full max-w-[480px] bg-white border border-[#E2E8EA] rounded-[10px] shadow-[0_3px_16px_rgba(26,26,42,0.07)] px-7 pt-8 pb-7 text-center">
-      <div class="w-12 h-12 mx-auto rounded-full bg-swiss-green/10 flex items-center justify-center">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D8B37" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
-          <path d="M4 13l5 5L20 7"></path>
-        </svg>
-      </div>
-      <div class="text-xl font-bold mt-4 tracking-tight text-[#2E6B29]">Vielen Dank für Ihre Anfrage!</div>
-      <p class="text-[15px] leading-relaxed text-[#3D4A50] mt-2.5">
-        Wir haben Ihre Angaben erhalten und werden uns innerhalb von 24 Stunden bei Ihnen melden. Bei Fragen erreichen Sie uns unter
-        <a href="tel:+41767790449" class="text-teal font-semibold no-underline">+41 76 779 0449</a>.
-      </p>
-      <a
-        href="/"
-        class="mt-6 inline-block px-5 py-3 bg-teal text-white rounded-md text-[15px] font-bold no-underline hover:bg-teal-dark"
-      >
-        Zurück zur Startseite
-      </a>
-    </div>
+    <DankeSummary client:load />
   </div>
 </Base>

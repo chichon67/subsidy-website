@@ -23,19 +23,16 @@ export async function GET() {
     return [urlEntry(alt.de, alt), urlEntry(alt.en, alt), urlEntry(alt.es, alt)].join('');
   }).join('');
 
+  // Active cantons (basel-stadt, basel-landschaft) already have hreflang-linked
+  // entries in translatedUrls above — only list the remaining German-only cantons here.
   const germanOnlyCantonUrls = deutschschweizCantons
-    .filter((c) => c.active)
-    .map((c) => urlEntry(`${BASE}/de/${c.slug}`))
-    .join('');
-
-  const genericCantonUrls = deutschschweizCantons
     .filter((c) => !c.active)
     .map((c) => urlEntry(`${BASE}/de/${c.slug}`))
     .join('');
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${translatedUrls}${germanOnlyCantonUrls}${genericCantonUrls}
+${translatedUrls}${germanOnlyCantonUrls}
 </urlset>`;
 
   return new Response(body, { headers: { 'Content-Type': 'application/xml' } });

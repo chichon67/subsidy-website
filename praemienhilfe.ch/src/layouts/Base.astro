@@ -6,11 +6,15 @@ import DisclaimerModal from '../components/DisclaimerModal.jsx';
 import ExitIntentPopup from '../components/ExitIntentPopup.jsx';
 import StickyFunnelWidget from '../components/StickyFunnelWidget.jsx';
 import '../styles/global.css';
+import { htmlLang, getDictionary, t } from '../i18n/index.js';
+import { getLocalizedUrls } from '../i18n/pageUrls.js';
 
 export interface Props {
   title: string;
   description: string;
   canonical: string;
+  lang: 'de' | 'en' | 'es';
+  pageKey?: string;
   activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt' | 'legal';
   cantonName?: string;
   chrome?: boolean;
@@ -18,7 +22,10 @@ export interface Props {
   schema?: Record<string, unknown>[];
 }
 
-const { title, description, canonical, activePage = 'home', cantonName, chrome = true, robots = 'index, follow', schema = [] } = Astro.props;
+const { title, description, canonical, lang, pageKey, activePage = 'home', cantonName, chrome = true, robots = 'index, follow', schema = [] } = Astro.props;
+const dict = getDictionary(lang);
+const alternates = pageKey ? getLocalizedUrls(pageKey) : null;
+const ogLocale = { de: 'de_CH', en: 'en_CH', es: 'es_CH' }[lang];
 const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
 const adsId = 'AW-18005574565';
 // Pages that render their own embedded funnel link straight to it in-page:
@@ -29,11 +36,11 @@ const adsId = 'AW-18005574565';
 // bouncing through the homepage.
 const isCantonLandingPage = activePage === 'basel-stadt' || activePage === 'basel-landschaft' || activePage === 'canton';
 const mobileCtaHref = isCantonLandingPage ? '#funnel' : activePage === 'home' ? '#pruefen' : '/antrag';
-const mobileCtaLabel = cantonName ? `Anspruch ${cantonName} prüfen →` : 'Anspruch prüfen →';
+const mobileCtaLabel = cantonName ? t(dict, 'mobileCta.canton', { canton: cantonName }) : t(dict, 'mobileCta.default');
 ---
 
 <!doctype html>
-<html lang="de-CH">
+<html lang={htmlLang(lang)}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -41,10 +48,18 @@ const mobileCtaLabel = cantonName ? `Anspruch ${cantonName} prüfen →` : 'Ansp
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
     <link rel="canonical" href={canonical} />
+    {alternates && (
+      <>
+        <link rel="alternate" hreflang="de" href={alternates.de} />
+        <link rel="alternate" hreflang="en" href={alternates.en} />
+        <link rel="alternate" hreflang="es" href={alternates.es} />
+        <link rel="alternate" hreflang="x-default" href={alternates.de} />
+      </>
+    )}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content="de_CH" />
+    <meta property="og:locale" content={ogLocale} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -67,7 +82,7 @@ const mobileCtaLabel = cantonName ? `Anspruch ${cantonName} prüfen →` : 'Ansp
   </head>
   <body>
     <div id="top"></div>
-    {chrome && <Header activePage={activePage} />}
+    {chrome && <Header activePage={activePage} lang={lang} />}
     {chrome ? (
       <div style="padding-top: var(--header-h, 76px)">
         <slot />
@@ -75,7 +90,7 @@ const mobileCtaLabel = cantonName ? `Anspruch ${cantonName} prüfen →` : 'Ansp
     ) : (
       <slot />
     )}
-    {chrome && <Footer activePage={activePage} />}
+    {chrome && <Footer activePage={activePage} lang={lang} />}
 
     {
       chrome && (

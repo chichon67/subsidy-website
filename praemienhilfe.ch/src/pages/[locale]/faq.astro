@@ -1,9 +1,13 @@
 ---
 // src/pages/faq.astro
-import Base from '../layouts/Base.astro';
-import FAQ from '../components/FAQ.astro';
-import FinalCTA from '../components/FinalCTA.astro';
-import { cantons } from '../data/cantons.js';
+import Base from '../../layouts/Base.astro';
+import FAQ from '../../components/FAQ.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
+import { cantons } from '../../data/cantons.js';
+
+export function getStaticPaths() {
+  return ['de', 'en', 'es'].map((locale) => ({ params: { locale } }));
+}
 
 const canton = cantons['basel-stadt'];
 ---

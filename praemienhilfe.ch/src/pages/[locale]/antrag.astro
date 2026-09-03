@@ -1,7 +1,11 @@
 ---
 // src/pages/antrag.astro
-import Base from '../layouts/Base.astro';
-import AntragFunnel from '../components/AntragFunnel.jsx';
+import Base from '../../layouts/Base.astro';
+import AntragFunnel from '../../components/AntragFunnel.jsx';
+
+export function getStaticPaths() {
+  return ['de', 'en', 'es'].map((locale) => ({ params: { locale } }));
+}
 ---
 
 <Base

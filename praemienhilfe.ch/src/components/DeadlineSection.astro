@@ -4,23 +4,29 @@
 // against a current official source, and getting a subsidy deadline wrong in
 // public-facing copy is the kind of claim that can come back on the client.
 // Keep this section qualitative until real, sourced dates are available.
+import { national } from '../data/national.js';
+
+export interface Props {
+  locale?: 'de' | 'en' | 'es';
+}
+const { locale = 'de' } = Astro.props;
+const deadlineSection = national[locale].deadlineSection;
 ---
 
 <section class="bg-white">
   <div class="max-w-[1240px] mx-auto px-8 py-[52px] md:py-[74px]">
-    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0">Verpassen Sie nicht Ihre Antragsfrist</h2>
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0">{deadlineSection.heading}</h2>
 
     <div class="mt-6 bg-[#FFF8E7] border border-amber/40 rounded-lg px-6 py-4 text-[15.5px] font-semibold text-[#7A6836] max-w-[44em]">
-      ⚠️ Die Anmeldefristen variieren je nach Kanton und werden oft nur einmal jährlich angeboten.
+      {deadlineSection.warning}
     </div>
 
     <p class="text-[16.5px] leading-[1.7] mt-7 max-w-[44em] text-[#3D4A50]">
-      Jeder Kanton legt seine eigene Frist fest, und ein verpasster Antrag bedeutet meist ein verlorenes Jahr Verbilligung.
-      Wir kennen die genauen Fristen für Ihren Wohnkanton und sagen Ihnen im kostenlosen Erstgespräch, bis wann Sie handeln sollten.
+      {deadlineSection.body}
     </p>
 
     <p class="text-[16.5px] leading-[1.7] mt-5 max-w-[44em] font-bold text-swiss-red">
-      Wer die Frist verpasst, verliert die Verbilligung für das laufende Jahr — das können mehrere hundert bis mehrere tausend Franken sein.
+      {deadlineSection.closing}
     </p>
   </div>
 </section>

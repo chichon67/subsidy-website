@@ -1,31 +1,35 @@
 ---
 // src/components/FinalCTA.astro
+import { useTranslations } from '../i18n/useTranslations.js';
+
 export interface Props {
   heading?: string;
   text?: string;
   buttons?: { label: string; href: string }[];
   disclaimer?: string;
+  locale?: 'de' | 'en' | 'es';
 }
-const {
-  heading = 'Jetzt Anspruch prüfen lassen',
-  text = 'Vereinbaren Sie ein Erstgespräch. Wir begleiten Sie von der Prüfung bis zur Einreichung.',
-  buttons = [
-    { label: 'Antrag prüfen lassen →', href: '/#pruefen' },
-    { label: 'Formular ausfüllen →', href: '/#pruefen' },
-  ],
-  disclaimer,
-} = Astro.props;
+const { heading, text, buttons, disclaimer, locale = 'de' } = Astro.props;
+const t = useTranslations(locale);
+const resolvedHeading = heading ?? t('finalCta.heading');
+const resolvedText = text ?? t('finalCta.text');
+const resolvedButtons =
+  buttons ??
+  [
+    { label: t('finalCta.button1'), href: '/#pruefen' },
+    { label: t('finalCta.button2'), href: '/#pruefen' },
+  ];
 ---
 
 <section id="kontakt" class="bg-teal text-white">
   <div class="max-w-[1240px] mx-auto px-8 py-16">
     <div class="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-11 items-center">
       <div>
-        <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 text-white">{heading}</h2>
-        <p class="text-[16.5px] leading-relaxed mt-3.5 text-[#DDF0F4] max-w-[34em]">{text}</p>
+        <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 text-white">{resolvedHeading}</h2>
+        <p class="text-[16.5px] leading-relaxed mt-3.5 text-[#DDF0F4] max-w-[34em]">{resolvedText}</p>
       </div>
       <div class="flex flex-col gap-2.5">
-        {buttons.map((b, i) =>
+        {resolvedButtons.map((b, i) =>
           i === 0 ? (
             <a href={b.href} class="block text-center px-5 py-[17px] bg-white text-teal-dark rounded-md text-[16.5px] font-bold no-underline hover:bg-teal-light">
               {b.label}

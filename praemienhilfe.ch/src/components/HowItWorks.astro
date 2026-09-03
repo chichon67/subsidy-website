@@ -1,16 +1,21 @@
 ---
 // src/components/HowItWorks.astro
+import { useTranslations } from '../i18n/useTranslations.js';
+
 export interface Props {
   steps: { n: string; title: string; text: string }[];
   heading?: string;
   id?: string;
+  locale?: 'de' | 'en' | 'es';
 }
-const { steps, heading = 'So funktioniert die Beantragung', id = 'ablauf' } = Astro.props;
+const { steps, heading, id = 'ablauf', locale = 'de' } = Astro.props;
+const t = useTranslations(locale);
+const resolvedHeading = heading ?? t('howItWorks.heading');
 ---
 
 <section id={id} style="background: #F0F7F0">
   <div class="max-w-[1240px] mx-auto px-8 py-[52px] md:py-[74px]">
-    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 text-[#2E6B29]">{heading}</h2>
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 text-[#2E6B29]">{resolvedHeading}</h2>
     <div class="max-w-[48em] mt-[34px] grid gap-8">
       {
         steps.map((st) => (

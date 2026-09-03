@@ -1,20 +1,27 @@
 ---
 // src/components/CantonDirectory.astro
 import { deutschschweizCantons } from '../data/deutschschweiz.js';
+import { useTranslations } from '../i18n/useTranslations.js';
+
+export interface Props {
+  locale?: 'de' | 'en' | 'es';
+}
+const { locale = 'de' } = Astro.props;
+const t = useTranslations(locale);
 ---
 
 <section id="kantone-grid" class="bg-[#F5F7F8]">
   <div class="max-w-[1240px] mx-auto px-8 py-[52px] md:py-[74px]">
-    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0">Prämienhilfe nach Kanton entdecken</h2>
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0">{t('cantonDirectory.heading')}</h2>
     <p class="text-[16.5px] leading-[1.7] text-[#3D4A50] mt-[18px] max-w-[44em]">
-      Wählen Sie Ihren Kanton und prüfen Sie Ihren Anspruch auf Prämienverbilligung schnell und einfach.
+      {t('cantonDirectory.intro')}
     </p>
 
     <div class="mt-9 grid grid-cols-2 md:grid-cols-4 gap-4">
       {
         deutschschweizCantons.map((c) => (
           <a
-            href={`/${c.slug}`}
+            href={`/${locale}/${c.slug}`}
             onclick={`if (window.gtag) window.gtag('event', 'canton_directory_selected', { canton: '${c.slug}' })`}
             class="flex items-center gap-3 bg-white border border-[#E2E8EA] rounded-[10px] px-4 py-4 no-underline transition-colors hover:border-teal hover:bg-teal-light"
           >

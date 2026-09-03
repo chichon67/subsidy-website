@@ -5,7 +5,9 @@
 // inventing per-canton numbers — see basel-landschaft's "(unverifiziert)"
 // entries in cantons.js for the alternative once real figures are sourced
 // for a given canton.
-import { nationalStats, nationalFaqs } from './national.js';
+import { national } from './national.js';
+
+const { nationalStats, nationalFaqs } = national.de;
 
 export function buildGenericCantonData(name) {
   return {

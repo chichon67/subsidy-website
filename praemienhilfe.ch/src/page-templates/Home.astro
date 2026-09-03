@@ -1,5 +1,5 @@
 ---
-// src/pages/index.astro
+// src/pages/[locale]/index.astro
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
@@ -11,7 +11,21 @@ import WerWirSindSection from '../components/WerWirSindSection.astro';
 import FAQ from '../components/FAQ.astro';
 import DeadlineSection from '../components/DeadlineSection.astro';
 import FinalCTA from '../components/FinalCTA.astro';
-import { nationalStats, whySection, howItWorksSteps, nationalFaqs } from '../data/national.js';
+import { national } from '../data/national.js';
+
+const locale = Astro.currentLocale ?? 'de';
+const content = national[locale];
+
+const titleByLocale = {
+  de: 'Prämienverbilligung Schweiz 2026 – Antrag stellen | prämienhilfe.ch',
+  en: 'Swiss Health Insurance Premium Subsidy 2026 – Apply Now | prämienhilfe.ch',
+  es: 'Reducción de primas del seguro médico Suiza 2026 – Solicitar | prämienhilfe.ch',
+};
+const descriptionByLocale = {
+  de: 'Prämienverbilligung in der ganzen Schweiz beantragen. EVO Partners GmbH hilft Ihnen kostenlos bei der Einreichung Ihres Antrags — egal in welchem Kanton.',
+  en: 'Apply for your health insurance premium subsidy anywhere in Switzerland. EVO Partners GmbH helps you submit your application for free — no matter which canton.',
+  es: 'Solicite la reducción de primas del seguro médico en toda Suiza. EVO Partners GmbH le ayuda gratis a presentar su solicitud — sin importar el cantón.',
+};
 
 const schema = [
   {
@@ -29,61 +43,42 @@ const schema = [
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'Wer hat Anspruch auf Prämienverbilligung in der Schweiz?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Jede Person mit Wohnsitz in der Schweiz, deren steuerbares Einkommen unterhalb der kantonal festgelegten Grenze liegt. Über 2.4 Millionen Personen in der Schweiz sind berechtigt.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Was kostet die Hilfe bei der Prämienverbilligung?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Der Service ist vollständig kostenlos. EVO Partners GmbH ist ein FINMA-registrierter Versicherungsbroker.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Muss ich jedes Jahr einen neuen Antrag stellen?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'In den meisten Kantonen ja. Die Prämienverbilligung wird jährlich neu beantragt. Wir informieren Sie über die genaue Regelung in Ihrem Kanton.',
-        },
-      },
-    ],
+    mainEntity: content.nationalFaqs.slice(0, 3).map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
   },
 ];
 ---
 
 <Base
-  title="Prämienverbilligung Schweiz 2026 – Antrag stellen | prämienhilfe.ch"
-  description="Prämienverbilligung in der ganzen Schweiz beantragen. EVO Partners GmbH hilft Ihnen kostenlos bei der Einreichung Ihres Antrags — egal in welchem Kanton."
-  canonical="https://praemienhilfe.ch/"
+  title={titleByLocale[locale]}
+  description={descriptionByLocale[locale]}
+  canonical={`https://praemienhilfe.ch/${locale}/`}
+  locale={locale}
+  translationKey="home"
   activePage="home"
   schema={schema}
 >
-  <Hero variant="national" />
-  <TrustBar canton={{ stats: nationalStats }} />
-  <WasIstSection />
-  <CantonDirectory />
-  <HowItWorks steps={howItWorksSteps} heading="So funktioniert unsere Hilfe" id="so-funktioniert-es" />
+  <Hero variant="national" locale={locale} />
+  <TrustBar canton={{ stats: content.nationalStats }} />
+  <WasIstSection locale={locale} />
+  <CantonDirectory locale={locale} />
+  <HowItWorks steps={content.howItWorksSteps} heading={content.howItWorksHeading} id="so-funktioniert-es" />
   <ProblemSection
-    heading="Warum verzichten viele Berechtigte auf ihre Prämienverbilligung?"
-    intro={whySection.intro}
-    reasons={whySection.reasons}
-    closing={whySection.closing}
+    heading={content.whySection.heading}
+    intro={content.whySection.intro}
+    reasons={content.whySection.reasons}
+    closing={content.whySection.closing}
   />
-  <WerWirSindSection />
-  <FAQ canton={{ faqs: nationalFaqs }} />
-  <DeadlineSection />
+  <WerWirSindSection locale={locale} />
+  <FAQ canton={{ faqs: content.nationalFaqs }} locale={locale} />
+  <DeadlineSection locale={locale} />
   <FinalCTA
-    heading="Jetzt Anspruch prüfen lassen"
-    text="Wählen Sie Ihre Situation und prüfen Sie in 20 Minuten, ob Sie Anspruch auf Prämienverbilligung haben. Kostenlos und unverbindlich."
-    buttons={[{ label: 'Anspruch prüfen →', href: '#pruefen' }]}
-    disclaimer="prämienhilfe.ch ist ein privater Beratungsservice von EVO Partners GmbH, FINMA-registrierter Versicherungsbroker. Kein offizielles Kantonsorgan."
+    heading={content.finalCta.heading}
+    text={content.finalCta.text}
+    buttons={[{ label: content.finalCta.buttonLabel, href: '#pruefen' }]}
+    disclaimer={content.finalCta.disclaimer}
   />
 </Base>

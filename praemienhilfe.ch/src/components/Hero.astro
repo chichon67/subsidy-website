@@ -6,7 +6,7 @@ import SituationFunnel from './SituationFunnel.jsx';
 import SituationSelector from './SituationSelector.astro';
 import heroPhoto from '../assets/hero-photo.jpg';
 import swissVillage from '../assets/swiss-village-lake.jpg';
-import { heroCopy } from '../data/national.js';
+import { national } from '../data/national.js';
 
 export interface Props {
   canton?: { name: string; heroProof: string };
@@ -14,9 +14,11 @@ export interface Props {
   useSituationFunnel?: boolean;
   variant?: 'canton' | 'national';
   embeddedFunnel?: boolean;
+  locale?: 'de' | 'en' | 'es';
 }
-const { canton, defaultCanton, useSituationFunnel = true, variant = 'canton', embeddedFunnel = false } = Astro.props;
+const { canton, defaultCanton, useSituationFunnel = true, variant = 'canton', embeddedFunnel = false, locale = 'de' } = Astro.props;
 const isNational = variant === 'national';
+const heroCopy = national[locale].heroCopy;
 ---
 
 <section id="pruefen" class="relative bg-white overflow-hidden">
@@ -46,7 +48,7 @@ const isNational = variant === 'national';
       <div class="w-full md:max-w-[50%]">
         <h1 class="text-[32px] md:text-[48px] leading-[1.08] font-bold tracking-tight m-0">{heroCopy.title}</h1>
         <p class="text-base leading-[1.68] text-[#3D4A50] mt-5 max-w-[34em]">{heroCopy.paragraph}</p>
-        <SituationSelector />
+        <SituationSelector locale={locale} />
       </div>
     ) : (
       <div class="grid grid-cols-1 md:grid-cols-[55fr_45fr] gap-14 items-start">
@@ -58,7 +60,7 @@ const isNational = variant === 'national';
             Der Kanton gewährt Einwohnerinnen und Einwohnern in bescheidenen wirtschaftlichen Verhältnissen Beiträge zur Reduktion der Krankenkassenprämien. Wir helfen Ihnen, Ihren Anspruch zu prüfen und Ihren Antrag korrekt einzureichen.
           </p>
 
-          {embeddedFunnel ? <SituationFunnel client:load canton={defaultCanton} /> : useSituationFunnel ? <SituationSelector /> : <Funnel client:load defaultCanton={defaultCanton} />}
+          {embeddedFunnel ? <SituationFunnel client:load canton={defaultCanton} locale={locale} /> : useSituationFunnel ? <SituationSelector locale={locale} /> : <Funnel client:load defaultCanton={defaultCanton} locale={locale} />}
         </div>
 
         <div class="hidden md:block relative pt-1.5">

@@ -1,14 +1,18 @@
 ---
 // src/components/FAQ.astro
+import { useTranslations } from '../i18n/useTranslations.js';
+
 export interface Props {
   canton: { faqs: { q: string; a: string }[] };
+  locale?: 'de' | 'en' | 'es';
 }
-const { canton } = Astro.props;
+const { canton, locale = 'de' } = Astro.props;
+const t = useTranslations(locale);
 ---
 
 <section id="faq" class="bg-[#F5F7F8]">
   <div class="max-w-[900px] mx-auto px-8 py-16">
-    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0">Häufige Fragen</h2>
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0">{t('faq.heading')}</h2>
     <div class="mt-[30px] border-t border-[#DFE6E8]">
       {
         canton.faqs.map((f) => (

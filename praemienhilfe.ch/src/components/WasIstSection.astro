@@ -1,12 +1,18 @@
 ---
 // src/components/WasIstSection.astro
-import { wasIst } from '../data/national.js';
+import { national } from '../data/national.js';
+
+export interface Props {
+  locale?: 'de' | 'en' | 'es';
+}
+const { locale = 'de' } = Astro.props;
+const wasIst = national[locale].wasIst;
 ---
 
 <section id="was-ist" class="bg-white">
   <div class="max-w-[1240px] mx-auto px-8 py-[52px] md:py-[74px]">
     <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 max-w-[26em] leading-tight">
-      Was ist die Prämienverbilligung?
+      {wasIst.heading}
     </h2>
     <div class="mt-[34px] grid grid-cols-1 md:grid-cols-[1.3fr_1fr] gap-11 items-start">
       <div>

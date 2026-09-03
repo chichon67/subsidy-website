@@ -1,11 +1,14 @@
 ---
 // src/components/Header.astro
 import { deutschschweizCantons } from '../data/deutschschweiz.js';
+import { useTranslations } from '../i18n/useTranslations.js';
 
 export interface Props {
   activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt' | 'legal';
+  locale: 'de' | 'en' | 'es';
 }
-const { activePage = 'home' } = Astro.props;
+const { activePage = 'home', locale } = Astro.props;
+const t = useTranslations(locale);
 const isCantonLanding = activePage === 'basel-stadt' || activePage === 'basel-landschaft' || activePage === 'canton';
 // All canton-landing pages render the same embedded SituationFunnel (id="funnel").
 const cantonFunnelHref = '#funnel';
@@ -13,8 +16,8 @@ const showWerWirSind = activePage === 'basel-stadt' || activePage === 'canton';
 // The homepage renders its own #so-funktioniert-es / #faq / #pruefen sections
 // and links to those in-page; every other non-canton-landing page (dedicated
 // /so-funktioniert-es, /faq, /kontakt) falls back to the homepage's copy.
-const pruefenHref = activePage === 'home' ? '#pruefen' : '/#pruefen';
-const sectionHref = (id: string) => (activePage === 'home' ? `#${id}` : `/#${id}`);
+const pruefenHref = activePage === 'home' ? '#pruefen' : `/${locale}/#pruefen`;
+const sectionHref = (id: string) => (activePage === 'home' ? `#${id}` : `/${locale}/#${id}`);
 
 const navLink = (key: string) =>
   activePage === key
@@ -25,7 +28,7 @@ const navLink = (key: string) =>
 <header class="fixed top-0 w-full z-50 bg-white border-b-2 border-teal transition-transform duration-300 translate-y-0">
   <div class="max-w-[1240px] mx-auto px-8 py-3.5 flex items-center justify-between gap-8">
     <a
-      href="/"
+      href={`/${locale}/`}
       class="flex items-center gap-3 no-underline"
       {...isCantonLanding ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
     >
@@ -42,14 +45,26 @@ const navLink = (key: string) =>
 
     {isCantonLanding ? (
       <nav class="hidden [@media(min-width:980px)]:flex items-center gap-6 text-[14.5px] font-medium">
-        <a href="#so-funktioniert-es" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">So funktioniert es</a>
-        <a href="#faq" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">FAQ</a>
-        {showWerWirSind && <a href="#wer-wir-sind" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">Über uns</a>}
-        <a href={cantonFunnelHref} class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">Antrag prüfen →</a>
+        <a href="#so-funktioniert-es" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">{t('nav.howItWorks')}</a>
+        <a href="#faq" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">{t('nav.faq')}</a>
+        {showWerWirSind && <a href="#wer-wir-sind" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">{t('footer.info.about')}</a>}
+        <a href={cantonFunnelHref} class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">{t('nav.cta.checkClaim')}</a>
+        <div class="flex items-center gap-2.5 text-[13px] font-semibold text-[#8A979C] ml-1">
+          {['de', 'en', 'es'].map((l) => (
+            <a
+              href={`/${l}/`}
+              data-lang-switch={l}
+              class={l === locale ? 'text-teal underline underline-offset-2' : 'hover:text-teal'}
+              aria-current={l === locale ? 'true' : undefined}
+            >
+              {l.toUpperCase()}
+            </a>
+          ))}
+        </div>
       </nav>
     ) : (
       <nav class="hidden [@media(min-width:980px)]:flex items-center gap-6 text-[14.5px] font-medium">
-        <a href="/" class={navLink('home')}>Prämienverbilligung</a>
+        <a href={`/${locale}/`} class={navLink('home')}>{t('nav.home')}</a>
 
         <div class="relative">
           <button
@@ -59,7 +74,7 @@ const navLink = (key: string) =>
             aria-controls="kantone-menu-panel"
             class="flex items-center gap-1.5 bg-transparent border-0 p-0 cursor-pointer text-[14.5px] font-medium text-dark hover:text-teal"
           >
-            <span>Kantone</span>
+            <span>{t('nav.cantons')}</span>
             <span id="kantone-menu-caret" class="text-[11px] text-teal transition-transform duration-150">▾</span>
           </button>
           <div
@@ -67,12 +82,12 @@ const navLink = (key: string) =>
             class="hidden fixed inset-x-0 top-[var(--header-h)] bg-white border-t border-[#E2E8EA] shadow-[0_16px_32px_rgba(26,26,42,0.12)]"
           >
             <div class="max-w-[1240px] mx-auto px-8 py-8">
-              <h3 class="text-[12px] font-semibold uppercase tracking-wide text-[#6B7780] m-0 mb-4">Deutschschweiz</h3>
+              <h3 class="text-[12px] font-semibold uppercase tracking-wide text-[#6B7780] m-0 mb-4">{t('nav.cantons.subheading')}</h3>
               <div class="grid grid-cols-4 gap-3">
                 {
                   deutschschweizCantons.map((c) => (
                     <a
-                      href={`/${c.slug}`}
+                      href={`/${locale}/${c.slug}`}
                       onclick={`if (window.gtag) window.gtag('event', 'header_canton_menu_selected', { canton: '${c.slug}' })`}
                       class="flex items-center gap-3 bg-white border border-[#E2E8EA] rounded-[10px] px-4 py-3 no-underline transition-colors hover:border-teal hover:bg-teal-light"
                     >
@@ -86,17 +101,30 @@ const navLink = (key: string) =>
           </div>
         </div>
 
-        <a href={sectionHref('so-funktioniert-es')} class={navLink('ablauf')}>So funktioniert es</a>
-        <a href={sectionHref('faq')} class={navLink('faq')}>FAQ</a>
-        <a href="/kontakt" class={navLink('kontakt')}>Kontakt</a>
-        <a href={pruefenHref} class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">Antrag prüfen</a>
+        <a href={sectionHref('so-funktioniert-es')} class={navLink('ablauf')}>{t('nav.howItWorks')}</a>
+        <a href={sectionHref('faq')} class={navLink('faq')}>{t('nav.faq')}</a>
+        <a href={`/${locale}/kontakt`} class={navLink('kontakt')}>{t('nav.contact')}</a>
+        <a href={pruefenHref} class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">{t('nav.cta')}</a>
+
+        <div class="flex items-center gap-2.5 text-[13px] font-semibold text-[#8A979C] ml-1">
+          {['de', 'en', 'es'].map((l) => (
+            <a
+              href={`/${l}/`}
+              data-lang-switch={l}
+              class={l === locale ? 'text-teal underline underline-offset-2' : 'hover:text-teal'}
+              aria-current={l === locale ? 'true' : undefined}
+            >
+              {l.toUpperCase()}
+            </a>
+          ))}
+        </div>
       </nav>
     )}
 
     <label
       for="mobile-menu-toggle"
       class="[@media(min-width:980px)]:hidden flex items-center justify-center w-[42px] h-[42px] bg-white border border-[#D6DFE2] rounded cursor-pointer"
-      aria-label="Menü öffnen"
+      aria-label={t('nav.menu.open')}
     >
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A2A" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path>
@@ -116,23 +144,47 @@ const navLink = (key: string) =>
       </svg>
       <span class="text-[17px] font-bold">prämienhilfe<span class="text-teal">.ch</span></span>
     </div>
-    <label for="mobile-menu-toggle" class="w-10 h-10 flex items-center justify-center border border-[#D6DFE2] rounded cursor-pointer text-xl text-dark" aria-label="Menü schliessen">×</label>
+    <label for="mobile-menu-toggle" class="w-10 h-10 flex items-center justify-center border border-[#D6DFE2] rounded cursor-pointer text-xl text-dark" aria-label={t('nav.menu.close')}>×</label>
   </div>
   {isCantonLanding ? (
     <div class="px-6 py-7 grid gap-1">
-      <a href="#so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
-      <a href="#faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
-      {showWerWirSind && <a href="#wer-wir-sind" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Über uns</a>}
-      <a href={cantonFunnelHref} class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen →</a>
+      <a href="#so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t('nav.howItWorks')}</a>
+      <a href="#faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t('nav.faq')}</a>
+      {showWerWirSind && <a href="#wer-wir-sind" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t('footer.info.about')}</a>}
+      <a href={cantonFunnelHref} class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">{t('nav.cta.checkClaim')}</a>
+      <div class="flex items-center justify-center gap-4 text-[14px] font-semibold text-[#8A979C] mt-5">
+        {['de', 'en', 'es'].map((l) => (
+          <a
+            href={`/${l}/`}
+            data-lang-switch={l}
+            class={l === locale ? 'text-teal underline underline-offset-2' : 'hover:text-teal'}
+            aria-current={l === locale ? 'true' : undefined}
+          >
+            {l.toUpperCase()}
+          </a>
+        ))}
+      </div>
     </div>
   ) : (
     <div class="px-6 py-7 grid gap-1">
-      <a href="/" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Prämienverbilligung</a>
-      <a href="/#kantone-grid" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Alle Kantone</a>
-      <a href="/so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
-      <a href="/faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
-      <a href="/kontakt" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Kontakt</a>
-      <a href={pruefenHref} class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen lassen →</a>
+      <a href={`/${locale}/`} class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t('nav.home')}</a>
+      <a href={`/${locale}/#kantone-grid`} class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t('nav.allCantons')}</a>
+      <a href={`/${locale}/so-funktioniert-es`} class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t('nav.howItWorks')}</a>
+      <a href={`/${locale}/faq`} class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t('nav.faq')}</a>
+      <a href={`/${locale}/kontakt`} class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t('nav.contact')}</a>
+      <a href={pruefenHref} class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">{t('mobileCta.button')}</a>
+      <div class="flex items-center justify-center gap-4 text-[14px] font-semibold text-[#8A979C] mt-5">
+        {['de', 'en', 'es'].map((l) => (
+          <a
+            href={`/${l}/`}
+            data-lang-switch={l}
+            class={l === locale ? 'text-teal underline underline-offset-2' : 'hover:text-teal'}
+            aria-current={l === locale ? 'true' : undefined}
+          >
+            {l.toUpperCase()}
+          </a>
+        ))}
+      </div>
     </div>
   )}
 </div>
@@ -221,6 +273,38 @@ const navLink = (key: string) =>
     });
   }
 
+  function initLangSwitcher() {
+    document.querySelectorAll('[data-lang-switch]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const target = link.getAttribute('data-lang-switch');
+        document.cookie = `pv_lang=${target}; path=/; max-age=31536000; SameSite=Lax`;
+        const current = window.location.pathname;
+        const rest = current.replace(/^\/(de|en|es)(\/|$)/, '/');
+        const candidate = `/${target}${rest === '/' ? '/' : rest}`;
+        e.preventDefault();
+        // Fall back to that locale's homepage if the equivalent path 404s under
+        // Astro's DE-fallback (fallback only covers whole-route rewrites for
+        // canton pages already known to Astro's routing table, not arbitrary
+        // guesses) — a HEAD check keeps this simple and correct either way.
+        fetch(candidate, { method: 'HEAD' })
+          .then((res) => {
+            window.location.href = res.ok ? candidate : `/${target}/`;
+          })
+          .catch(() => {
+            window.location.href = `/${target}/`;
+          });
+      });
+    });
+  }
+
   initHeader();
   initKantoneMenu();
+  // Footer's [data-lang-switch] links aren't in the DOM yet when this script
+  // runs (Header's markup is parsed and its trailing <script> executes before
+  // Footer is parsed), so defer wiring until the full document is ready.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLangSwitcher);
+  } else {
+    initLangSwitcher();
+  }
 </script>

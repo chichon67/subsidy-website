@@ -1,17 +1,20 @@
 ---
 // src/components/Footer.astro
 import { deutschschweizCantons } from '../data/deutschschweiz.js';
+import { useTranslations } from '../i18n/useTranslations.js';
 
 export interface Props {
   activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt' | 'legal';
+  locale: 'de' | 'en' | 'es';
 }
-const { activePage = 'home' } = Astro.props;
+const { activePage = 'home', locale } = Astro.props;
+const t = useTranslations(locale);
 const isCantonPage = activePage === 'basel-stadt' || activePage === 'basel-landschaft' || activePage === 'canton';
 // All canton-landing pages render the same embedded SituationFunnel (id="funnel").
 const cantonFunnelHref = '#funnel';
 const showWerWirSind = activePage === 'basel-stadt' || activePage === 'canton';
 const isHome = activePage === 'home';
-const homeAnchor = (id: string) => (isHome ? `#${id}` : `/#${id}`);
+const homeAnchor = (id: string) => (isHome ? `#${id}` : `/${locale}/#${id}`);
 const year = new Date().getFullYear();
 ---
 
@@ -30,66 +33,83 @@ const year = new Date().getFullYear();
             <span class="block text-sm font-medium text-[#6EC5D4]">.ch</span>
           </span>
         </div>
-        <div class="text-[13.5px] text-[#9AA6AC] mt-3.5 leading-relaxed">Hilfe bei der Prämienverbilligung in der Schweiz</div>
+        <div class="text-[13.5px] text-[#9AA6AC] mt-3.5 leading-relaxed">{t('footer.tagline')}</div>
         <div class="h-px bg-[#2E3442] my-5"></div>
-        <p class="text-[13px] leading-relaxed text-[#9AA6AC] m-0">prämienhilfe.ch ist eine private Beratungsplattform, unabhängig von den kantonalen Behörden der Schweiz.</p>
-        <p class="text-[13px] leading-relaxed text-[#9AA6AC] mt-4">Betrieben von:<br>EVO Partners GmbH<br>FINMA-registrierter Versicherungsbroker<br>Zürich, Schweiz</p>
+        <p class="text-[13px] leading-relaxed text-[#9AA6AC] m-0">{t('footer.independentNote')}</p>
+        <p class="text-[13px] leading-relaxed text-[#9AA6AC] mt-4">{t('footer.operatedBy')}<br>EVO Partners GmbH<br>FINMA-registrierter Versicherungsbroker<br>Zürich, Schweiz</p>
       </div>
 
       {!isCantonPage && (
         <div>
-          <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">Kantone</div>
+          <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">{t('footer.cantons')}</div>
           {isHome ? (
             <div class="grid grid-cols-2 gap-x-4 gap-y-2.5 mt-4 text-sm">
               {deutschschweizCantons.map((c) => (
-                <a href={`/${c.slug}`} class="text-[#D8DEE1] hover:text-white">{c.name}</a>
+                <a href={`/${locale}/${c.slug}`} class="text-[#D8DEE1] hover:text-white">{c.name}</a>
               ))}
             </div>
           ) : (
             <div class="grid gap-2.5 mt-4 text-sm">
-              <a href="/basel-stadt" class="text-[#D8DEE1] hover:text-white">Basel-Stadt</a>
-              <a href="/basel-landschaft" class="text-[#D8DEE1] hover:text-white">Basel-Landschaft</a>
+              <a href={`/${locale}/basel-stadt`} class="text-[#D8DEE1] hover:text-white">Basel-Stadt</a>
+              <a href={`/${locale}/basel-landschaft`} class="text-[#D8DEE1] hover:text-white">Basel-Landschaft</a>
             </div>
           )}
         </div>
       )}
 
       <div>
-        <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">Informationen</div>
+        <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">{t('footer.info')}</div>
         <div class="grid gap-2.5 mt-4 text-sm">
           {isCantonPage ? (
             <>
-              <a href="#so-funktioniert-es" class="text-[#D8DEE1] hover:text-white">So funktioniert es</a>
-              <a href="#faq" class="text-[#D8DEE1] hover:text-white">FAQ</a>
-              {showWerWirSind && <a href="#wer-wir-sind" class="text-[#D8DEE1] hover:text-white">Über uns</a>}
-              <a href={cantonFunnelHref} class="text-[#D8DEE1] hover:text-white">Kontakt</a>
+              <a href="#so-funktioniert-es" class="text-[#D8DEE1] hover:text-white">{t('footer.info.howItWorks')}</a>
+              <a href="#faq" class="text-[#D8DEE1] hover:text-white">{t('footer.info.faq')}</a>
+              {showWerWirSind && <a href="#wer-wir-sind" class="text-[#D8DEE1] hover:text-white">{t('footer.info.about')}</a>}
+              <a href={cantonFunnelHref} class="text-[#D8DEE1] hover:text-white">{t('footer.info.contact')}</a>
             </>
           ) : (
             <>
-              <a href={homeAnchor('was-ist')} class="text-[#D8DEE1] hover:text-white">Was ist Prämienverbilligung?</a>
-              <a href={homeAnchor('so-funktioniert-es')} class="text-[#D8DEE1] hover:text-white">So funktioniert es</a>
-              <a href={homeAnchor('faq')} class="text-[#D8DEE1] hover:text-white">FAQ</a>
-              <a href={homeAnchor('wer-wir-sind')} class="text-[#D8DEE1] hover:text-white">Über uns</a>
-              <a href="/kontakt" class="text-[#D8DEE1] hover:text-white">Kontakt</a>
+              <a href={homeAnchor('was-ist')} class="text-[#D8DEE1] hover:text-white">{t('footer.info.whatIs')}</a>
+              <a href={homeAnchor('so-funktioniert-es')} class="text-[#D8DEE1] hover:text-white">{t('footer.info.howItWorks')}</a>
+              <a href={homeAnchor('faq')} class="text-[#D8DEE1] hover:text-white">{t('footer.info.faq')}</a>
+              <a href={homeAnchor('wer-wir-sind')} class="text-[#D8DEE1] hover:text-white">{t('footer.info.about')}</a>
+              <a href={`/${locale}/kontakt`} class="text-[#D8DEE1] hover:text-white">{t('footer.info.contact')}</a>
             </>
           )}
         </div>
       </div>
 
       <div>
-        <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">Rechtliches</div>
+        <div class="text-xs font-semibold tracking-wide uppercase text-[#6EC5D4]">{t('footer.legal')}</div>
         <div class="grid gap-2.5 mt-4 text-sm">
-          <a href="/impressum" target="_blank" rel="noopener noreferrer" class="text-[#D8DEE1] hover:text-white">Impressum</a>
-          <a href="/datenschutz" target="_blank" rel="noopener noreferrer" class="text-[#D8DEE1] hover:text-white">Datenschutzbestimmungen</a>
-          <a href="/impressum" target="_blank" rel="noopener noreferrer" class="text-[#D8DEE1] hover:text-white">Nutzungsbedingungen</a>
-          <a href="/impressum" target="_blank" rel="noopener noreferrer" class="text-[#D8DEE1] hover:text-white">Rechtliche Hinweise</a>
+          <a href="/impressum" target="_blank" rel="noopener noreferrer" class="text-[#D8DEE1] hover:text-white">{t('footer.legal.impressum')}</a>
+          <a href="/datenschutz" target="_blank" rel="noopener noreferrer" class="text-[#D8DEE1] hover:text-white">{t('footer.legal.privacy')}</a>
+          <a href="/impressum" target="_blank" rel="noopener noreferrer" class="text-[#D8DEE1] hover:text-white">{t('footer.legal.terms')}</a>
+          <a href="/impressum" target="_blank" rel="noopener noreferrer" class="text-[#D8DEE1] hover:text-white">{t('footer.legal.legalNotices')}</a>
         </div>
       </div>
     </div>
   </div>
   <div class="bg-[#14141F]">
-    <div class="max-w-[1240px] mx-auto px-8 py-4 text-xs text-[#8A959B] leading-relaxed">
-      © {year} prämienhilfe.ch — Ein Service von EVO Partners GmbH, Zürich. Alle Rechte vorbehalten. Diese Plattform ist kein offizielles Kantonsorgan.
+    <div class="max-w-[1240px] mx-auto px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs text-[#8A959B] leading-relaxed">
+      <span>{t('footer.copyright', year)}</span>
+      <div class="flex items-center gap-2.5 text-[13px] font-semibold text-[#8A959B]">
+        <span class="sr-only">{t('langSwitcher.label')}</span>
+        {['de', 'en', 'es'].map((l) => (
+          <a
+            href={`/${l}/`}
+            data-lang-switch={l}
+            class={l === locale ? 'text-white underline underline-offset-2' : 'hover:text-white'}
+            aria-current={l === locale ? 'true' : undefined}
+          >
+            {l.toUpperCase()}
+          </a>
+        ))}
+      </div>
     </div>
   </div>
 </footer>
+
+<!-- Language-switch click handling (cookie set + equivalent-page lookup) is
+     wired once, document-wide, by Header.astro's initLangSwitcher(), which
+     covers both the header's and this footer's [data-lang-switch] links. -->

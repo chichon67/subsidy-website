@@ -5,12 +5,16 @@ import Footer from '../components/Footer.astro';
 import DisclaimerModal from '../components/DisclaimerModal.jsx';
 import ExitIntentPopup from '../components/ExitIntentPopup.jsx';
 import StickyFunnelWidget from '../components/StickyFunnelWidget.jsx';
+import { getLocalizedUrls } from '../i18n/pageUrls.js';
+import { useTranslations } from '../i18n/useTranslations.js';
 import '../styles/global.css';
 
 export interface Props {
   title: string;
   description: string;
   canonical: string;
+  locale: 'de' | 'en' | 'es';
+  translationKey?: string;
   activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt' | 'legal';
   cantonName?: string;
   chrome?: boolean;
@@ -18,7 +22,19 @@ export interface Props {
   schema?: Record<string, unknown>[];
 }
 
-const { title, description, canonical, activePage = 'home', cantonName, chrome = true, robots = 'index, follow', schema = [] } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  locale,
+  translationKey,
+  activePage = 'home',
+  cantonName,
+  chrome = true,
+  robots = 'index, follow',
+  schema = [],
+} = Astro.props;
+const t = useTranslations(locale);
 const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
 const adsId = 'AW-18005574565';
 // Pages that render their own embedded funnel link straight to it in-page:
@@ -28,12 +44,14 @@ const adsId = 'AW-18005574565';
 // so it must go to the dedicated /antrag funnel entry point instead of
 // bouncing through the homepage.
 const isCantonLandingPage = activePage === 'basel-stadt' || activePage === 'basel-landschaft' || activePage === 'canton';
-const mobileCtaHref = isCantonLandingPage ? '#funnel' : activePage === 'home' ? '#pruefen' : '/antrag';
-const mobileCtaLabel = cantonName ? `Anspruch ${cantonName} prüfen →` : 'Anspruch prüfen →';
+const mobileCtaHref = isCantonLandingPage ? '#funnel' : activePage === 'home' ? '#pruefen' : `/${locale}/antrag`;
+const mobileCtaLabel = t('mobileCta.button');
+const altUrls = translationKey ? getLocalizedUrls(translationKey) : null;
+const ogLocale = { de: 'de_CH', en: 'en_US', es: 'es_ES' }[locale];
 ---
 
 <!doctype html>
-<html lang="de-CH">
+<html lang={`${locale}-CH`}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -41,10 +59,18 @@ const mobileCtaLabel = cantonName ? `Anspruch ${cantonName} prüfen →` : 'Ansp
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
     <link rel="canonical" href={canonical} />
+    {altUrls && (
+      <>
+        <link rel="alternate" hreflang="de" href={altUrls.de} />
+        <link rel="alternate" hreflang="en" href={altUrls.en} />
+        <link rel="alternate" hreflang="es" href={altUrls.es} />
+        <link rel="alternate" hreflang="x-default" href={altUrls.de} />
+      </>
+    )}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content="de_CH" />
+    <meta property="og:locale" content={ogLocale} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -67,7 +93,7 @@ const mobileCtaLabel = cantonName ? `Anspruch ${cantonName} prüfen →` : 'Ansp
   </head>
   <body>
     <div id="top"></div>
-    {chrome && <Header activePage={activePage} />}
+    {chrome && <Header activePage={activePage} locale={locale} />}
     {chrome ? (
       <div style="padding-top: var(--header-h, 76px)">
         <slot />
@@ -75,7 +101,7 @@ const mobileCtaLabel = cantonName ? `Anspruch ${cantonName} prüfen →` : 'Ansp
     ) : (
       <slot />
     )}
-    {chrome && <Footer activePage={activePage} />}
+    {chrome && <Footer activePage={activePage} locale={locale} />}
 
     {
       chrome && (
@@ -90,9 +116,9 @@ const mobileCtaLabel = cantonName ? `Anspruch ${cantonName} prüfen →` : 'Ansp
       )
     }
 
-    {chrome && <DisclaimerModal client:load />}
-    {chrome && <ExitIntentPopup client:load />}
-    {chrome && <StickyFunnelWidget client:idle activePage={activePage} cantonName={cantonName} />}
+    {chrome && <DisclaimerModal client:load locale={locale} />}
+    {chrome && <ExitIntentPopup client:load locale={locale} />}
+    {chrome && <StickyFunnelWidget client:idle activePage={activePage} cantonName={cantonName} locale={locale} />}
 
     <script>
       const SCROLL_DURATION_MS = 300;

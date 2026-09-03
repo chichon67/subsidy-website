@@ -1,5 +1,5 @@
 ---
-// src/pages/danke.astro
+// src/page-templates/Danke.astro
 // Dedicated confirmation URL landed on after a successful /antrag
 // submission (see AntragFunnel.jsx submitContact). Kept as its own page
 // rather than an inline "done" step so it can be set as a Google Ads
@@ -7,16 +7,22 @@
 // not content that should show up in search results.
 import Base from '../layouts/Base.astro';
 import DankeSummary from '../components/DankeSummary.jsx';
+import { useTranslations } from '../i18n/useTranslations.js';
+
+const locale = Astro.currentLocale ?? 'de';
+const t = useTranslations(locale);
 ---
 
 <Base
-  title="Vielen Dank | prämienhilfe.ch"
-  description="Ihre Anfrage bei prämienhilfe.ch wurde erfolgreich übermittelt."
-  canonical="https://praemienhilfe.ch/danke"
+  title={t('danke.title')}
+  description={t('danke.description')}
+  canonical={`https://praemienhilfe.ch/${locale}/danke`}
+  locale={locale}
+  translationKey="danke"
   robots="noindex, nofollow"
   chrome={false}
 >
   <div class="min-h-screen bg-[#F5F7F8] flex items-center justify-center px-5 py-16">
-    <DankeSummary client:load />
+    <DankeSummary client:load locale={locale} />
   </div>
 </Base>

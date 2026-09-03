@@ -4,8 +4,10 @@
 // here without submitting (direct visit, refresh after the value is
 // cleared, bookmarked link, etc).
 import { useEffect, useState } from 'react';
+import { useTranslations } from '../i18n/useTranslations.js';
 
-export default function DankeSummary() {
+export default function DankeSummary({ locale }) {
+  const t = useTranslations(locale);
   const [summary, setSummary] = useState(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -32,10 +34,10 @@ export default function DankeSummary() {
         </svg>
       </div>
       <div className="text-xl font-bold mt-4 tracking-tight text-[#2E6B29]">
-        {summary?.firstName ? `Vielen Dank, ${summary.firstName}!` : 'Vielen Dank für Ihre Anfrage!'}
+        {summary?.firstName ? t('danke.thanksNamed', summary.firstName) : t('danke.thanksGeneric')}
       </div>
       <p className="text-[15px] leading-relaxed text-[#3D4A50] mt-2.5">
-        Ein Berater von uns meldet sich innerhalb von 24 Stunden bei Ihnen. Bei Fragen erreichen Sie uns unter{' '}
+        {t('danke.body')}{' '}
         <a href="tel:+41767790449" className="text-teal font-semibold no-underline">
           +41 76 779 0449
         </a>
@@ -46,44 +48,44 @@ export default function DankeSummary() {
         <div className="mt-5 bg-[#F5F7F8] rounded-md px-4 py-3.5 grid gap-1.5 text-[13.5px] text-left">
           {summary.situationLabel && (
             <div className="flex justify-between">
-              <span className="text-[#6B7A80]">Situation:</span>
+              <span className="text-[#6B7A80]">{t('danke.summary.situation')}</span>
               <span className="font-semibold text-dark">{summary.situationLabel}</span>
             </div>
           )}
           {summary.cantonName && (
             <div className="flex justify-between">
-              <span className="text-[#6B7A80]">Kanton:</span>
+              <span className="text-[#6B7A80]">{t('danke.summary.canton')}</span>
               <span className="font-semibold text-dark">{summary.cantonName}</span>
             </div>
           )}
           {summary.household && (
             <div className="flex justify-between">
-              <span className="text-[#6B7A80]">Haushalt:</span>
+              <span className="text-[#6B7A80]">{t('danke.summary.household')}</span>
               <span className="font-semibold text-dark">{summary.household}</span>
             </div>
           )}
           {summary.income && (
             <div className="flex justify-between">
-              <span className="text-[#6B7A80]">Einkommen:</span>
+              <span className="text-[#6B7A80]">{t('danke.summary.income')}</span>
               <span className="font-semibold text-dark">{summary.income}</span>
             </div>
           )}
           {summary.email && (
             <div className="flex justify-between">
-              <span className="text-[#6B7A80]">E-Mail:</span>
+              <span className="text-[#6B7A80]">{t('danke.summary.email')}</span>
               <span className="font-semibold text-dark">{summary.email}</span>
             </div>
           )}
         </div>
       )}
 
-      <p className="text-[13px] text-[#8A979C] mt-4">Sie erhalten in Kürze eine Bestätigung per E-Mail.</p>
+      <p className="text-[13px] text-[#8A979C] mt-4">{t('danke.confirmationNote')}</p>
 
       <a
-        href="/"
+        href={`/${locale}/`}
         className="mt-6 inline-block px-5 py-3 bg-teal text-white rounded-md text-[15px] font-bold no-underline hover:bg-teal-dark"
       >
-        Zurück zur Startseite
+        {t('danke.backHome')}
       </a>
     </div>
   );

@@ -8,6 +8,23 @@
 
 **Tech Stack:** Astro 7 (`astro:i18n`), React 19 islands, Tailwind 4, Netlify adapter.
 
+## Correction Notice (post-Task-1)
+
+Task 1's implementer discovered that this plan's original routing approach — combining Astro's native `i18n` config with a manually-authored `src/pages/[locale]/...` dynamic-route folder — is wrong: Astro's `i18n` integration already synthesizes locale-prefixed routes itself, so a hand-rolled `[locale]` catch-all collides with it (confirmed by real `[WARN] ... conflicts with higher priority route` build output) and forces an undocumented `getStaticPaths()` on every nested page.
+
+**Corrected convention, superseding every `src/pages/[locale]/<name>.astro` reference below:** Astro's i18n routing wants one real physical file per locale, under literal locale-named folders — `src/pages/de/<name>.astro`, `src/pages/en/<name>.astro`, `src/pages/es/<name>.astro` — no dynamic segment, no `getStaticPaths`. To avoid tripling every page's logic (and the drift risk of three hand-maintained copies), each page's actual content lives in exactly one canonical file under `src/page-templates/<Name>.astro` (a plain, non-route Astro component — `src/page-templates/` is not under `src/pages/`, so Astro never treats it as a route), written exactly as this plan's later tasks describe (they already read `Astro.currentLocale` dynamically rather than hardcoding a locale, so their content is unchanged). Each of the three route files is then a 2-line delegation:
+
+```astro
+---
+import Page from '../../page-templates/Home.astro';
+---
+<Page />
+```
+
+Wherever a task below says "Create/Modify: `src/pages/[locale]/<name>.astro`", read it as: "Create/Modify the canonical `src/page-templates/<Name>.astro`, and create three thin delegators at `src/pages/de/<name>.astro`, `src/pages/en/<name>.astro`, `src/pages/es/<name>.astro` (identical 2-line content, differing only in which locale folder they sit in)." `Astro.currentLocale` continues to work exactly as every later task already assumes — Astro derives it from the physical locale folder the matched route lives in, same as it would have from the (incorrect) `[locale]` param.
+
+Task 1 must be redone under this corrected convention before any later task proceeds.
+
 ## Global Constraints
 
 - Work happens in `/Users/marco/Documents/repos/subsidy-website/.claude/worktrees/basel-stadt-fixes/praemienhilfe.ch` (all paths below are relative to this directory).
@@ -22,27 +39,38 @@
 
 ---
 
-### Task 1: Astro i18n routing config + move pages under `[locale]`
+### Task 1 (REDO): Astro i18n routing config + locale-folder page templates
+
+**This replaces Task 1 as originally attempted.** A prior attempt used a manual `src/pages/[locale]/` dynamic-route folder combined with Astro's native `i18n` config — these conflict (confirmed by real build warnings: `[WARN] ... conflicts with higher priority route`) because Astro's `i18n` integration already synthesizes locale-prefixed routes from literal locale-named folders; a hand-rolled `[locale]` catch-all fights it. First, undo the prior attempt; then implement the corrected structure described in this plan's "Correction Notice" section (read that section first — it defines the `src/page-templates/` + thin-per-locale-route-file convention every later task relies on).
 
 **Files:**
 - Modify: `astro.config.mjs`
-- Create: `src/pages/[locale]/index.astro` (moved from `src/pages/index.astro`)
-- Create: `src/pages/[locale]/basel-stadt.astro` (moved)
-- Create: `src/pages/[locale]/basel-landschaft.astro` (moved)
-- Create: `src/pages/[locale]/faq.astro` (moved)
-- Create: `src/pages/[locale]/so-funktioniert-es.astro` (moved)
-- Create: `src/pages/[locale]/kontakt.astro` (moved)
-- Create: `src/pages/[locale]/antrag.astro` (moved)
-- Create: `src/pages/[locale]/danke.astro` (moved)
-- Create: `src/pages/[locale]/[canton].astro` (moved)
-- Modify: `src/pages/index.astro` (replaced by Task 2's root redirect — leave a placeholder file for now that just re-exports nothing; Task 2 fills it in)
-- Delete: old `src/pages/basel-stadt.astro`, `basel-landschaft.astro`, `faq.astro`, `so-funktioniert-es.astro`, `kontakt.astro`, `antrag.astro`, `danke.astro`, `[canton].astro` (content moves, not duplicates)
+- Delete: `src/pages/[locale]/` (the entire folder from the prior attempt, all 9 files plus any `getStaticPaths` additions)
+- Create: `src/page-templates/Home.astro`, `BaselStadt.astro`, `BaselLandschaft.astro`, `Faq.astro`, `SoFunktioniertEs.astro`, `Kontakt.astro`, `Antrag.astro`, `Danke.astro`, `Canton.astro` — each containing exactly the original page content (byte-for-byte, before any prior-attempt modification) that used to live at `src/pages/<name>.astro` before Task 1 was first attempted
+- Create: `src/pages/de/index.astro`, `src/pages/en/index.astro`, `src/pages/es/index.astro` (each a 2-line delegator to `Home.astro`)
+- Create: the same 3-per-page delegator pattern for `basel-stadt.astro`, `basel-landschaft.astro`, `faq.astro`, `so-funktioniert-es.astro`, `kontakt.astro`, `antrag.astro`, `danke.astro` (21 more delegator files, 3 per page × 7 pages)
+- Create: `src/pages/de/[canton].astro`, `src/pages/en/[canton].astro`, `src/pages/es/[canton].astro` (delegators to `Canton.astro`, each with their own `getStaticPaths()` for canton slugs only — see Step 4)
+- Modify: `src/pages/index.astro` (replaced by Task 2's root redirect — this task deletes it if the prior attempt left anything there; Task 2 creates the real content)
 
 **Interfaces:**
-- Produces: every in-scope route now resolves at `/de/...`, `/en/...`, `/es/...`. `Astro.currentLocale` is available in every moved page (Astro's i18n routing sets this automatically from the `[locale]` segment when `i18n.locales` is configured).
-- Consumes: nothing from other tasks yet — this task only moves files, no content translation.
+- Produces: every in-scope route resolves at `/de/...`, `/en/...`, `/es/...` via real per-locale files, no dynamic `[locale]` segment anywhere. `Astro.currentLocale` is available in every page template exactly as it would be with the (incorrect) `[locale]` approach — Astro derives it from which locale folder physically contains the matched route. Every later task's references to `src/pages/[locale]/<name>.astro` mean: edit `src/page-templates/<Name>.astro`.
+- Consumes: nothing from other tasks yet — this task only restructures files, no content translation.
 
-- [ ] **Step 1: Add i18n config to `astro.config.mjs`**
+- [ ] **Step 1: Undo the prior attempt**
+
+```bash
+git log --oneline -3
+```
+Find the commit from the prior Task 1 attempt (commit message `feat: move core pages under [locale] i18n routing`, hash `f742909` unless subsequent commits have landed — confirm by checking `git log --oneline` before assuming this hash is still current). Revert it:
+
+```bash
+git revert --no-edit f742909
+```
+If `f742909` is no longer the tip and the revert conflicts, resolve by restoring the pre-Task-1 file layout (9 files directly under `src/pages/`, original `astro.config.mjs` without the `i18n` block) rather than trying to hand-merge — the goal is simply to get back to the state before Task 1 first ran.
+
+Run: `npm run build` — expect this to succeed exactly as it did before Task 1 was ever attempted (confirms the revert is clean).
+
+- [ ] **Step 2: Add i18n config to `astro.config.mjs`** (same as the original attempt — this part was correct)
 
 ```js
 // astro.config.mjs
@@ -77,33 +105,75 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 2: Move each in-scope page into `src/pages/[locale]/`**
-
-For each of these, `git mv` the file (preserves history) and leave its content byte-for-byte unchanged in this step — translation happens in later tasks:
+- [ ] **Step 3: Move each in-scope page's content into `src/page-templates/`, byte-for-byte**
 
 ```bash
-mkdir -p src/pages/\[locale\]
-git mv src/pages/basel-stadt.astro "src/pages/[locale]/basel-stadt.astro"
-git mv src/pages/basel-landschaft.astro "src/pages/[locale]/basel-landschaft.astro"
-git mv src/pages/faq.astro "src/pages/[locale]/faq.astro"
-git mv src/pages/so-funktioniert-es.astro "src/pages/[locale]/so-funktioniert-es.astro"
-git mv src/pages/kontakt.astro "src/pages/[locale]/kontakt.astro"
-git mv src/pages/antrag.astro "src/pages/[locale]/antrag.astro"
-git mv src/pages/danke.astro "src/pages/[locale]/danke.astro"
-git mv "src/pages/[canton].astro" "src/pages/[locale]/[canton].astro"
-git mv src/pages/index.astro "src/pages/[locale]/index.astro"
+mkdir -p src/page-templates
+git mv src/pages/index.astro src/page-templates/Home.astro
+git mv src/pages/basel-stadt.astro src/page-templates/BaselStadt.astro
+git mv src/pages/basel-landschaft.astro src/page-templates/BaselLandschaft.astro
+git mv src/pages/faq.astro src/page-templates/Faq.astro
+git mv src/pages/so-funktioniert-es.astro src/page-templates/SoFunktioniertEs.astro
+git mv src/pages/kontakt.astro src/page-templates/Kontakt.astro
+git mv src/pages/antrag.astro src/page-templates/Antrag.astro
+git mv src/pages/danke.astro src/page-templates/Danke.astro
+git mv "src/pages/[canton].astro" src/page-templates/Canton.astro
 ```
 
-- [ ] **Step 3: Verify Astro accepts the new tree**
+Each moved file's relative imports (`../layouts/...`, `../components/...`, `../data/...`) need exactly one fewer `../` than they would under the old `src/pages/[locale]/` approach, but exactly the same count as their original `src/pages/<name>.astro` location (`src/page-templates/` and `src/pages/` sit at the same depth) — so, unlike the reverted attempt, **no import-path rewriting is needed at all** in this step. Verify with `grep -n "^import" src/page-templates/*.astro` that every import still starts with `../` (one level up), not `../../`.
+
+- [ ] **Step 4: Create the thin per-locale delegator files**
+
+For each of the 7 static pages (`Home`, `BaselStadt`, `BaselLandschaft`, `Faq`, `SoFunktioniertEs`, `Kontakt`, `Antrag`, `Danke` — 8 total, `Home` maps to `index.astro`), create 3 files, one per locale folder. Example for `Home.astro` → `index.astro`:
+
+```astro
+---
+// src/pages/de/index.astro
+import Page from '../../page-templates/Home.astro';
+---
+<Page />
+```
+
+Repeat identically (only the locale folder changes: `de`/`en`/`es`) for all 8 pages × 3 locales = 24 files:
+`src/pages/{de,en,es}/index.astro` → `Home.astro`
+`src/pages/{de,en,es}/basel-stadt.astro` → `BaselStadt.astro`
+`src/pages/{de,en,es}/basel-landschaft.astro` → `BaselLandschaft.astro`
+`src/pages/{de,en,es}/faq.astro` → `Faq.astro`
+`src/pages/{de,en,es}/so-funktioniert-es.astro` → `SoFunktioniertEs.astro`
+`src/pages/{de,en,es}/kontakt.astro` → `Kontakt.astro`
+`src/pages/{de,en,es}/antrag.astro` → `Antrag.astro`
+`src/pages/{de,en,es}/danke.astro` → `Danke.astro`
+
+For the canton page, each locale's `[canton].astro` keeps its own `getStaticPaths()` (this dynamic segment is for the canton slug, not the locale — it doesn't conflict with anything, since there's exactly one physical file per locale and Astro already knows which locale folder it's in):
+
+```astro
+---
+// src/pages/de/[canton].astro
+import Page from '../../page-templates/Canton.astro';
+import { deutschschweizCantons } from '../../data/deutschschweiz.js';
+
+export function getStaticPaths() {
+  return deutschschweizCantons
+    .filter((c) => !c.active)
+    .map((c) => ({ params: { canton: c.slug } }));
+}
+---
+<Page />
+```
+(Repeat for `en`/`es` — identical content, only the locale folder differs. `Canton.astro`'s own internal logic, e.g. reading `Astro.params.canton`, is unchanged from the original `[canton].astro` file moved in Step 3.)
+
+- [ ] **Step 5: Verify the build**
 
 Run: `npm run build`
-Expected: build fails at this point with `Cannot find module '../pages/index.astro'` or similar, because bare `/` no longer exists — this is expected; Task 2 creates the new root redirect. Confirm the *only* failure is the missing root route (check the error mentions `src/pages/index.astro` or a 404 for `/`), not a routing/canton-slug error.
+Expected: exits 0, **no** `[WARN] ... conflicts with higher priority route` lines anywhere in the output (grep the full log: `npm run build 2>&1 | grep -i "conflicts with"` should return nothing). Confirm the build's route listing includes `/de/`, `/en/`, `/es/` (bare, no `[locale]` anywhere), and every canton slug × 3 locales.
 
-- [ ] **Step 4: Commit**
+Run: `npm run dev`, then `curl -s http://localhost:4321/de/ -o /dev/null -w "%{http_code}\n"` and the same for `/en/`, `/es/`, `/de/basel-stadt`, `/en/uri` — all should return `200`. Stop the dev server after.
+
+- [ ] **Step 6: Commit**
 
 ```bash
 git add -A
-git commit -m "feat: move core pages under [locale] i18n routing"
+git commit -m "feat: restructure i18n routing as locale folders + page-templates (fixes route conflict)"
 ```
 
 ---

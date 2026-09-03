@@ -6,9 +6,9 @@ export interface Props {
   activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt';
 }
 const { activePage = 'home' } = Astro.props;
-const isCantonPage = activePage === 'basel-stadt' || activePage === 'basel-landschaft';
+const isCantonPage = activePage === 'basel-stadt' || activePage === 'basel-landschaft' || activePage === 'canton';
 const cantonFunnelHref = activePage === 'basel-stadt' ? '#funnel' : '#pruefen';
-const showWerWirSind = activePage === 'basel-stadt';
+const showWerWirSind = activePage === 'basel-stadt' || activePage === 'canton';
 const isHome = activePage === 'home';
 const homeAnchor = (id: string) => (isHome ? `#${id}` : `/#${id}`);
 const year = new Date().getFullYear();

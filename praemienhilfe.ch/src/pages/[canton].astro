@@ -58,5 +58,10 @@ const canton = buildGenericCantonData(name);
   <ProblemSection />
   <WerWirSindSection />
   <FAQ canton={canton} />
-  <FinalCTA />
+  <FinalCTA
+    buttons={[
+      { label: 'Antrag prüfen lassen →', href: '#pruefen' },
+      { label: 'Formular ausfüllen →', href: '#pruefen' },
+    ]}
+  />
 </Base>

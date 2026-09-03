@@ -5,7 +5,7 @@ import Funnel from './Funnel.jsx';
 import SituationFunnel from './SituationFunnel.jsx';
 import SituationSelector from './SituationSelector.astro';
 import heroPhoto from '../assets/hero-photo.jpg';
-import swissHeroBg from '../assets/swiss-hero-bg.jpg';
+import swissVillage from '../assets/swiss-village-lake.jpg';
 import { heroCopy } from '../data/national.js';
 
 export interface Props {
@@ -23,7 +23,7 @@ const isNational = variant === 'national';
   {isNational && (
     <>
       <Image
-        src={swissHeroBg}
+        src={swissVillage}
         alt=""
         width={2400}
         height={1350}
@@ -31,7 +31,7 @@ const isNational = variant === 'national';
         loading="eager"
         aria-hidden="true"
       />
-      <div class="absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/55"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-white from-40% via-white/80 via-60% to-white/10"></div>
     </>
   )}
   <div class="relative max-w-[1240px] mx-auto px-8 pt-[58px] pb-[72px]">
@@ -49,28 +49,39 @@ const isNational = variant === 'national';
         {isNational ? <SituationSelector /> : embeddedFunnel ? <SituationFunnel client:load /> : useSituationFunnel ? <SituationSelector /> : <Funnel client:load defaultCanton={defaultCanton} />}
       </div>
 
-      <div class="hidden md:block relative pt-1.5">
-        <svg viewBox="0 0 600 600" class="absolute -top-6 -left-11 w-[122%] h-auto" aria-hidden="true">
-          <path d="M20 470 A 340 340 0 0 1 470 40" fill="none" stroke="#0087A0" stroke-width="1.3" opacity="0.4"></path>
-          <path d="M74 560 A 330 330 0 0 1 560 120" fill="none" stroke="#E8F4F8" stroke-width="26"></path>
-        </svg>
-        <div class="relative w-full max-w-[470px] ml-auto aspect-square rounded-full overflow-hidden">
-          <Image
-            src={heroPhoto}
-            alt="Schweizer Familie"
-            width={940}
-            height={940}
-            class="w-full h-full object-cover"
-            loading="eager"
-          />
+      {isNational ? (
+        <div class="hidden md:flex self-stretch flex-col justify-end pb-1.5">
+          <div class="inline-flex items-start gap-2.5 bg-white border border-[#E2E8EA] rounded-lg shadow-[0_4px_16px_rgba(26,26,42,0.1)] px-[17px] py-3.5 max-w-[330px]">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D8B37" stroke-width="2.4" stroke-linecap="round" class="flex-shrink-0 mt-0.5" aria-hidden="true">
+              <path d="M4 13l5 5L20 7"></path>
+            </svg>
+            <div class="text-[13.5px] leading-snug text-dark">{heroCopy.proof}</div>
+          </div>
         </div>
-        <div class="relative -mt-[52px] -ml-2.5 inline-flex items-start gap-2.5 bg-white border border-[#E2E8EA] rounded-lg shadow-[0_4px_16px_rgba(26,26,42,0.1)] px-[17px] py-3.5 max-w-[330px]">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D8B37" stroke-width="2.4" stroke-linecap="round" class="flex-shrink-0 mt-0.5" aria-hidden="true">
-            <path d="M4 13l5 5L20 7"></path>
+      ) : (
+        <div class="hidden md:block relative pt-1.5">
+          <svg viewBox="0 0 600 600" class="absolute -top-6 -left-11 w-[122%] h-auto" aria-hidden="true">
+            <path d="M20 470 A 340 340 0 0 1 470 40" fill="none" stroke="#0087A0" stroke-width="1.3" opacity="0.4"></path>
+            <path d="M74 560 A 330 330 0 0 1 560 120" fill="none" stroke="#E8F4F8" stroke-width="26"></path>
           </svg>
-          <div class="text-[13.5px] leading-snug text-dark">{isNational ? heroCopy.proof : canton?.heroProof}</div>
+          <div class="relative w-full max-w-[470px] ml-auto aspect-square rounded-full overflow-hidden">
+            <Image
+              src={heroPhoto}
+              alt="Schweizer Familie"
+              width={940}
+              height={940}
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+          </div>
+          <div class="relative -mt-[52px] -ml-2.5 inline-flex items-start gap-2.5 bg-white border border-[#E2E8EA] rounded-lg shadow-[0_4px_16px_rgba(26,26,42,0.1)] px-[17px] py-3.5 max-w-[330px]">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3D8B37" stroke-width="2.4" stroke-linecap="round" class="flex-shrink-0 mt-0.5" aria-hidden="true">
+              <path d="M4 13l5 5L20 7"></path>
+            </svg>
+            <div class="text-[13.5px] leading-snug text-dark">{canton?.heroProof}</div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   </div>
 </section>

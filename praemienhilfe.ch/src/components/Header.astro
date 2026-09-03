@@ -6,16 +6,14 @@ export interface Props {
   activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt';
 }
 const { activePage = 'home' } = Astro.props;
-const isCantonLanding = activePage === 'basel-stadt' || activePage === 'basel-landschaft';
+const isCantonLanding = activePage === 'basel-stadt' || activePage === 'basel-landschaft' || activePage === 'canton';
 const cantonFunnelHref = activePage === 'basel-stadt' ? '#funnel' : '#pruefen';
-const showWerWirSind = activePage === 'basel-stadt';
-// Pages that render their own #so-funktioniert-es / #faq / #pruefen sections
-// (home + generic canton pages) link to those in-page; every other page
-// (dedicated /so-funktioniert-es, /faq, /kontakt, basel-stadt, basel-landschaft)
-// falls back to the homepage's copy of that section.
-const hasOwnSections = activePage === 'home' || activePage === 'canton';
-const pruefenHref = hasOwnSections ? '#pruefen' : '/#pruefen';
-const sectionHref = (id: string) => (hasOwnSections ? `#${id}` : `/#${id}`);
+const showWerWirSind = activePage === 'basel-stadt' || activePage === 'canton';
+// The homepage renders its own #so-funktioniert-es / #faq / #pruefen sections
+// and links to those in-page; every other non-canton-landing page (dedicated
+// /so-funktioniert-es, /faq, /kontakt) falls back to the homepage's copy.
+const pruefenHref = activePage === 'home' ? '#pruefen' : '/#pruefen';
+const sectionHref = (id: string) => (activePage === 'home' ? `#${id}` : `/#${id}`);
 
 const navLink = (key: string) =>
   activePage === key

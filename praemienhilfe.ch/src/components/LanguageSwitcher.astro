@@ -12,8 +12,21 @@ function hrefFor(target) {
 <nav aria-label={t(dict, 'langSwitcher.ariaLabel')} class="flex items-center gap-1 text-[13px] font-medium">
   {LOCALES.map((l, i) => (
     <>
-      <a href={hrefFor(l)} class={l === lang ? 'text-teal font-bold' : 'text-dark hover:text-teal'} aria-current={l === lang ? 'true' : undefined}>{t(dict, `langSwitcher.${l}`)}</a>
+      <a href={hrefFor(l)} data-lang-link={l} class={l === lang ? 'text-teal font-bold' : 'text-dark hover:text-teal'} aria-current={l === lang ? 'true' : undefined}>{t(dict, `langSwitcher.${l}`)}</a>
       {i < LOCALES.length - 1 && <span class="text-[#D6DFE2]" aria-hidden="true">|</span>}
     </>
   ))}
 </nav>
+<script>
+  // Remember a manually-picked locale so root `/` visits skip detection
+  // next time. Key must match src/pages/index.astro's `praemienhilfe_lang`.
+  document.querySelectorAll('[data-lang-link]').forEach((a) => {
+    a.addEventListener('click', () => {
+      try {
+        localStorage.setItem('praemienhilfe_lang', a.dataset.langLink);
+      } catch (e) {
+        // localStorage unavailable (e.g. private browsing) — ignore.
+      }
+    });
+  });
+</script>

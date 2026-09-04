@@ -1,5 +1,5 @@
 {
-  "nav": { "home": "Reducción de primas", "cantons": "Cantones", "howItWorks": "Cómo funciona", "faq": "Preguntas frecuentes", "contact": "Contacto", "checkEligibility": "Comprobar si tiene derecho", "checkEligibilityShort": "Solicitar ahora", "allCantons": "Todos los cantones" },
+  "nav": { "home": "Reducción de primas", "cantons": "Cantones", "howItWorks": "Cómo funciona", "faq": "Preguntas frecuentes", "contact": "Contacto", "checkEligibility": "Comprobar si tiene derecho", "checkEligibilityShort": "Solicitar ahora", "allCantons": "Todos los cantones", "about": "Sobre nosotros", "deutschschweiz": "Suiza alemana", "checkEligibilityCta": "Comprobar si tiene derecho →", "checkEligibilityCtaLong": "Comprobar si tiene derecho →", "menuOpen": "Abrir menú", "menuClose": "Cerrar menú" },
   "langSwitcher": { "de": "DE", "en": "EN", "es": "ES", "ariaLabel": "Seleccionar idioma" },
   "footer": {
     "tagline": "Le ayudamos a obtener la reducción de primas del seguro médico en Suiza",
@@ -8,7 +8,14 @@
     "legalHeading": "Legal",
     "impressum": "Aviso legal",
     "datenschutz": "Política de privacidad",
-    "operatedBy": "Operado por"
+    "operatedBy": "Operado por",
+    "disclaimer": "praemienhilfe.ch es una plataforma de asesoramiento privada, independiente de las autoridades cantonales de Suiza.",
+    "brokerLabel": "Corredor de seguros registrado en FINMA",
+    "location": "Zúrich, Suiza",
+    "whatIs": "¿Qué es el subsidio para el seguro médico?",
+    "terms": "Términos de uso",
+    "legalNotices": "Avisos legales",
+    "copyright": "© {year} praemienhilfe.ch — Un servicio de EVO Partners GmbH, Zúrich. Todos los derechos reservados. Esta plataforma no es un organismo cantonal oficial."
   },
   "mobileCta": { "default": "Comprobar si tiene derecho →", "canton": "Comprobar derecho en {canton} →" },
   "form": {

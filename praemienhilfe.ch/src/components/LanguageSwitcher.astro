@@ -1,0 +1,19 @@
+---
+// src/components/LanguageSwitcher.astro
+import { LOCALES } from '../i18n/locales.js';
+import { getDictionary, t } from '../i18n/index.js';
+const { lang } = Astro.props;
+const dict = getDictionary(lang);
+const rest = Astro.url.pathname.replace(/^\/[a-z]{2}(\/|$)/, '/');
+function hrefFor(target) {
+  return `/${target}${rest === '/' ? '/' : rest}${Astro.url.search}`;
+}
+---
+<nav aria-label={t(dict, 'langSwitcher.ariaLabel')} class="flex items-center gap-1 text-[13px] font-medium">
+  {LOCALES.map((l, i) => (
+    <>
+      <a href={hrefFor(l)} class={l === lang ? 'text-teal font-bold' : 'text-dark hover:text-teal'} aria-current={l === lang ? 'true' : undefined}>{t(dict, `langSwitcher.${l}`)}</a>
+      {i < LOCALES.length - 1 && <span class="text-[#D6DFE2]" aria-hidden="true">|</span>}
+    </>
+  ))}
+</nav>

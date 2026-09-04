@@ -1,5 +1,5 @@
 {
-  "nav": { "home": "Premium Reduction", "cantons": "Cantons", "howItWorks": "How It Works", "faq": "FAQ", "contact": "Contact", "checkEligibility": "Check Eligibility", "checkEligibilityShort": "Apply Now", "allCantons": "All Cantons" },
+  "nav": { "home": "Premium Reduction", "cantons": "Cantons", "howItWorks": "How It Works", "faq": "FAQ", "contact": "Contact", "checkEligibility": "Check Eligibility", "checkEligibilityShort": "Apply Now", "allCantons": "All Cantons", "about": "About Us", "deutschschweiz": "German-speaking Switzerland", "checkEligibilityCta": "Check eligibility →", "checkEligibilityCtaLong": "Check your eligibility →", "menuOpen": "Open menu", "menuClose": "Close menu" },
   "langSwitcher": { "de": "DE", "en": "EN", "es": "ES", "ariaLabel": "Select language" },
   "footer": {
     "tagline": "Helping you get your Swiss health insurance premium reduction",
@@ -8,7 +8,14 @@
     "legalHeading": "Legal",
     "impressum": "Legal Notice",
     "datenschutz": "Privacy Policy",
-    "operatedBy": "Operated by"
+    "operatedBy": "Operated by",
+    "disclaimer": "praemienhilfe.ch is a private advisory platform, independent of the cantonal authorities of Switzerland.",
+    "brokerLabel": "FINMA-registered insurance broker",
+    "location": "Zurich, Switzerland",
+    "whatIs": "What is a premium subsidy?",
+    "terms": "Terms of Use",
+    "legalNotices": "Legal Notices",
+    "copyright": "© {year} praemienhilfe.ch — A service by EVO Partners GmbH, Zurich. All rights reserved. This platform is not an official cantonal authority."
   },
   "mobileCta": { "default": "Check eligibility →", "canton": "Check eligibility in {canton} →" },
   "form": {

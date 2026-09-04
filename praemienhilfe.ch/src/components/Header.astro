@@ -1,11 +1,15 @@
 ---
 // src/components/Header.astro
 import { deutschschweizCantons } from '../data/deutschschweiz.js';
+import { getDictionary, t, localePath } from '../i18n/index.js';
+import LanguageSwitcher from './LanguageSwitcher.astro';
 
 export interface Props {
   activePage?: 'home' | 'basel-stadt' | 'basel-landschaft' | 'canton' | 'ablauf' | 'faq' | 'kontakt' | 'legal';
+  lang: string;
 }
-const { activePage = 'home' } = Astro.props;
+const { activePage = 'home', lang } = Astro.props;
+const dict = getDictionary(lang);
 const isCantonLanding = activePage === 'basel-stadt' || activePage === 'basel-landschaft' || activePage === 'canton';
 // All canton-landing pages render the same embedded SituationFunnel (id="funnel").
 const cantonFunnelHref = '#funnel';
@@ -13,8 +17,8 @@ const showWerWirSind = activePage === 'basel-stadt' || activePage === 'canton';
 // The homepage renders its own #so-funktioniert-es / #faq / #pruefen sections
 // and links to those in-page; every other non-canton-landing page (dedicated
 // /so-funktioniert-es, /faq, /kontakt) falls back to the homepage's copy.
-const pruefenHref = activePage === 'home' ? '#pruefen' : '/#pruefen';
-const sectionHref = (id: string) => (activePage === 'home' ? `#${id}` : `/#${id}`);
+const pruefenHref = activePage === 'home' ? '#pruefen' : `${localePath(lang, '/')}#pruefen`;
+const sectionHref = (id: string) => (activePage === 'home' ? `#${id}` : `${localePath(lang, '/')}#${id}`);
 
 const navLink = (key: string) =>
   activePage === key
@@ -25,7 +29,7 @@ const navLink = (key: string) =>
 <header class="fixed top-0 w-full z-50 bg-white border-b-2 border-teal transition-transform duration-300 translate-y-0">
   <div class="max-w-[1240px] mx-auto px-8 py-3.5 flex items-center justify-between gap-8">
     <a
-      href="/"
+      href={localePath(lang, '/')}
       class="flex items-center gap-3 no-underline"
       {...isCantonLanding ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
     >
@@ -42,14 +46,15 @@ const navLink = (key: string) =>
 
     {isCantonLanding ? (
       <nav class="hidden [@media(min-width:980px)]:flex items-center gap-6 text-[14.5px] font-medium">
-        <a href="#so-funktioniert-es" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">So funktioniert es</a>
-        <a href="#faq" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">FAQ</a>
-        {showWerWirSind && <a href="#wer-wir-sind" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">Über uns</a>}
-        <a href={cantonFunnelHref} class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">Antrag prüfen →</a>
+        <a href="#so-funktioniert-es" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">{t(dict, 'nav.howItWorks')}</a>
+        <a href="#faq" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">{t(dict, 'nav.faq')}</a>
+        {showWerWirSind && <a href="#wer-wir-sind" class="text-dark hover:text-teal pb-1 border-b-2 border-transparent">{t(dict, 'nav.about')}</a>}
+        <a href={cantonFunnelHref} class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">{t(dict, 'nav.checkEligibilityCta')}</a>
+        <LanguageSwitcher lang={lang} />
       </nav>
     ) : (
       <nav class="hidden [@media(min-width:980px)]:flex items-center gap-6 text-[14.5px] font-medium">
-        <a href="/" class={navLink('home')}>Prämienverbilligung</a>
+        <a href={localePath(lang, '/')} class={navLink('home')}>{t(dict, 'nav.home')}</a>
 
         <div class="relative">
           <button
@@ -59,7 +64,7 @@ const navLink = (key: string) =>
             aria-controls="kantone-menu-panel"
             class="flex items-center gap-1.5 bg-transparent border-0 p-0 cursor-pointer text-[14.5px] font-medium text-dark hover:text-teal"
           >
-            <span>Kantone</span>
+            <span>{t(dict, 'nav.cantons')}</span>
             <span id="kantone-menu-caret" class="text-[11px] text-teal transition-transform duration-150">▾</span>
           </button>
           <div
@@ -67,12 +72,12 @@ const navLink = (key: string) =>
             class="hidden fixed inset-x-0 top-[var(--header-h)] bg-white border-t border-[#E2E8EA] shadow-[0_16px_32px_rgba(26,26,42,0.12)]"
           >
             <div class="max-w-[1240px] mx-auto px-8 py-8">
-              <h3 class="text-[12px] font-semibold uppercase tracking-wide text-[#6B7780] m-0 mb-4">Deutschschweiz</h3>
+              <h3 class="text-[12px] font-semibold uppercase tracking-wide text-[#6B7780] m-0 mb-4">{t(dict, 'nav.deutschschweiz')}</h3>
               <div class="grid grid-cols-4 gap-3">
                 {
                   deutschschweizCantons.map((c) => (
                     <a
-                      href={`/${c.slug}`}
+                      href={localePath(lang, `/${c.slug}`)}
                       onclick={`if (window.gtag) window.gtag('event', 'header_canton_menu_selected', { canton: '${c.slug}' })`}
                       class="flex items-center gap-3 bg-white border border-[#E2E8EA] rounded-[10px] px-4 py-3 no-underline transition-colors hover:border-teal hover:bg-teal-light"
                     >
@@ -86,17 +91,18 @@ const navLink = (key: string) =>
           </div>
         </div>
 
-        <a href={sectionHref('so-funktioniert-es')} class={navLink('ablauf')}>So funktioniert es</a>
-        <a href={sectionHref('faq')} class={navLink('faq')}>FAQ</a>
-        <a href="/kontakt" class={navLink('kontakt')}>Kontakt</a>
-        <a href={pruefenHref} class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">Antrag prüfen</a>
+        <a href={sectionHref('so-funktioniert-es')} class={navLink('ablauf')}>{t(dict, 'nav.howItWorks')}</a>
+        <a href={sectionHref('faq')} class={navLink('faq')}>{t(dict, 'nav.faq')}</a>
+        <a href={localePath(lang, '/kontakt')} class={navLink('kontakt')}>{t(dict, 'nav.contact')}</a>
+        <a href={pruefenHref} class="px-4 py-2.5 bg-teal text-white rounded font-semibold hover:bg-teal-dark hover:text-white no-underline">{t(dict, 'nav.checkEligibilityShort')}</a>
+        <LanguageSwitcher lang={lang} />
       </nav>
     )}
 
     <label
       for="mobile-menu-toggle"
       class="[@media(min-width:980px)]:hidden flex items-center justify-center w-[42px] h-[42px] bg-white border border-[#D6DFE2] rounded cursor-pointer"
-      aria-label="Menü öffnen"
+      aria-label={t(dict, 'nav.menuOpen')}
     >
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A2A" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path>
@@ -116,23 +122,29 @@ const navLink = (key: string) =>
       </svg>
       <span class="text-[17px] font-bold">prämienhilfe<span class="text-teal">.ch</span></span>
     </div>
-    <label for="mobile-menu-toggle" class="w-10 h-10 flex items-center justify-center border border-[#D6DFE2] rounded cursor-pointer text-xl text-dark" aria-label="Menü schliessen">×</label>
+    <label for="mobile-menu-toggle" class="w-10 h-10 flex items-center justify-center border border-[#D6DFE2] rounded cursor-pointer text-xl text-dark" aria-label={t(dict, 'nav.menuClose')}>×</label>
   </div>
   {isCantonLanding ? (
     <div class="px-6 py-7 grid gap-1">
-      <a href="#so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
-      <a href="#faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
-      {showWerWirSind && <a href="#wer-wir-sind" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Über uns</a>}
-      <a href={cantonFunnelHref} class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen →</a>
+      <a href="#so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t(dict, 'nav.howItWorks')}</a>
+      <a href="#faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t(dict, 'nav.faq')}</a>
+      {showWerWirSind && <a href="#wer-wir-sind" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t(dict, 'nav.about')}</a>}
+      <a href={cantonFunnelHref} class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">{t(dict, 'nav.checkEligibilityCta')}</a>
+      <div class="mt-[18px] flex justify-center">
+        <LanguageSwitcher lang={lang} />
+      </div>
     </div>
   ) : (
     <div class="px-6 py-7 grid gap-1">
-      <a href="/" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Prämienverbilligung</a>
-      <a href="/#kantone-grid" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Alle Kantone</a>
-      <a href="/so-funktioniert-es" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">So funktioniert es</a>
-      <a href="/faq" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">FAQ</a>
-      <a href="/kontakt" class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">Kontakt</a>
-      <a href={pruefenHref} class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">Antrag prüfen lassen →</a>
+      <a href={localePath(lang, '/')} class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t(dict, 'nav.home')}</a>
+      <a href={`${localePath(lang, '/')}#kantone-grid`} class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t(dict, 'nav.allCantons')}</a>
+      <a href={localePath(lang, '/so-funktioniert-es')} class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t(dict, 'nav.howItWorks')}</a>
+      <a href={localePath(lang, '/faq')} class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t(dict, 'nav.faq')}</a>
+      <a href={localePath(lang, '/kontakt')} class="py-3.5 px-0.5 text-[19px] font-semibold text-dark border-b border-[#EEF2F3] hover:text-teal no-underline">{t(dict, 'nav.contact')}</a>
+      <a href={pruefenHref} class="mt-[18px] text-center py-4 bg-teal text-white rounded-md text-[16.5px] font-bold no-underline">{t(dict, 'nav.checkEligibilityCtaLong')}</a>
+      <div class="mt-[18px] flex justify-center">
+        <LanguageSwitcher lang={lang} />
+      </div>
     </div>
   )}
 </div>

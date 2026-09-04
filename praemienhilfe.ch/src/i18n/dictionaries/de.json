@@ -1,5 +1,5 @@
 {
-  "nav": { "home": "Prämienverbilligung", "cantons": "Kantone", "howItWorks": "So funktioniert es", "faq": "FAQ", "contact": "Kontakt", "checkEligibility": "Anspruch prüfen", "checkEligibilityShort": "Antrag prüfen", "allCantons": "Alle Kantone" },
+  "nav": { "home": "Prämienverbilligung", "cantons": "Kantone", "howItWorks": "So funktioniert es", "faq": "FAQ", "contact": "Kontakt", "checkEligibility": "Anspruch prüfen", "checkEligibilityShort": "Antrag prüfen", "allCantons": "Alle Kantone", "about": "Über uns", "deutschschweiz": "Deutschschweiz", "checkEligibilityCta": "Antrag prüfen →", "checkEligibilityCtaLong": "Antrag prüfen lassen →", "menuOpen": "Menü öffnen", "menuClose": "Menü schliessen" },
   "langSwitcher": { "de": "DE", "en": "EN", "es": "ES", "ariaLabel": "Sprache wählen" },
   "footer": {
     "tagline": "Hilfe bei der Prämienverbilligung in der Schweiz",
@@ -7,8 +7,15 @@
     "infoHeading": "Informationen",
     "legalHeading": "Rechtliches",
     "impressum": "Impressum",
-    "datenschutz": "Datenschutz",
-    "operatedBy": "Betrieben von"
+    "datenschutz": "Datenschutzbestimmungen",
+    "operatedBy": "Betrieben von",
+    "disclaimer": "prämienhilfe.ch ist eine private Beratungsplattform, unabhängig von den kantonalen Behörden der Schweiz.",
+    "brokerLabel": "FINMA-registrierter Versicherungsbroker",
+    "location": "Zürich, Schweiz",
+    "whatIs": "Was ist Prämienverbilligung?",
+    "terms": "Nutzungsbedingungen",
+    "legalNotices": "Rechtliche Hinweise",
+    "copyright": "© {year} prämienhilfe.ch — Ein Service von EVO Partners GmbH, Zürich. Alle Rechte vorbehalten. Diese Plattform ist kein offizielles Kantonsorgan."
   },
   "mobileCta": { "default": "Anspruch prüfen →", "canton": "Anspruch {canton} prüfen →" },
   "form": {

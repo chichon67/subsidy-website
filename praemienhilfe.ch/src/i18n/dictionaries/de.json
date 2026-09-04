@@ -1,6 +1,26 @@
 {
-  "nav": { "home": "Prämienverbilligung", "cantons": "Kantone", "howItWorks": "So funktioniert es", "faq": "FAQ", "contact": "Kontakt", "checkEligibility": "Anspruch prüfen", "checkEligibilityShort": "Antrag prüfen", "allCantons": "Alle Kantone", "about": "Über uns", "deutschschweiz": "Deutschschweiz", "checkEligibilityCta": "Antrag prüfen →", "checkEligibilityCtaLong": "Antrag prüfen lassen →", "menuOpen": "Menü öffnen", "menuClose": "Menü schliessen" },
-  "langSwitcher": { "de": "DE", "en": "EN", "es": "ES", "ariaLabel": "Sprache wählen" },
+  "nav": {
+    "home": "Prämienverbilligung",
+    "cantons": "Kantone",
+    "howItWorks": "So funktioniert es",
+    "faq": "FAQ",
+    "contact": "Kontakt",
+    "checkEligibility": "Anspruch prüfen",
+    "checkEligibilityShort": "Antrag prüfen",
+    "allCantons": "Alle Kantone",
+    "about": "Über uns",
+    "deutschschweiz": "Deutschschweiz",
+    "checkEligibilityCta": "Antrag prüfen →",
+    "checkEligibilityCtaLong": "Antrag prüfen lassen →",
+    "menuOpen": "Menü öffnen",
+    "menuClose": "Menü schliessen"
+  },
+  "langSwitcher": {
+    "de": "DE",
+    "en": "EN",
+    "es": "ES",
+    "ariaLabel": "Sprache wählen"
+  },
   "footer": {
     "tagline": "Hilfe bei der Prämienverbilligung in der Schweiz",
     "cantonsHeading": "Kantone",
@@ -17,21 +37,81 @@
     "legalNotices": "Rechtliche Hinweise",
     "copyright": "© {year} prämienhilfe.ch — Ein Service von EVO Partners GmbH, Zürich. Alle Rechte vorbehalten. Diese Plattform ist kein offizielles Kantonsorgan."
   },
-  "mobileCta": { "default": "Anspruch prüfen →", "canton": "Anspruch {canton} prüfen →" },
+  "mobileCta": {
+    "default": "Anspruch prüfen →",
+    "canton": "Anspruch {canton} prüfen →"
+  },
   "form": {
-    "stages": { "identification": "Identifikation", "additional": "Ergänzende Informationen", "situation": "Ihre Situation", "done": "Abgeschlossen" },
+    "stages": {
+      "identification": "Identifikation",
+      "additional": "Ergänzende Informationen",
+      "situation": "Ihre Situation",
+      "done": "Abgeschlossen"
+    },
     "stepOf": "Schritt {n} von {total}",
     "secureForm": "🔒 Sicheres Formular",
-    "sidebar": { "finma": "FINMA-anerkannter Broker", "analysis": "Situationsanalyse · Unverbindlich", "rating": "4.8/5 von unseren Klienten bewertet", "volume": "+1'000 Dossiers pro Jahr bearbeitet" },
-    "canton": { "question": "In welchem Kanton wohnen Sie?", "placeholder": "Kanton auswählen…", "ariaLabel": "Kanton wählen" },
-    "situation": { "yourCanton": "Ihr Kanton: {canton}", "question": "Was beschreibt Ihre Situation am besten?" },
-    "email": { "summaryTitle": "Ihr Antrag:", "notProvided": "Nicht angegeben", "prompt": "Zu Beginn benötigen wir Ihre E-Mail-Adresse", "placeholder": "name@beispiel.ch", "consent": "Mit dem Fortfahren akzeptieren Sie unsere Datenschutzrichtlinie und die Verarbeitung Ihrer persönlichen Daten.", "continue": "Weiter →", "invalid": "Bitte eine gültige E-Mail-Adresse angeben." },
-    "household": { "question": "Wie viele Personen leben in Ihrem Haushalt?", "personSingular": "Person", "personPlural": "Personen", "continue": "Weiter →" },
-    "income": { "question": "Wie hoch ist Ihr monatliches Haushaltseinkommen?", "under2000": "Unter CHF 2'000", "2000to4000": "CHF 2'000 – 4'000", "4000to6000": "CHF 4'000 – 6'000", "over6000": "Über CHF 6'000" },
-    "contact": { "question": "Wie können wir Sie erreichen?", "firstName": "Vorname", "lastName": "Nachname", "consent": "Ich akzeptiere die Datenschutzbestimmungen von EVO Partners GmbH und stimme der Verarbeitung meiner Daten zum Zweck der Beratung zu.", "submit": "Antrag einreichen →", "submitting": "Wird gesendet…" },
-    "errors": { "firstName": "Bitte Vorname angeben.", "lastName": "Bitte Nachname angeben.", "phone": "Bitte Telefonnummer angeben.", "phoneInvalid": "Bitte eine gültige Telefonnummer angeben.", "consent": "Bitte akzeptieren Sie die Datenschutzbestimmungen.", "submitFailed": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut." }
+    "sidebar": {
+      "finma": "FINMA-anerkannter Broker",
+      "analysis": "Situationsanalyse · Unverbindlich",
+      "rating": "4.8/5 von unseren Klienten bewertet",
+      "volume": "+1'000 Dossiers pro Jahr bearbeitet"
+    },
+    "canton": {
+      "question": "In welchem Kanton wohnen Sie?",
+      "placeholder": "Kanton auswählen…",
+      "ariaLabel": "Kanton wählen"
+    },
+    "situation": {
+      "yourCanton": "Ihr Kanton: {canton}",
+      "question": "Was beschreibt Ihre Situation am besten?"
+    },
+    "email": {
+      "summaryTitle": "Ihr Antrag:",
+      "notProvided": "Nicht angegeben",
+      "prompt": "Zu Beginn benötigen wir Ihre E-Mail-Adresse",
+      "placeholder": "name@beispiel.ch",
+      "consent": "Mit dem Fortfahren akzeptieren Sie unsere Datenschutzrichtlinie und die Verarbeitung Ihrer persönlichen Daten.",
+      "consentPrefix": "Mit dem Fortfahren akzeptieren Sie unsere",
+      "consentSuffix": "und die Verarbeitung Ihrer persönlichen Daten.",
+      "changeSituationAriaLabel": "Situation ändern",
+      "continue": "Weiter →",
+      "invalid": "Bitte eine gültige E-Mail-Adresse angeben."
+    },
+    "household": {
+      "question": "Wie viele Personen leben in Ihrem Haushalt?",
+      "personSingular": "Person",
+      "personPlural": "Personen",
+      "continue": "Weiter →"
+    },
+    "income": {
+      "question": "Wie hoch ist Ihr monatliches Haushaltseinkommen?",
+      "under2000": "Unter CHF 2'000",
+      "2000to4000": "CHF 2'000 – 4'000",
+      "4000to6000": "CHF 4'000 – 6'000",
+      "over6000": "Über CHF 6'000"
+    },
+    "contact": {
+      "question": "Wie können wir Sie erreichen?",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "consent": "Ich akzeptiere die Datenschutzbestimmungen von EVO Partners GmbH und stimme der Verarbeitung meiner Daten zum Zweck der Beratung zu.",
+      "consentPrefix": "Ich akzeptiere die",
+      "consentSuffix": "von EVO Partners GmbH und stimme der Verarbeitung meiner Daten zum Zweck der Beratung zu.",
+      "submit": "Antrag einreichen →",
+      "submitting": "Wird gesendet…"
+    },
+    "errors": {
+      "firstName": "Bitte Vorname angeben.",
+      "lastName": "Bitte Nachname angeben.",
+      "phone": "Bitte Telefonnummer angeben.",
+      "phoneInvalid": "Bitte eine gültige Telefonnummer angeben.",
+      "consent": "Bitte akzeptieren Sie die Datenschutzbestimmungen.",
+      "submitFailed": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+    }
   },
-  "situationSelector": { "heading": "Was beschreibt Ihre Situation am besten?" },
+  "situationSelector": {
+    "heading": "Was beschreibt Ihre Situation am besten?"
+  },
   "hero": {
     "cantonHeading": "Prämienverbilligung {canton} — Anspruch prüfen und Antrag stellen",
     "cantonHeadingDefault": "Haben Sie Anspruch auf Prämienverbilligung?",
@@ -43,9 +123,18 @@
     "heading": "Warum beantragen viele Berechtigte keine Prämienverbilligung?",
     "intro": "Obwohl Tausende von Personen Anspruch hätten, stellen viele keinen Antrag. Die häufigsten Gründe: Das Verfahren wirkt kompliziert, viele wissen nicht ob sie berechtigt sind, und die Fristen werden oft verpasst. Dabei ist der Prozess einfacher als erwartet — vorausgesetzt, man kennt die genauen Anforderungen und Fristen.",
     "reasons": [
-      { "title": "Zu kompliziert", "text": "Das Antragsverfahren wirkt aufwendig" },
-      { "title": "Unsicher", "text": "Viele wissen nicht ob sie berechtigt sind" },
-      { "title": "Keine Zeit", "text": "Fristen werden oft verpasst" }
+      {
+        "title": "Zu kompliziert",
+        "text": "Das Antragsverfahren wirkt aufwendig"
+      },
+      {
+        "title": "Unsicher",
+        "text": "Viele wissen nicht ob sie berechtigt sind"
+      },
+      {
+        "title": "Keine Zeit",
+        "text": "Fristen werden oft verpasst"
+      }
     ]
   },
   "finalCta": {
@@ -60,10 +149,18 @@
     "paragraph1": "Jeder Kanton legt seine eigene Frist fest, und ein verpasster Antrag bedeutet meist ein verlorenes Jahr Verbilligung. Wir kennen die genauen Fristen für Ihren Wohnkanton und sagen Ihnen im kostenlosen Erstgespräch, bis wann Sie handeln sollten.",
     "paragraph2": "Wer die Frist verpasst, verliert die Verbilligung für das laufende Jahr — das können mehrere hundert bis mehrere tausend Franken sein."
   },
-  "faqSection": { "heading": "Häufige Fragen" },
-  "howItWorks": { "heading": "So funktioniert die Beantragung" },
-  "wasIstSection": { "heading": "Was ist die Prämienverbilligung?" },
-  "werWirSindSection": { "heading": "Wer steckt hinter prämienhilfe.ch?" },
+  "faqSection": {
+    "heading": "Häufige Fragen"
+  },
+  "howItWorks": {
+    "heading": "So funktioniert die Beantragung"
+  },
+  "wasIstSection": {
+    "heading": "Was ist die Prämienverbilligung?"
+  },
+  "werWirSindSection": {
+    "heading": "Wer steckt hinter prämienhilfe.ch?"
+  },
   "situationFinalCta": {
     "heading": "Haben Sie Ihren Anspruch noch nicht geprüft?",
     "text": "Starten Sie jetzt — es dauert weniger als 20 Minuten. Wählen Sie Ihre Situation:",
@@ -74,14 +171,36 @@
     "intro": "Wählen Sie Ihren Kanton und prüfen Sie Ihren Anspruch auf Prämienverbilligung schnell und einfach."
   },
   "widgets": {
-    "sticky": { "default": "Anspruch prüfen", "canton": "Anspruch {canton} prüfen", "sub": "Kostenlose Prüfung in 20 Min.", "cta": "Jetzt starten →" },
-    "exitIntent": { "heading": "Warten Sie — prüfen Sie zuerst Ihren Anspruch!", "cta": "Jetzt prüfen →", "decline": "Nein danke, ich verzichte auf meine Verbilligung" },
-    "disclaimer": { "heading": "Wichtiger Hinweis", "cta": "Verstanden — Weiter →" }
+    "sticky": {
+      "default": "Anspruch prüfen",
+      "canton": "Anspruch {canton} prüfen",
+      "sub": "Kostenlose Prüfung in 20 Min.",
+      "cta": "Jetzt starten →"
+    },
+    "exitIntent": {
+      "heading": "Warten Sie — prüfen Sie zuerst Ihren Anspruch!",
+      "paragraph": "Viele Berechtigte wissen nicht, dass sie Anspruch auf bis zu CHF 3'000 pro Jahr haben. Die Prüfung dauert nur 20 Minuten.",
+      "cta": "Jetzt prüfen →",
+      "decline": "Nein danke, ich verzichte auf meine Verbilligung"
+    },
+    "disclaimer": {
+      "heading": "Wichtiger Hinweis",
+      "paragraph1": "prämienhilfe.ch ist ein privater und unabhängiger Beratungsservice von EVO Partners GmbH — kein Kantonsamt und keine staatliche Behörde.",
+      "paragraph2": "Unsere Hilfe bei der Prämienverbilligung ist für Sie kostenlos.",
+      "cta": "Verstanden — Weiter →"
+    }
   },
   "thankYou": {
     "titleWithName": "Vielen Dank, {firstName}!",
     "titleGeneric": "Vielen Dank für Ihre Anfrage!",
-    "labels": { "situation": "Situation:", "canton": "Kanton:", "household": "Haushalt:", "income": "Einkommen:", "email": "E-Mail:" },
+    "paragraphPrefix": "Ein Berater von uns meldet sich innerhalb von 24 Stunden bei Ihnen. Bei Fragen erreichen Sie uns unter",
+    "labels": {
+      "situation": "Situation:",
+      "canton": "Kanton:",
+      "household": "Haushalt:",
+      "income": "Einkommen:",
+      "email": "E-Mail:"
+    },
     "confirmationNote": "Sie erhalten in Kürze eine Bestätigung per E-Mail.",
     "backHome": "Zurück zur Startseite"
   }

@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import AntragFunnel from '../../components/AntragFunnel.jsx';
 import { LOCALES } from '../../i18n/locales.js';
 import { canonicalFor } from '../../i18n/pageUrls.js';
+import { getDictionary } from '../../i18n/index.js';
 
 export function getStaticPaths() {
   return LOCALES.map((lang) => ({ params: { lang } }));
@@ -31,5 +32,5 @@ const DESCRIPTIONS = {
   lang={lang}
   pageKey="antrag"
 >
-  <AntragFunnel client:load lang={lang} />
+  <AntragFunnel client:load lang={lang} dict={getDictionary(lang)} />
 </Base>

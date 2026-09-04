@@ -1,6 +1,26 @@
 {
-  "nav": { "home": "Reducción de primas", "cantons": "Cantones", "howItWorks": "Cómo funciona", "faq": "Preguntas frecuentes", "contact": "Contacto", "checkEligibility": "Comprobar si tiene derecho", "checkEligibilityShort": "Solicitar ahora", "allCantons": "Todos los cantones", "about": "Sobre nosotros", "deutschschweiz": "Suiza alemana", "checkEligibilityCta": "Comprobar si tiene derecho →", "checkEligibilityCtaLong": "Comprobar si tiene derecho →", "menuOpen": "Abrir menú", "menuClose": "Cerrar menú" },
-  "langSwitcher": { "de": "DE", "en": "EN", "es": "ES", "ariaLabel": "Seleccionar idioma" },
+  "nav": {
+    "home": "Reducción de primas",
+    "cantons": "Cantones",
+    "howItWorks": "Cómo funciona",
+    "faq": "Preguntas frecuentes",
+    "contact": "Contacto",
+    "checkEligibility": "Comprobar si tiene derecho",
+    "checkEligibilityShort": "Solicitar ahora",
+    "allCantons": "Todos los cantones",
+    "about": "Sobre nosotros",
+    "deutschschweiz": "Suiza alemana",
+    "checkEligibilityCta": "Comprobar si tiene derecho →",
+    "checkEligibilityCtaLong": "Comprobar si tiene derecho →",
+    "menuOpen": "Abrir menú",
+    "menuClose": "Cerrar menú"
+  },
+  "langSwitcher": {
+    "de": "DE",
+    "en": "EN",
+    "es": "ES",
+    "ariaLabel": "Seleccionar idioma"
+  },
   "footer": {
     "tagline": "Le ayudamos a obtener la reducción de primas del seguro médico en Suiza",
     "cantonsHeading": "Cantones",
@@ -17,21 +37,81 @@
     "legalNotices": "Avisos legales",
     "copyright": "© {year} praemienhilfe.ch — Un servicio de EVO Partners GmbH, Zúrich. Todos los derechos reservados. Esta plataforma no es un organismo cantonal oficial."
   },
-  "mobileCta": { "default": "Comprobar si tiene derecho →", "canton": "Comprobar derecho en {canton} →" },
+  "mobileCta": {
+    "default": "Comprobar si tiene derecho →",
+    "canton": "Comprobar derecho en {canton} →"
+  },
   "form": {
-    "stages": { "identification": "Identificación", "additional": "Información adicional", "situation": "Su situación", "done": "Completado" },
+    "stages": {
+      "identification": "Identificación",
+      "additional": "Información adicional",
+      "situation": "Su situación",
+      "done": "Completado"
+    },
     "stepOf": "Paso {n} de {total}",
     "secureForm": "🔒 Formulario seguro",
-    "sidebar": { "finma": "Corredor reconocido por FINMA", "analysis": "Análisis de situación · Sin compromiso", "rating": "4.8/5 valorado por nuestros clientes", "volume": "Más de 1.000 solicitudes tramitadas al año" },
-    "canton": { "question": "¿En qué cantón reside?", "placeholder": "Seleccione un cantón…", "ariaLabel": "Seleccionar cantón" },
-    "situation": { "yourCanton": "Su cantón: {canton}", "question": "¿Qué describe mejor su situación?" },
-    "email": { "summaryTitle": "Su solicitud:", "notProvided": "No indicado", "prompt": "Primero necesitamos su dirección de correo electrónico", "placeholder": "nombre@ejemplo.ch", "consent": "Al continuar, acepta nuestra política de privacidad y el tratamiento de sus datos personales.", "continue": "Continuar →", "invalid": "Indique una dirección de correo electrónico válida." },
-    "household": { "question": "¿Cuántas personas viven en su hogar?", "personSingular": "persona", "personPlural": "personas", "continue": "Continuar →" },
-    "income": { "question": "¿Cuál es el ingreso mensual de su hogar?", "under2000": "Menos de CHF 2.000", "2000to4000": "CHF 2.000 – 4.000", "4000to6000": "CHF 4.000 – 6.000", "over6000": "Más de CHF 6.000" },
-    "contact": { "question": "¿Cómo podemos contactarle?", "firstName": "Nombre", "lastName": "Apellido", "consent": "Acepto la política de privacidad de EVO Partners GmbH y el tratamiento de mis datos con fines de asesoramiento.", "submit": "Enviar solicitud →", "submitting": "Enviando…" },
-    "errors": { "firstName": "Indique su nombre.", "lastName": "Indique su apellido.", "phone": "Indique su número de teléfono.", "phoneInvalid": "Indique un número de teléfono válido.", "consent": "Debe aceptar la política de privacidad.", "submitFailed": "Ha ocurrido un error. Inténtelo de nuevo." }
+    "sidebar": {
+      "finma": "Corredor reconocido por FINMA",
+      "analysis": "Análisis de situación · Sin compromiso",
+      "rating": "4.8/5 valorado por nuestros clientes",
+      "volume": "Más de 1.000 solicitudes tramitadas al año"
+    },
+    "canton": {
+      "question": "¿En qué cantón reside?",
+      "placeholder": "Seleccione un cantón…",
+      "ariaLabel": "Seleccionar cantón"
+    },
+    "situation": {
+      "yourCanton": "Su cantón: {canton}",
+      "question": "¿Qué describe mejor su situación?"
+    },
+    "email": {
+      "summaryTitle": "Su solicitud:",
+      "notProvided": "No indicado",
+      "prompt": "Primero necesitamos su dirección de correo electrónico",
+      "placeholder": "nombre@ejemplo.ch",
+      "consent": "Al continuar, acepta nuestra política de privacidad y el tratamiento de sus datos personales.",
+      "consentPrefix": "Al continuar, acepta nuestra",
+      "consentSuffix": "y el tratamiento de sus datos personales.",
+      "changeSituationAriaLabel": "Cambiar situación",
+      "continue": "Continuar →",
+      "invalid": "Indique una dirección de correo electrónico válida."
+    },
+    "household": {
+      "question": "¿Cuántas personas viven en su hogar?",
+      "personSingular": "persona",
+      "personPlural": "personas",
+      "continue": "Continuar →"
+    },
+    "income": {
+      "question": "¿Cuál es el ingreso mensual de su hogar?",
+      "under2000": "Menos de CHF 2.000",
+      "2000to4000": "CHF 2.000 – 4.000",
+      "4000to6000": "CHF 4.000 – 6.000",
+      "over6000": "Más de CHF 6.000"
+    },
+    "contact": {
+      "question": "¿Cómo podemos contactarle?",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "consent": "Acepto la política de privacidad de EVO Partners GmbH y el tratamiento de mis datos con fines de asesoramiento.",
+      "consentPrefix": "Acepto la",
+      "consentSuffix": "de EVO Partners GmbH y el tratamiento de mis datos con fines de asesoramiento.",
+      "submit": "Enviar solicitud →",
+      "submitting": "Enviando…"
+    },
+    "errors": {
+      "firstName": "Indique su nombre.",
+      "lastName": "Indique su apellido.",
+      "phone": "Indique su número de teléfono.",
+      "phoneInvalid": "Indique un número de teléfono válido.",
+      "consent": "Debe aceptar la política de privacidad.",
+      "submitFailed": "Ha ocurrido un error. Inténtelo de nuevo."
+    }
   },
-  "situationSelector": { "heading": "¿Qué describe mejor su situación?" },
+  "situationSelector": {
+    "heading": "¿Qué describe mejor su situación?"
+  },
   "hero": {
     "cantonHeading": "Reducción de primas del seguro médico {canton} — comprobar si tiene derecho y solicitar",
     "cantonHeadingDefault": "¿Tiene derecho a la reducción de primas del seguro médico?",
@@ -43,9 +123,18 @@
     "heading": "¿Por qué muchas personas con derecho no solicitan la reducción de primas del seguro médico?",
     "intro": "Aunque miles de personas tienen derecho, muchas nunca presentan una solicitud. Los motivos más frecuentes: el trámite parece complicado, muchos no saben si cumplen los requisitos y a menudo se les pasan los plazos. Sin embargo, el proceso es más sencillo de lo que parece, siempre que conozca los requisitos y plazos exactos.",
     "reasons": [
-      { "title": "Demasiado complicado", "text": "El trámite de solicitud parece laborioso" },
-      { "title": "Inseguridad", "text": "Muchos no saben si tienen derecho" },
-      { "title": "Falta de tiempo", "text": "Los plazos a menudo se pasan por alto" }
+      {
+        "title": "Demasiado complicado",
+        "text": "El trámite de solicitud parece laborioso"
+      },
+      {
+        "title": "Inseguridad",
+        "text": "Muchos no saben si tienen derecho"
+      },
+      {
+        "title": "Falta de tiempo",
+        "text": "Los plazos a menudo se pasan por alto"
+      }
     ]
   },
   "finalCta": {
@@ -60,10 +149,18 @@
     "paragraph1": "Cada cantón fija su propio plazo, y una solicitud fuera de plazo suele significar perder un año entero de reducción. Conocemos los plazos exactos de su cantón de residencia y le indicaremos, en la consulta inicial gratuita, hasta cuándo debe actuar.",
     "paragraph2": "Quien no respeta el plazo pierde la reducción del año en curso, lo que puede suponer entre varios cientos y varios miles de francos."
   },
-  "faqSection": { "heading": "Preguntas frecuentes" },
-  "howItWorks": { "heading": "Así funciona la solicitud" },
-  "wasIstSection": { "heading": "¿Qué es la reducción de primas del seguro médico?" },
-  "werWirSindSection": { "heading": "¿Quién está detrás de praemienhilfe.ch?" },
+  "faqSection": {
+    "heading": "Preguntas frecuentes"
+  },
+  "howItWorks": {
+    "heading": "Así funciona la solicitud"
+  },
+  "wasIstSection": {
+    "heading": "¿Qué es la reducción de primas del seguro médico?"
+  },
+  "werWirSindSection": {
+    "heading": "¿Quién está detrás de praemienhilfe.ch?"
+  },
   "situationFinalCta": {
     "heading": "¿Aún no ha comprobado si tiene derecho?",
     "text": "Empiece ahora — le llevará menos de 20 minutos. Elija su situación:",
@@ -74,14 +171,36 @@
     "intro": "Elija su cantón y compruebe si tiene derecho a la reducción de primas del seguro médico de forma rápida y sencilla."
   },
   "widgets": {
-    "sticky": { "default": "Comprobar si tiene derecho", "canton": "Comprobar derecho en {canton}", "sub": "Comprobación gratuita en 20 min.", "cta": "Empezar ahora →" },
-    "exitIntent": { "heading": "Espere — ¡compruebe primero si tiene derecho!", "cta": "Comprobar ahora →", "decline": "No, gracias, renuncio a mi subsidio" },
-    "disclaimer": { "heading": "Aviso importante", "cta": "Entendido — Continuar →" }
+    "sticky": {
+      "default": "Comprobar si tiene derecho",
+      "canton": "Comprobar derecho en {canton}",
+      "sub": "Comprobación gratuita en 20 min.",
+      "cta": "Empezar ahora →"
+    },
+    "exitIntent": {
+      "heading": "Espere — ¡compruebe primero si tiene derecho!",
+      "paragraph": "Muchas personas con derecho no saben que podrían recibir hasta CHF 3'000 al año. La comprobación solo dura 20 minutos.",
+      "cta": "Comprobar ahora →",
+      "decline": "No, gracias, renuncio a mi subsidio"
+    },
+    "disclaimer": {
+      "heading": "Aviso importante",
+      "paragraph1": "prämienhilfe.ch es un servicio de asesoría privado e independiente de EVO Partners GmbH — no es una oficina cantonal ni una autoridad estatal.",
+      "paragraph2": "Nuestra ayuda con la reducción de primas es gratuita para usted.",
+      "cta": "Entendido — Continuar →"
+    }
   },
   "thankYou": {
     "titleWithName": "¡Muchas gracias, {firstName}!",
     "titleGeneric": "¡Gracias por su solicitud!",
-    "labels": { "situation": "Situación:", "canton": "Cantón:", "household": "Hogar:", "income": "Ingresos:", "email": "Correo electrónico:" },
+    "paragraphPrefix": "Uno de nuestros asesores se pondrá en contacto con usted en un plazo de 24 horas. Si tiene preguntas, puede contactarnos en",
+    "labels": {
+      "situation": "Situación:",
+      "canton": "Cantón:",
+      "household": "Hogar:",
+      "income": "Ingresos:",
+      "email": "Correo electrónico:"
+    },
     "confirmationNote": "En breve recibirá una confirmación por correo electrónico.",
     "backHome": "Volver al inicio"
   }

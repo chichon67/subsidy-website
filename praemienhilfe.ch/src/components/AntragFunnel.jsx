@@ -1,25 +1,10 @@
 // src/components/AntragFunnel.jsx
 import { useState, useEffect } from 'react';
 import { getSituationList } from '../data/situations.js';
-
-// Task 2 made situations.js locale-aware; this component isn't wired up to
-// `lang` yet (a later task does that), so it keeps its current German-only
-// behavior for now via the default locale. Minimal fix to keep this
-// building — not a content or i18n change.
-const situationList = getSituationList('de');
-const SITUATIONS = Object.fromEntries(situationList.map(({ slug, ...rest }) => [slug, rest]));
 import { deutschschweizCantons } from '../data/deutschschweiz.js';
 import PhoneField, { isValidPhoneNumber } from './PhoneField.jsx';
 import PrivacyPolicyModal from './PrivacyPolicyModal.jsx';
-
-const INCOME_OPTIONS = ["Unter CHF 2'000", "CHF 2'000 – 4'000", "CHF 4'000 – 6'000", "Über CHF 6'000"];
-
-const STAGES = [
-  { key: 'identifikation', label: 'Identifikation' },
-  { key: 'ergaenzend', label: 'Ergänzende Informationen' },
-  { key: 'situation', label: 'Ihre Situation' },
-  { key: 'abgeschlossen', label: 'Abgeschlossen' },
-];
+import { getDictionary, t } from '../i18n/index.js';
 
 function stageIndexForStep(step) {
   if (step === 'canton' || step === 'situation' || step === 'email') return 0;
@@ -41,7 +26,23 @@ function rowClass(selected) {
   ].join(' ');
 }
 
-export default function AntragFunnel({ lang = 'de' } = {}) {
+export default function AntragFunnel({ lang = 'de', dict } = {}) {
+  const d = dict || getDictionary(lang);
+  const situationList = getSituationList(lang);
+  const SITUATIONS = Object.fromEntries(situationList.map(({ slug, ...rest }) => [slug, rest]));
+  const INCOME_OPTIONS = [
+    t(d, 'form.income.under2000'),
+    t(d, 'form.income.2000to4000'),
+    t(d, 'form.income.4000to6000'),
+    t(d, 'form.income.over6000'),
+  ];
+  const STAGES = [
+    { key: 'identifikation', label: t(d, 'form.stages.identification') },
+    { key: 'ergaenzend', label: t(d, 'form.stages.additional') },
+    { key: 'situation', label: t(d, 'form.stages.situation') },
+    { key: 'abgeschlossen', label: t(d, 'form.stages.done') },
+  ];
+
   const [situationSlug, setSituationSlug] = useState('');
   const [cantonName, setCantonName] = useState('');
   const [step, setStep] = useState('email');
@@ -74,7 +75,7 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
     });
   }, []);
 
-  const situationLabel = situationSlug ? SITUATIONS[situationSlug].label : 'Nicht angegeben';
+  const situationLabel = situationSlug ? SITUATIONS[situationSlug].label : t(d, 'form.email.notProvided');
 
   function chooseCanton(name) {
     setCantonName(name);
@@ -109,7 +110,7 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
 
   function submitEmail() {
     if (!isValidEmail(email)) {
-      setErrors({ email: 'Bitte eine gültige E-Mail-Adresse angeben.' });
+      setErrors({ email: t(d, 'form.email.invalid') });
       return;
     }
     setErrors({});
@@ -130,11 +131,11 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
 
   function validateContact() {
     const errs = {};
-    if (!firstName.trim()) errs.firstName = 'Bitte Vorname angeben.';
-    if (!lastName.trim()) errs.lastName = 'Bitte Nachname angeben.';
-    if (!phone) errs.phone = 'Bitte Telefonnummer angeben.';
-    else if (!isValidPhoneNumber(phone)) errs.phone = 'Bitte eine gültige Telefonnummer angeben.';
-    if (!consent) errs.consent = 'Bitte akzeptieren Sie die Datenschutzbestimmungen.';
+    if (!firstName.trim()) errs.firstName = t(d, 'form.errors.firstName');
+    if (!lastName.trim()) errs.lastName = t(d, 'form.errors.lastName');
+    if (!phone) errs.phone = t(d, 'form.errors.phone');
+    else if (!isValidPhoneNumber(phone)) errs.phone = t(d, 'form.errors.phoneInvalid');
+    if (!consent) errs.consent = t(d, 'form.errors.consent');
     return errs;
   }
 
@@ -158,9 +159,9 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
           lastName,
           phone,
           email,
-          canton: cantonName || 'Nicht angegeben',
+          canton: cantonName || t(d, 'form.email.notProvided'),
           situation: situationSlug,
-          household: `${household} ${household === 1 ? 'Person' : 'Personen'}`,
+          household: `${household} ${household === 1 ? t(d, 'form.household.personSingular') : t(d, 'form.household.personPlural')}`,
           income,
           ...utmData,
         }),
@@ -178,15 +179,19 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
           firstName,
           situationLabel,
           cantonName,
-          household: `${household} ${household === 1 ? 'Person' : 'Personen'}`,
+          household: `${household} ${household === 1 ? t(d, 'form.household.personSingular') : t(d, 'form.household.personPlural')}`,
           income,
           email,
         })
       );
+      // Task 8: stash which language the funnel was completed in, so the
+      // unprefixed /danke page (which has no [lang] route param) can render
+      // its thank-you content in the right language.
+      sessionStorage.setItem('antragLang', lang);
       window.location.href = '/danke';
       return;
     } catch (err) {
-      setErrors({ submit: 'Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.' });
+      setErrors({ submit: t(d, 'form.errors.submitFailed') });
     } finally {
       setLoading(false);
     }
@@ -213,17 +218,17 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
           <div className="mt-2.5 grid gap-1.5 text-[12.5px] text-[#6B7A80]">
             <div className="flex items-center gap-1.5">
               <span className="text-swiss-green">✓</span>
-              <span>FINMA-anerkannter Broker</span>
+              <span>{t(d, 'form.sidebar.finma')}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="text-swiss-green">✓</span>
-              <span>Situationsanalyse · Unverbindlich</span>
+              <span>{t(d, 'form.sidebar.analysis')}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="text-amber">★</span>
-              <span>4.8/5 von unseren Klienten bewertet</span>
+              <span>{t(d, 'form.sidebar.rating')}</span>
             </div>
-            <div className="mt-1">+1'000 Dossiers pro Jahr bearbeitet</div>
+            <div className="mt-1">{t(d, 'form.sidebar.volume')}</div>
           </div>
         </div>
       </aside>
@@ -241,28 +246,25 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
             </div>
             <div className="mt-2.5 flex items-center justify-between text-[12.5px] font-medium text-[#6B7A80]">
               <span className="font-semibold text-dark">{STAGES[activeStage].label}</span>
-              <span>
-                Schritt {activeStage + 1} von {STAGES.length}
-              </span>
+              <span>{t(d, 'form.stepOf', { n: activeStage + 1, total: STAGES.length })}</span>
             </div>
           </div>
 
           <div className="bg-white border border-[#E2E8EA] rounded-[10px] shadow-[0_3px_16px_rgba(26,26,42,0.07)] px-7 pt-6 pb-7">
             <div className="flex items-center gap-2 text-sm font-semibold text-teal mb-6">
-              <span>🔒</span>
-              <span>Sicheres Formular</span>
+              <span>{t(d, 'form.secureForm')}</span>
             </div>
 
             {step === 'canton' && (
               <div>
-                <div className="text-xl font-bold mb-4 tracking-tight">In welchem Kanton wohnen Sie?</div>
+                <div className="text-xl font-bold mb-4 tracking-tight">{t(d, 'form.canton.question')}</div>
                 <select
                   value=""
                   onChange={(e) => e.target.value && chooseCanton(e.target.value)}
-                  aria-label="Kanton wählen"
+                  aria-label={t(d, 'form.canton.ariaLabel')}
                   className="w-full px-3.5 py-3 text-[15px] border border-[#D6DFE2] rounded-md bg-white text-dark outline-none focus:border-teal"
                 >
-                  <option value="">Kanton auswählen…</option>
+                  <option value="">{t(d, 'form.canton.placeholder')}</option>
                   {deutschschweizCantons.map((c) => (
                     <option key={c.slug} value={c.name}>
                       {c.name}
@@ -276,10 +278,10 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
               <div>
                 {cantonName && (
                   <div className="inline-flex items-center gap-2 bg-teal-light text-teal-dark text-[12px] font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full mb-4">
-                    <span>Ihr Kanton: {cantonName}</span>
+                    <span>{t(d, 'form.situation.yourCanton', { canton: cantonName })}</span>
                   </div>
                 )}
-                <div className="text-xl font-bold mb-4 tracking-tight">Was beschreibt Ihre Situation am besten?</div>
+                <div className="text-xl font-bold mb-4 tracking-tight">{t(d, 'form.situation.question')}</div>
                 <div className="grid gap-2.5">
                   {situationList.map((s) => (
                     <button key={s.slug} type="button" onClick={() => chooseSituation(s.slug)} className={rowClass(situationSlug === s.slug)}>
@@ -294,14 +296,14 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
             {step === 'email' && (
               <div>
                 <div className="inline-flex items-center gap-2 bg-teal-light text-teal-dark text-[12px] font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full">
-                  <span>Ihr Antrag:</span>
+                  <span>{t(d, 'form.email.summaryTitle')}</span>
                   <select
                     value={situationSlug}
                     onChange={(e) => changeSituation(e.target.value)}
-                    aria-label="Situation ändern"
+                    aria-label={t(d, 'form.email.changeSituationAriaLabel')}
                     className="bg-transparent text-teal-dark text-[12px] font-semibold uppercase tracking-wide border-0 outline-none underline cursor-pointer"
                   >
-                    {!situationSlug && <option value="">Nicht angegeben</option>}
+                    {!situationSlug && <option value="">{t(d, 'form.email.notProvided')}</option>}
                     {situationList.map((s) => (
                       <option key={s.slug} value={s.slug}>
                         {s.label}
@@ -310,25 +312,25 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
                   </select>
                   {cantonName && <span className="normal-case font-normal">· {cantonName}</span>}
                 </div>
-                <div className="text-xl font-bold mt-4 mb-4 tracking-tight">Zu Beginn benötigen wir Ihre E-Mail-Adresse</div>
+                <div className="text-xl font-bold mt-4 mb-4 tracking-tight">{t(d, 'form.email.prompt')}</div>
                 <input
                   type="email"
-                  placeholder="nom@exemple.ch"
+                  placeholder={t(d, 'form.email.placeholder')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-3.5 py-3 text-[15px] border border-[#D6DFE2] rounded-md bg-white text-dark outline-none focus:border-teal"
                 />
                 {errors.email && <div className="text-swiss-red text-xs mt-1">{errors.email}</div>}
                 <p className="text-[12px] leading-relaxed text-[#8A979C] mt-3">
-                  Mit dem Fortfahren akzeptieren Sie unsere{' '}
+                  {t(d, 'form.email.consentPrefix')}{' '}
                   <button
                     type="button"
                     onClick={() => setPrivacyOpen(true)}
                     className="text-teal underline font-medium cursor-pointer bg-transparent border-0 p-0"
                   >
-                    Datenschutzrichtlinie
+                    {t(d, 'footer.datenschutz')}
                   </button>{' '}
-                  und die Verarbeitung Ihrer persönlichen Daten.
+                  {t(d, 'form.email.consentSuffix')}
                 </p>
                 <button
                   type="button"
@@ -336,14 +338,14 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
                   disabled={!isValidEmail(email)}
                   className="mt-3.5 w-full px-5 py-4 bg-teal text-white border-0 rounded-md text-[16.5px] font-bold cursor-pointer hover:bg-teal-dark disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  Weiter →
+                  {t(d, 'form.email.continue')}
                 </button>
               </div>
             )}
 
             {step === 'household' && (
               <div>
-                <div className="text-xl font-bold mb-4 tracking-tight">Wie viele Personen leben in Ihrem Haushalt?</div>
+                <div className="text-xl font-bold mb-4 tracking-tight">{t(d, 'form.household.question')}</div>
                 <div className="flex items-center gap-4">
                   <button
                     type="button"
@@ -353,7 +355,7 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
                     −
                   </button>
                   <div className="min-w-[130px] text-center text-lg font-semibold">
-                    {household} {household === 1 ? 'Person' : 'Personen'}
+                    {household} {household === 1 ? t(d, 'form.household.personSingular') : t(d, 'form.household.personPlural')}
                   </div>
                   <button
                     type="button"
@@ -368,14 +370,14 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
                   onClick={submitHousehold}
                   className="mt-6 w-full px-5 py-4 bg-teal text-white border-0 rounded-md text-[16.5px] font-bold cursor-pointer hover:bg-teal-dark"
                 >
-                  Weiter →
+                  {t(d, 'form.household.continue')}
                 </button>
               </div>
             )}
 
             {step === 'income' && (
               <div>
-                <div className="text-xl font-bold mb-4 tracking-tight">Wie hoch ist Ihr monatliches Haushaltseinkommen?</div>
+                <div className="text-xl font-bold mb-4 tracking-tight">{t(d, 'form.income.question')}</div>
                 <div className="grid gap-2.5">
                   {INCOME_OPTIONS.map((opt) => (
                     <button key={opt} type="button" onClick={() => chooseIncome(opt)} className={rowClass(income === opt)}>
@@ -389,12 +391,12 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
 
             {step === 'contact' && (
               <div>
-                <div className="text-xl font-bold mb-4 tracking-tight">Wie können wir Sie erreichen?</div>
+                <div className="text-xl font-bold mb-4 tracking-tight">{t(d, 'form.contact.question')}</div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
                   <div>
                     <input
                       type="text"
-                      placeholder="Vorname"
+                      placeholder={t(d, 'form.contact.firstName')}
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       className="w-full px-3.5 py-3 text-[15px] border border-[#D6DFE2] rounded-md bg-white text-dark outline-none focus:border-teal"
@@ -404,7 +406,7 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
                   <div>
                     <input
                       type="text"
-                      placeholder="Nachname"
+                      placeholder={t(d, 'form.contact.lastName')}
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       className="w-full px-3.5 py-3 text-[15px] border border-[#D6DFE2] rounded-md bg-white text-dark outline-none focus:border-teal"
@@ -427,7 +429,7 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
                     className="mt-0.5 w-4 h-4 accent-teal flex-shrink-0"
                   />
                   <span>
-                    Ich akzeptiere die{' '}
+                    {t(d, 'form.contact.consentPrefix')}{' '}
                     <button
                       type="button"
                       onClick={(e) => {
@@ -437,9 +439,9 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
                       }}
                       className="text-teal underline font-medium cursor-pointer bg-transparent border-0 p-0"
                     >
-                      Datenschutzbestimmungen
+                      {t(d, 'footer.datenschutz')}
                     </button>{' '}
-                    von EVO Partners GmbH und stimme der Verarbeitung meiner Daten zum Zweck der Beratung zu.
+                    {t(d, 'form.contact.consentSuffix')}
                   </span>
                 </label>
                 {errors.consent && <div className="text-swiss-red text-xs mt-1">{errors.consent}</div>}
@@ -450,7 +452,7 @@ export default function AntragFunnel({ lang = 'de' } = {}) {
                   disabled={!contactReady || loading}
                   className="mt-4 w-full px-5 py-4 bg-teal text-white border-0 rounded-md text-[16.5px] font-bold cursor-pointer hover:bg-teal-dark disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Wird gesendet…' : 'Antrag einreichen →'}
+                  {loading ? t(d, 'form.contact.submitting') : t(d, 'form.contact.submit')}
                 </button>
               </div>
             )}

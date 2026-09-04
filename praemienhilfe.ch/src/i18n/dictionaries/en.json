@@ -1,6 +1,26 @@
 {
-  "nav": { "home": "Premium Reduction", "cantons": "Cantons", "howItWorks": "How It Works", "faq": "FAQ", "contact": "Contact", "checkEligibility": "Check Eligibility", "checkEligibilityShort": "Apply Now", "allCantons": "All Cantons", "about": "About Us", "deutschschweiz": "German-speaking Switzerland", "checkEligibilityCta": "Check eligibility →", "checkEligibilityCtaLong": "Check your eligibility →", "menuOpen": "Open menu", "menuClose": "Close menu" },
-  "langSwitcher": { "de": "DE", "en": "EN", "es": "ES", "ariaLabel": "Select language" },
+  "nav": {
+    "home": "Premium Reduction",
+    "cantons": "Cantons",
+    "howItWorks": "How It Works",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "checkEligibility": "Check Eligibility",
+    "checkEligibilityShort": "Apply Now",
+    "allCantons": "All Cantons",
+    "about": "About Us",
+    "deutschschweiz": "German-speaking Switzerland",
+    "checkEligibilityCta": "Check eligibility →",
+    "checkEligibilityCtaLong": "Check your eligibility →",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu"
+  },
+  "langSwitcher": {
+    "de": "DE",
+    "en": "EN",
+    "es": "ES",
+    "ariaLabel": "Select language"
+  },
   "footer": {
     "tagline": "Helping you get your Swiss health insurance premium reduction",
     "cantonsHeading": "Cantons",
@@ -17,21 +37,81 @@
     "legalNotices": "Legal Notices",
     "copyright": "© {year} praemienhilfe.ch — A service by EVO Partners GmbH, Zurich. All rights reserved. This platform is not an official cantonal authority."
   },
-  "mobileCta": { "default": "Check eligibility →", "canton": "Check eligibility in {canton} →" },
+  "mobileCta": {
+    "default": "Check eligibility →",
+    "canton": "Check eligibility in {canton} →"
+  },
   "form": {
-    "stages": { "identification": "Identification", "additional": "Additional Information", "situation": "Your Situation", "done": "Complete" },
+    "stages": {
+      "identification": "Identification",
+      "additional": "Additional Information",
+      "situation": "Your Situation",
+      "done": "Complete"
+    },
     "stepOf": "Step {n} of {total}",
     "secureForm": "🔒 Secure Form",
-    "sidebar": { "finma": "FINMA-recognized broker", "analysis": "Situation analysis · No obligation", "rating": "4.8/5 rated by our clients", "volume": "1,000+ applications processed per year" },
-    "canton": { "question": "Which canton do you live in?", "placeholder": "Select canton…", "ariaLabel": "Select canton" },
-    "situation": { "yourCanton": "Your canton: {canton}", "question": "Which best describes your situation?" },
-    "email": { "summaryTitle": "Your application:", "notProvided": "Not provided", "prompt": "First, we need your email address", "placeholder": "name@example.com", "consent": "By continuing, you accept our privacy policy and the processing of your personal data.", "continue": "Continue →", "invalid": "Please enter a valid email address." },
-    "household": { "question": "How many people live in your household?", "personSingular": "person", "personPlural": "people", "continue": "Continue →" },
-    "income": { "question": "What is your monthly household income?", "under2000": "Under CHF 2,000", "2000to4000": "CHF 2,000 – 4,000", "4000to6000": "CHF 4,000 – 6,000", "over6000": "Over CHF 6,000" },
-    "contact": { "question": "How can we reach you?", "firstName": "First name", "lastName": "Last name", "consent": "I accept the privacy policy of EVO Partners GmbH and consent to the processing of my data for consultation purposes.", "submit": "Submit application →", "submitting": "Submitting…" },
-    "errors": { "firstName": "Please enter your first name.", "lastName": "Please enter your last name.", "phone": "Please enter your phone number.", "phoneInvalid": "Please enter a valid phone number.", "consent": "Please accept the privacy policy.", "submitFailed": "Something went wrong. Please try again." }
+    "sidebar": {
+      "finma": "FINMA-recognized broker",
+      "analysis": "Situation analysis · No obligation",
+      "rating": "4.8/5 rated by our clients",
+      "volume": "1,000+ applications processed per year"
+    },
+    "canton": {
+      "question": "Which canton do you live in?",
+      "placeholder": "Select canton…",
+      "ariaLabel": "Select canton"
+    },
+    "situation": {
+      "yourCanton": "Your canton: {canton}",
+      "question": "Which best describes your situation?"
+    },
+    "email": {
+      "summaryTitle": "Your application:",
+      "notProvided": "Not provided",
+      "prompt": "First, we need your email address",
+      "placeholder": "name@example.com",
+      "consent": "By continuing, you accept our privacy policy and the processing of your personal data.",
+      "consentPrefix": "By continuing, you accept our",
+      "consentSuffix": "and the processing of your personal data.",
+      "changeSituationAriaLabel": "Change situation",
+      "continue": "Continue →",
+      "invalid": "Please enter a valid email address."
+    },
+    "household": {
+      "question": "How many people live in your household?",
+      "personSingular": "person",
+      "personPlural": "people",
+      "continue": "Continue →"
+    },
+    "income": {
+      "question": "What is your monthly household income?",
+      "under2000": "Under CHF 2,000",
+      "2000to4000": "CHF 2,000 – 4,000",
+      "4000to6000": "CHF 4,000 – 6,000",
+      "over6000": "Over CHF 6,000"
+    },
+    "contact": {
+      "question": "How can we reach you?",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "consent": "I accept the privacy policy of EVO Partners GmbH and consent to the processing of my data for consultation purposes.",
+      "consentPrefix": "I accept the",
+      "consentSuffix": "of EVO Partners GmbH and consent to the processing of my data for consultation purposes.",
+      "submit": "Submit application →",
+      "submitting": "Submitting…"
+    },
+    "errors": {
+      "firstName": "Please enter your first name.",
+      "lastName": "Please enter your last name.",
+      "phone": "Please enter your phone number.",
+      "phoneInvalid": "Please enter a valid phone number.",
+      "consent": "Please accept the privacy policy.",
+      "submitFailed": "Something went wrong. Please try again."
+    }
   },
-  "situationSelector": { "heading": "Which best describes your situation?" },
+  "situationSelector": {
+    "heading": "Which best describes your situation?"
+  },
   "hero": {
     "cantonHeading": "Health insurance premium reduction {canton} — check eligibility and apply",
     "cantonHeadingDefault": "Are you eligible for the health insurance premium reduction?",
@@ -43,9 +123,18 @@
     "heading": "Why do many eligible people never apply for their health insurance premium reduction?",
     "intro": "Even though thousands of people are entitled to it, many never submit an application. The most common reasons: the process looks complicated, many don't know whether they qualify, and deadlines are often missed. Yet the process is simpler than expected — as long as you know the exact requirements and deadlines.",
     "reasons": [
-      { "title": "Too complicated", "text": "The application process looks like a lot of work" },
-      { "title": "Unsure", "text": "Many don't know whether they qualify" },
-      { "title": "No time", "text": "Deadlines are often missed" }
+      {
+        "title": "Too complicated",
+        "text": "The application process looks like a lot of work"
+      },
+      {
+        "title": "Unsure",
+        "text": "Many don't know whether they qualify"
+      },
+      {
+        "title": "No time",
+        "text": "Deadlines are often missed"
+      }
     ]
   },
   "finalCta": {
@@ -60,10 +149,18 @@
     "paragraph1": "Every canton sets its own deadline, and a missed application usually means losing a full year of premium subsidy. We know the exact deadlines for your canton of residence and will tell you, during your free initial consultation, by when you need to act.",
     "paragraph2": "Anyone who misses the deadline loses the premium subsidy for the current year — which can amount to several hundred to several thousand francs."
   },
-  "faqSection": { "heading": "Frequently Asked Questions" },
-  "howItWorks": { "heading": "How applying works" },
-  "wasIstSection": { "heading": "What is the health insurance premium reduction?" },
-  "werWirSindSection": { "heading": "Who is behind praemienhilfe.ch?" },
+  "faqSection": {
+    "heading": "Frequently Asked Questions"
+  },
+  "howItWorks": {
+    "heading": "How applying works"
+  },
+  "wasIstSection": {
+    "heading": "What is the health insurance premium reduction?"
+  },
+  "werWirSindSection": {
+    "heading": "Who is behind praemienhilfe.ch?"
+  },
   "situationFinalCta": {
     "heading": "Haven't checked your eligibility yet?",
     "text": "Get started now — it takes less than 20 minutes. Choose your situation:",
@@ -74,14 +171,36 @@
     "intro": "Choose your canton and check your eligibility for the health insurance premium reduction quickly and easily."
   },
   "widgets": {
-    "sticky": { "default": "Check eligibility", "canton": "Check eligibility in {canton}", "sub": "Free check in 20 min.", "cta": "Get started →" },
-    "exitIntent": { "heading": "Wait — check your eligibility first!", "cta": "Check now →", "decline": "No thanks, I don't want my premium subsidy" },
-    "disclaimer": { "heading": "Important notice", "cta": "Understood — Continue →" }
+    "sticky": {
+      "default": "Check eligibility",
+      "canton": "Check eligibility in {canton}",
+      "sub": "Free check in 20 min.",
+      "cta": "Get started →"
+    },
+    "exitIntent": {
+      "heading": "Wait — check your eligibility first!",
+      "paragraph": "Many eligible people don't realize they could receive up to CHF 3,000 per year. The check only takes 20 minutes.",
+      "cta": "Check now →",
+      "decline": "No thanks, I don't want my premium subsidy"
+    },
+    "disclaimer": {
+      "heading": "Important notice",
+      "paragraph1": "prämienhilfe.ch is a private, independent advisory service run by EVO Partners GmbH — not a cantonal office or government authority.",
+      "paragraph2": "Our help with your premium subsidy is free of charge.",
+      "cta": "Understood — Continue →"
+    }
   },
   "thankYou": {
     "titleWithName": "Thank you, {firstName}!",
     "titleGeneric": "Thank you for your request!",
-    "labels": { "situation": "Situation:", "canton": "Canton:", "household": "Household:", "income": "Income:", "email": "Email:" },
+    "paragraphPrefix": "One of our advisors will contact you within 24 hours. If you have questions, reach us at",
+    "labels": {
+      "situation": "Situation:",
+      "canton": "Canton:",
+      "household": "Household:",
+      "income": "Income:",
+      "email": "Email:"
+    },
     "confirmationNote": "You will receive a confirmation email shortly.",
     "backHome": "Back to homepage"
   }

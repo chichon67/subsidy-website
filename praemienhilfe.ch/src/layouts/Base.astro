@@ -105,9 +105,9 @@ const mobileCtaLabel = cantonName ? t(dict, 'mobileCta.canton', { canton: canton
       )
     }
 
-    {chrome && <DisclaimerModal client:load />}
-    {chrome && <ExitIntentPopup client:load />}
-    {chrome && <StickyFunnelWidget client:idle activePage={activePage} cantonName={cantonName} />}
+    {chrome && <DisclaimerModal client:load lang={lang} dict={dict} />}
+    {chrome && <ExitIntentPopup client:load lang={lang} dict={dict} />}
+    {chrome && <StickyFunnelWidget client:idle activePage={activePage} cantonName={cantonName} lang={lang} dict={dict} />}
 
     <script>
       const SCROLL_DURATION_MS = 300;

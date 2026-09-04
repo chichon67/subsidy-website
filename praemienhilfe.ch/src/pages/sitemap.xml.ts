@@ -12,6 +12,7 @@ const TRANSLATED_KEYS = [
   'faq',
   'so-funktioniert-es',
   'kontakt',
+  'antrag',
   'impressum',
   'datenschutz',
 ];

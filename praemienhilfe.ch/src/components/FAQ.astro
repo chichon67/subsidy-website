@@ -1,14 +1,20 @@
 ---
 // src/components/FAQ.astro
+import { getDictionary, t } from '../i18n/index.js';
+
 export interface Props {
+  lang: string;
   canton: { faqs: { q: string; a: string }[] };
+  heading?: string;
 }
-const { canton } = Astro.props;
+const { lang, canton, heading } = Astro.props;
+const dict = getDictionary(lang);
+const resolvedHeading = heading ?? t(dict, 'faqSection.heading');
 ---
 
 <section id="faq" class="bg-[#F5F7F8]">
   <div class="max-w-[900px] mx-auto px-8 py-16">
-    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0">Häufige Fragen</h2>
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0">{resolvedHeading}</h2>
     <div class="mt-[30px] border-t border-[#DFE6E8]">
       {
         canton.faqs.map((f) => (

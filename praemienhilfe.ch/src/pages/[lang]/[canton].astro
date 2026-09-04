@@ -87,12 +87,12 @@ const BUTTONS = {
     },
   ]}
 >
-  <Hero canton={canton} defaultCanton={name} embeddedFunnel={true} />
+  <Hero canton={canton} defaultCanton={name} embeddedFunnel={true} lang={lang} />
   <TrustBar canton={canton} />
   <InfoSection canton={canton} />
-  <HowItWorks steps={canton.steps} id="so-funktioniert-es" />
-  <ProblemSection />
-  <WerWirSindSection />
-  <FAQ canton={canton} />
-  <FinalCTA buttons={BUTTONS[lang]} />
+  <HowItWorks steps={canton.steps} id="so-funktioniert-es" lang={lang} />
+  <ProblemSection lang={lang} />
+  <WerWirSindSection lang={lang} />
+  <FAQ canton={canton} lang={lang} />
+  <FinalCTA buttons={BUTTONS[lang]} lang={lang} />
 </Base>

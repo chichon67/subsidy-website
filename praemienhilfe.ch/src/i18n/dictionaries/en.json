@@ -32,6 +32,47 @@
     "errors": { "firstName": "Please enter your first name.", "lastName": "Please enter your last name.", "phone": "Please enter your phone number.", "phoneInvalid": "Please enter a valid phone number.", "consent": "Please accept the privacy policy.", "submitFailed": "Something went wrong. Please try again." }
   },
   "situationSelector": { "heading": "Which best describes your situation?" },
+  "hero": {
+    "cantonHeading": "Health insurance premium reduction {canton} — check eligibility and apply",
+    "cantonHeadingDefault": "Are you eligible for the health insurance premium reduction?",
+    "cantonParagraph": "The canton grants residents with modest financial means contributions toward reducing their health insurance premiums. We help you check your eligibility and submit your application correctly.",
+    "altVillage": "Swiss village by a lake",
+    "altFamily": "Swiss family"
+  },
+  "problemSection": {
+    "heading": "Why do many eligible people never apply for their health insurance premium reduction?",
+    "intro": "Even though thousands of people are entitled to it, many never submit an application. The most common reasons: the process looks complicated, many don't know whether they qualify, and deadlines are often missed. Yet the process is simpler than expected — as long as you know the exact requirements and deadlines.",
+    "reasons": [
+      { "title": "Too complicated", "text": "The application process looks like a lot of work" },
+      { "title": "Unsure", "text": "Many don't know whether they qualify" },
+      { "title": "No time", "text": "Deadlines are often missed" }
+    ]
+  },
+  "finalCta": {
+    "heading": "Check your eligibility now",
+    "text": "Book an initial consultation. We'll guide you from the eligibility check through to submission.",
+    "buttonPrimary": "Check eligibility →",
+    "buttonSecondary": "Fill out the form →"
+  },
+  "deadlineSection": {
+    "heading": "Don't miss your application deadline",
+    "warning": "⚠️ Deadlines vary by canton and are often only offered once a year.",
+    "paragraph1": "Every canton sets its own deadline, and a missed application usually means losing a full year of premium subsidy. We know the exact deadlines for your canton of residence and will tell you, during your free initial consultation, by when you need to act.",
+    "paragraph2": "Anyone who misses the deadline loses the premium subsidy for the current year — which can amount to several hundred to several thousand francs."
+  },
+  "faqSection": { "heading": "Frequently Asked Questions" },
+  "howItWorks": { "heading": "How applying works" },
+  "wasIstSection": { "heading": "What is the health insurance premium reduction?" },
+  "werWirSindSection": { "heading": "Who is behind praemienhilfe.ch?" },
+  "situationFinalCta": {
+    "heading": "Haven't checked your eligibility yet?",
+    "text": "Get started now — it takes less than 20 minutes. Choose your situation:",
+    "disclaimer": "Not an official cantonal office. A service by EVO Partners GmbH, a FINMA-registered broker."
+  },
+  "cantonDirectory": {
+    "heading": "Discover premium subsidy help by canton",
+    "intro": "Choose your canton and check your eligibility for the health insurance premium reduction quickly and easily."
+  },
   "widgets": {
     "sticky": { "default": "Check eligibility", "canton": "Check eligibility in {canton}", "sub": "Free check in 20 min.", "cta": "Get started →" },
     "exitIntent": { "heading": "Wait — check your eligibility first!", "cta": "Check now →", "decline": "No thanks, I don't want my premium subsidy" },

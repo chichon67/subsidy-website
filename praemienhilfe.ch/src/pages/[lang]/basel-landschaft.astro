@@ -54,11 +54,11 @@ const BUTTONS = {
   lang={lang}
   pageKey="basel-landschaft"
 >
-  <Hero canton={canton} defaultCanton="Basel-Landschaft" embeddedFunnel={true} />
+  <Hero canton={canton} defaultCanton="Basel-Landschaft" embeddedFunnel={true} lang={lang} />
   <TrustBar canton={canton} />
   <InfoSection canton={canton} />
-  <HowItWorks steps={canton.steps} id="so-funktioniert-es" />
-  <ProblemSection />
-  <FAQ canton={canton} />
-  <FinalCTA buttons={BUTTONS[lang]} />
+  <HowItWorks steps={canton.steps} id="so-funktioniert-es" lang={lang} />
+  <ProblemSection lang={lang} />
+  <FAQ canton={canton} lang={lang} />
+  <FinalCTA buttons={BUTTONS[lang]} lang={lang} />
 </Base>

@@ -94,21 +94,23 @@ const schema = [
   pageKey="home"
   schema={schema}
 >
-  <Hero variant="national" />
+  <Hero variant="national" lang={lang} />
   <TrustBar canton={{ stats: national.nationalStats }} />
-  <WasIstSection />
-  <CantonDirectory />
-  <HowItWorks steps={national.howItWorksSteps} heading={HOW_IT_WORKS_HEADING[lang]} id="so-funktioniert-es" />
+  <WasIstSection lang={lang} />
+  <CantonDirectory lang={lang} />
+  <HowItWorks steps={national.howItWorksSteps} heading={HOW_IT_WORKS_HEADING[lang]} id="so-funktioniert-es" lang={lang} />
   <ProblemSection
+    lang={lang}
     heading={PROBLEM_HEADING[lang]}
     intro={national.whySection.intro}
     reasons={national.whySection.reasons}
     closing={national.whySection.closing}
   />
-  <WerWirSindSection />
-  <FAQ canton={{ faqs: national.nationalFaqs }} />
-  <DeadlineSection />
+  <WerWirSindSection lang={lang} />
+  <FAQ canton={{ faqs: national.nationalFaqs }} lang={lang} />
+  <DeadlineSection lang={lang} />
   <FinalCTA
+    lang={lang}
     heading={FINAL_CTA_HEADING[lang]}
     text={FINAL_CTA_TEXT[lang]}
     buttons={[{ label: t(dict, 'mobileCta.default'), href: '#pruefen' }]}

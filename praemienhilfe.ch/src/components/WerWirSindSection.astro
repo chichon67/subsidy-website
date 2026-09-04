@@ -1,18 +1,21 @@
 ---
 // src/components/WerWirSindSection.astro
 import { getNational } from '../data/national.js';
+import { getDictionary, t } from '../i18n/index.js';
 
-// Task 2 made national.js locale-aware; this component isn't wired up to
-// `lang` yet (a later task does that), so it keeps its current German-only
-// behavior for now via the default locale. Minimal fix to keep this
-// building — not a content or i18n change.
-const { werWirSind } = getNational('de');
+export interface Props {
+  lang: string;
+}
+const { lang } = Astro.props;
+const { werWirSind } = getNational(lang);
+const dict = getDictionary(lang);
+const heading = t(dict, 'werWirSindSection.heading');
 ---
 
 <section id="wer-wir-sind" class="bg-teal-light">
   <div class="max-w-[1240px] mx-auto px-8 py-[52px] md:py-[74px]">
     <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 max-w-[26em] leading-tight">
-      Wer steckt hinter prämienhilfe.ch?
+      {heading}
     </h2>
     <div class="mt-[34px] grid grid-cols-1 md:grid-cols-[1.3fr_1fr] gap-11 items-start">
       <div>

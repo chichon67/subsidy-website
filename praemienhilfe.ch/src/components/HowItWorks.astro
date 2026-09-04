@@ -1,16 +1,21 @@
 ---
 // src/components/HowItWorks.astro
+import { getDictionary, t } from '../i18n/index.js';
+
 export interface Props {
+  lang: string;
   steps: { n: string; title: string; text: string }[];
   heading?: string;
   id?: string;
 }
-const { steps, heading = 'So funktioniert die Beantragung', id = 'ablauf' } = Astro.props;
+const { lang, steps, heading, id = 'ablauf' } = Astro.props;
+const dict = getDictionary(lang);
+const resolvedHeading = heading ?? t(dict, 'howItWorks.heading');
 ---
 
 <section id={id} style="background: #F0F7F0">
   <div class="max-w-[1240px] mx-auto px-8 py-[52px] md:py-[74px]">
-    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 text-[#2E6B29]">{heading}</h2>
+    <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 text-[#2E6B29]">{resolvedHeading}</h2>
     <div class="max-w-[48em] mt-[34px] grid gap-8">
       {
         steps.map((st) => (

@@ -73,12 +73,12 @@ const schema = [
   pageKey="basel-stadt"
   schema={schema}
 >
-  <Hero canton={canton} defaultCanton="Basel-Stadt" embeddedFunnel={true} />
+  <Hero canton={canton} defaultCanton="Basel-Stadt" embeddedFunnel={true} lang={lang} />
   <TrustBar canton={canton} />
   <InfoSection canton={canton} />
-  <HowItWorks steps={canton.steps} id="so-funktioniert-es" />
-  <ProblemSection />
-  <WerWirSindSection />
-  <FAQ canton={canton} />
-  <SituationFinalCTA />
+  <HowItWorks steps={canton.steps} id="so-funktioniert-es" lang={lang} />
+  <ProblemSection lang={lang} />
+  <WerWirSindSection lang={lang} />
+  <FAQ canton={canton} lang={lang} />
+  <SituationFinalCTA lang={lang} />
 </Base>

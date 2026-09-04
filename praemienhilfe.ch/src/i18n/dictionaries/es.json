@@ -32,6 +32,47 @@
     "errors": { "firstName": "Indique su nombre.", "lastName": "Indique su apellido.", "phone": "Indique su número de teléfono.", "phoneInvalid": "Indique un número de teléfono válido.", "consent": "Debe aceptar la política de privacidad.", "submitFailed": "Ha ocurrido un error. Inténtelo de nuevo." }
   },
   "situationSelector": { "heading": "¿Qué describe mejor su situación?" },
+  "hero": {
+    "cantonHeading": "Reducción de primas del seguro médico {canton} — comprobar si tiene derecho y solicitar",
+    "cantonHeadingDefault": "¿Tiene derecho a la reducción de primas del seguro médico?",
+    "cantonParagraph": "El cantón concede a los residentes con recursos económicos modestos ayudas para reducir las primas del seguro médico. Le ayudamos a comprobar si tiene derecho y a presentar correctamente su solicitud.",
+    "altVillage": "Pueblo suizo junto a un lago",
+    "altFamily": "Familia suiza"
+  },
+  "problemSection": {
+    "heading": "¿Por qué muchas personas con derecho no solicitan la reducción de primas del seguro médico?",
+    "intro": "Aunque miles de personas tienen derecho, muchas nunca presentan una solicitud. Los motivos más frecuentes: el trámite parece complicado, muchos no saben si cumplen los requisitos y a menudo se les pasan los plazos. Sin embargo, el proceso es más sencillo de lo que parece, siempre que conozca los requisitos y plazos exactos.",
+    "reasons": [
+      { "title": "Demasiado complicado", "text": "El trámite de solicitud parece laborioso" },
+      { "title": "Inseguridad", "text": "Muchos no saben si tienen derecho" },
+      { "title": "Falta de tiempo", "text": "Los plazos a menudo se pasan por alto" }
+    ]
+  },
+  "finalCta": {
+    "heading": "Compruebe ahora si tiene derecho",
+    "text": "Concierte una primera consulta. Le acompañamos desde la comprobación hasta la presentación.",
+    "buttonPrimary": "Comprobar si tiene derecho →",
+    "buttonSecondary": "Rellenar el formulario →"
+  },
+  "deadlineSection": {
+    "heading": "No deje pasar su plazo de solicitud",
+    "warning": "⚠️ Los plazos de solicitud varían según el cantón y a menudo solo se ofrecen una vez al año.",
+    "paragraph1": "Cada cantón fija su propio plazo, y una solicitud fuera de plazo suele significar perder un año entero de reducción. Conocemos los plazos exactos de su cantón de residencia y le indicaremos, en la consulta inicial gratuita, hasta cuándo debe actuar.",
+    "paragraph2": "Quien no respeta el plazo pierde la reducción del año en curso, lo que puede suponer entre varios cientos y varios miles de francos."
+  },
+  "faqSection": { "heading": "Preguntas frecuentes" },
+  "howItWorks": { "heading": "Así funciona la solicitud" },
+  "wasIstSection": { "heading": "¿Qué es la reducción de primas del seguro médico?" },
+  "werWirSindSection": { "heading": "¿Quién está detrás de praemienhilfe.ch?" },
+  "situationFinalCta": {
+    "heading": "¿Aún no ha comprobado si tiene derecho?",
+    "text": "Empiece ahora — le llevará menos de 20 minutos. Elija su situación:",
+    "disclaimer": "No somos una oficina cantonal oficial. Un servicio de EVO Partners GmbH, corredor registrado en FINMA."
+  },
+  "cantonDirectory": {
+    "heading": "Descubra la ayuda para la reducción de primas por cantón",
+    "intro": "Elija su cantón y compruebe si tiene derecho a la reducción de primas del seguro médico de forma rápida y sencilla."
+  },
   "widgets": {
     "sticky": { "default": "Comprobar si tiene derecho", "canton": "Comprobar derecho en {canton}", "sub": "Comprobación gratuita en 20 min.", "cta": "Empezar ahora →" },
     "exitIntent": { "heading": "Espere — ¡compruebe primero si tiene derecho!", "cta": "Comprobar ahora →", "decline": "No, gracias, renuncio a mi subsidio" },

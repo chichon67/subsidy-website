@@ -1,21 +1,26 @@
 ---
 // src/components/SituationSelector.astro
 import { getSituationList } from '../data/situations.js';
+import { getDictionary, t, localePath } from '../i18n/index.js';
 
-// Task 2 made situations.js locale-aware; this component isn't wired up to
-// `lang` yet (a later task does that), so it keeps its current German-only
-// behavior for now via the default locale. Minimal fix to keep this
-// building — not a content or i18n change.
-const situationList = getSituationList('de');
+export interface Props {
+  lang: string;
+  heading?: string;
+}
+const { lang, heading } = Astro.props;
+const situationList = getSituationList(lang);
+const dict = getDictionary(lang);
+const resolvedHeading = heading ?? t(dict, 'situationSelector.heading');
+const antragHref = localePath(lang, '/antrag');
 ---
 
 <div class="mt-8 bg-white border border-[#E2E8EA] border-t-4 border-t-teal rounded-[10px] shadow-[0_3px_16px_rgba(26,26,42,0.07)] px-7 pt-6 pb-7">
-  <div class="text-xl font-bold mb-4 tracking-tight">Was beschreibt Ihre Situation am besten?</div>
+  <div class="text-xl font-bold mb-4 tracking-tight">{resolvedHeading}</div>
   <div class="grid gap-2.5">
     {
       situationList.map((s) => (
         <a
-          href={`/antrag?situation=${s.slug}`}
+          href={`${antragHref}?situation=${s.slug}`}
           onclick={`if (window.gtag) window.gtag('event', 'antrag_situation_selected', { situation: '${s.slug}' })`}
           class="w-full flex items-center justify-between gap-4 text-left rounded-md text-[15.5px] font-medium text-dark bg-white border border-[#D6DFE2] px-[18px] py-[15px] no-underline transition-colors hover:border-teal hover:bg-teal-light"
         >

@@ -7,22 +7,24 @@ import SituationSelector from './SituationSelector.astro';
 import heroPhoto from '../assets/hero-photo.jpg';
 import swissVillage from '../assets/swiss-village-lake.jpg';
 import { getNational } from '../data/national.js';
-
-// Task 2 made national.js locale-aware; this component isn't wired up to
-// `lang` yet (a later task does that), so it keeps its current German-only
-// behavior for now via the default locale. Minimal fix to keep this
-// building — not a content or i18n change.
-const { heroCopy } = getNational('de');
+import { getDictionary, t } from '../i18n/index.js';
 
 export interface Props {
+  lang: string;
   canton?: { name: string; heroProof: string };
   defaultCanton?: string;
   useSituationFunnel?: boolean;
   variant?: 'canton' | 'national';
   embeddedFunnel?: boolean;
 }
-const { canton, defaultCanton, useSituationFunnel = true, variant = 'canton', embeddedFunnel = false } = Astro.props;
+const { lang, canton, defaultCanton, useSituationFunnel = true, variant = 'canton', embeddedFunnel = false } = Astro.props;
+const { heroCopy } = getNational(lang);
+const dict = getDictionary(lang);
 const isNational = variant === 'national';
+const cantonHeading = canton?.name
+  ? t(dict, 'hero.cantonHeading', { canton: canton.name })
+  : t(dict, 'hero.cantonHeadingDefault');
+const cantonParagraph = t(dict, 'hero.cantonParagraph');
 ---
 
 <section id="pruefen" class="relative bg-white overflow-hidden">
@@ -31,7 +33,7 @@ const isNational = variant === 'national';
       <div class="hidden md:block absolute inset-y-0 right-0 w-[46%] min-w-[420px] rounded-l-[50%] overflow-hidden">
         <Image
           src={swissVillage}
-          alt="Schweizer Dorf am See"
+          alt={t(dict, 'hero.altVillage')}
           width={1200}
           height={1300}
           class="w-full h-full object-cover"
@@ -52,19 +54,19 @@ const isNational = variant === 'national';
       <div class="w-full md:max-w-[50%]">
         <h1 class="text-[32px] md:text-[48px] leading-[1.08] font-bold tracking-tight m-0">{heroCopy.title}</h1>
         <p class="text-base leading-[1.68] text-[#3D4A50] mt-5 max-w-[34em]">{heroCopy.paragraph}</p>
-        <SituationSelector />
+        <SituationSelector lang={lang} />
       </div>
     ) : (
       <div class="grid grid-cols-1 md:grid-cols-[55fr_45fr] gap-14 items-start">
         <div>
           <h1 class="text-[32px] md:text-[48px] leading-[1.08] font-bold tracking-tight m-0">
-            {canton?.name ? `Prämienverbilligung ${canton.name} — Anspruch prüfen und Antrag stellen` : 'Haben Sie Anspruch auf Prämienverbilligung?'}
+            {cantonHeading}
           </h1>
           <p class="text-base leading-[1.68] text-[#3D4A50] mt-5 max-w-[34em]">
-            Der Kanton gewährt Einwohnerinnen und Einwohnern in bescheidenen wirtschaftlichen Verhältnissen Beiträge zur Reduktion der Krankenkassenprämien. Wir helfen Ihnen, Ihren Anspruch zu prüfen und Ihren Antrag korrekt einzureichen.
+            {cantonParagraph}
           </p>
 
-          {embeddedFunnel ? <SituationFunnel client:load canton={defaultCanton} /> : useSituationFunnel ? <SituationSelector /> : <Funnel client:load defaultCanton={defaultCanton} />}
+          {embeddedFunnel ? <SituationFunnel client:load canton={defaultCanton} /> : useSituationFunnel ? <SituationSelector lang={lang} /> : <Funnel client:load defaultCanton={defaultCanton} />}
         </div>
 
         <div class="hidden md:block relative pt-1.5">
@@ -75,7 +77,7 @@ const isNational = variant === 'national';
           <div class="relative w-full max-w-[470px] ml-auto aspect-square rounded-full overflow-hidden">
             <Image
               src={heroPhoto}
-              alt="Schweizer Familie"
+              alt={t(dict, 'hero.altFamily')}
               width={940}
               height={940}
               class="w-full h-full object-cover"

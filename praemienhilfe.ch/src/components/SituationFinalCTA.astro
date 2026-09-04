@@ -1,21 +1,24 @@
 ---
 // src/components/SituationFinalCTA.astro
 import { getSituationList } from '../data/situations.js';
+import { getDictionary, t, localePath } from '../i18n/index.js';
 
-// Task 2 made situations.js locale-aware; this component isn't wired up to
-// `lang` yet (a later task does that), so it keeps its current German-only
-// behavior for now via the default locale. Minimal fix to keep this
-// building — not a content or i18n change.
-const situationList = getSituationList('de');
+export interface Props {
+  lang: string;
+}
+const { lang } = Astro.props;
+const situationList = getSituationList(lang);
+const dict = getDictionary(lang);
+const antragHref = localePath(lang, '/antrag');
 ---
 
 <section class="bg-teal text-white">
   <div class="max-w-[720px] mx-auto px-8 py-16">
     <h2 class="text-[25px] md:text-[32px] font-bold tracking-tight m-0 text-white">
-      Haben Sie Ihren Anspruch noch nicht geprüft?
+      {t(dict, 'situationFinalCta.heading')}
     </h2>
     <p class="text-base leading-relaxed mt-3.5 text-white max-w-[34em]">
-      Starten Sie jetzt — es dauert weniger als 20 Minuten. Wählen Sie Ihre Situation:
+      {t(dict, 'situationFinalCta.text')}
     </p>
 
     <div class="mt-7 grid gap-2.5">
@@ -34,19 +37,19 @@ const situationList = getSituationList('de');
     </div>
 
     <p class="text-xs leading-relaxed text-white/85 mt-5">
-      Kein offizielles Kantonsamt. Ein Service von EVO Partners GmbH, FINMA-registrierter Broker.
+      {t(dict, 'situationFinalCta.disclaimer')}
     </p>
   </div>
 </section>
 
-<script>
+<script define:vars={{ antragHref }}>
   document.querySelectorAll('.situation-cta-row').forEach((btn) => {
     btn.addEventListener('click', () => {
       const slug = btn.getAttribute('data-situation');
       if (typeof window.startFunnel === 'function') {
         window.startFunnel(slug);
       } else {
-        window.location.href = `/antrag?situation=${slug}`;
+        window.location.href = `${antragHref}?situation=${slug}`;
       }
     });
   });

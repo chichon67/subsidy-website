@@ -32,6 +32,47 @@
     "errors": { "firstName": "Bitte Vorname angeben.", "lastName": "Bitte Nachname angeben.", "phone": "Bitte Telefonnummer angeben.", "phoneInvalid": "Bitte eine gültige Telefonnummer angeben.", "consent": "Bitte akzeptieren Sie die Datenschutzbestimmungen.", "submitFailed": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut." }
   },
   "situationSelector": { "heading": "Was beschreibt Ihre Situation am besten?" },
+  "hero": {
+    "cantonHeading": "Prämienverbilligung {canton} — Anspruch prüfen und Antrag stellen",
+    "cantonHeadingDefault": "Haben Sie Anspruch auf Prämienverbilligung?",
+    "cantonParagraph": "Der Kanton gewährt Einwohnerinnen und Einwohnern in bescheidenen wirtschaftlichen Verhältnissen Beiträge zur Reduktion der Krankenkassenprämien. Wir helfen Ihnen, Ihren Anspruch zu prüfen und Ihren Antrag korrekt einzureichen.",
+    "altVillage": "Schweizer Dorf am See",
+    "altFamily": "Schweizer Familie"
+  },
+  "problemSection": {
+    "heading": "Warum beantragen viele Berechtigte keine Prämienverbilligung?",
+    "intro": "Obwohl Tausende von Personen Anspruch hätten, stellen viele keinen Antrag. Die häufigsten Gründe: Das Verfahren wirkt kompliziert, viele wissen nicht ob sie berechtigt sind, und die Fristen werden oft verpasst. Dabei ist der Prozess einfacher als erwartet — vorausgesetzt, man kennt die genauen Anforderungen und Fristen.",
+    "reasons": [
+      { "title": "Zu kompliziert", "text": "Das Antragsverfahren wirkt aufwendig" },
+      { "title": "Unsicher", "text": "Viele wissen nicht ob sie berechtigt sind" },
+      { "title": "Keine Zeit", "text": "Fristen werden oft verpasst" }
+    ]
+  },
+  "finalCta": {
+    "heading": "Jetzt Anspruch prüfen lassen",
+    "text": "Vereinbaren Sie ein Erstgespräch. Wir begleiten Sie von der Prüfung bis zur Einreichung.",
+    "buttonPrimary": "Antrag prüfen lassen →",
+    "buttonSecondary": "Formular ausfüllen →"
+  },
+  "deadlineSection": {
+    "heading": "Verpassen Sie nicht Ihre Antragsfrist",
+    "warning": "⚠️ Die Anmeldefristen variieren je nach Kanton und werden oft nur einmal jährlich angeboten.",
+    "paragraph1": "Jeder Kanton legt seine eigene Frist fest, und ein verpasster Antrag bedeutet meist ein verlorenes Jahr Verbilligung. Wir kennen die genauen Fristen für Ihren Wohnkanton und sagen Ihnen im kostenlosen Erstgespräch, bis wann Sie handeln sollten.",
+    "paragraph2": "Wer die Frist verpasst, verliert die Verbilligung für das laufende Jahr — das können mehrere hundert bis mehrere tausend Franken sein."
+  },
+  "faqSection": { "heading": "Häufige Fragen" },
+  "howItWorks": { "heading": "So funktioniert die Beantragung" },
+  "wasIstSection": { "heading": "Was ist die Prämienverbilligung?" },
+  "werWirSindSection": { "heading": "Wer steckt hinter prämienhilfe.ch?" },
+  "situationFinalCta": {
+    "heading": "Haben Sie Ihren Anspruch noch nicht geprüft?",
+    "text": "Starten Sie jetzt — es dauert weniger als 20 Minuten. Wählen Sie Ihre Situation:",
+    "disclaimer": "Kein offizielles Kantonsamt. Ein Service von EVO Partners GmbH, FINMA-registrierter Broker."
+  },
+  "cantonDirectory": {
+    "heading": "Prämienhilfe nach Kanton entdecken",
+    "intro": "Wählen Sie Ihren Kanton und prüfen Sie Ihren Anspruch auf Prämienverbilligung schnell und einfach."
+  },
   "widgets": {
     "sticky": { "default": "Anspruch prüfen", "canton": "Anspruch {canton} prüfen", "sub": "Kostenlose Prüfung in 20 Min.", "cta": "Jetzt starten →" },
     "exitIntent": { "heading": "Warten Sie — prüfen Sie zuerst Ihren Anspruch!", "cta": "Jetzt prüfen →", "decline": "Nein danke, ich verzichte auf meine Verbilligung" },

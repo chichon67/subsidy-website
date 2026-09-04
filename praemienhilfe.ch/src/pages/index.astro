@@ -72,21 +72,23 @@ const schema = [
   activePage="home"
   schema={schema}
 >
-  <Hero variant="national" />
+  <Hero variant="national" lang="de" />
   <TrustBar canton={{ stats: nationalStats }} />
-  <WasIstSection />
-  <CantonDirectory />
-  <HowItWorks steps={howItWorksSteps} heading="So funktioniert unsere Hilfe" id="so-funktioniert-es" />
+  <WasIstSection lang="de" />
+  <CantonDirectory lang="de" />
+  <HowItWorks steps={howItWorksSteps} heading="So funktioniert unsere Hilfe" id="so-funktioniert-es" lang="de" />
   <ProblemSection
+    lang="de"
     heading="Warum verzichten viele Berechtigte auf ihre Prämienverbilligung?"
     intro={whySection.intro}
     reasons={whySection.reasons}
     closing={whySection.closing}
   />
-  <WerWirSindSection />
-  <FAQ canton={{ faqs: nationalFaqs }} />
-  <DeadlineSection />
+  <WerWirSindSection lang="de" />
+  <FAQ canton={{ faqs: nationalFaqs }} lang="de" />
+  <DeadlineSection lang="de" />
   <FinalCTA
+    lang="de"
     heading="Jetzt Anspruch prüfen lassen"
     text="Wählen Sie Ihre Situation und prüfen Sie in 20 Minuten, ob Sie Anspruch auf Prämienverbilligung haben. Kostenlos und unverbindlich."
     buttons={[{ label: 'Anspruch prüfen →', href: '#pruefen' }]}

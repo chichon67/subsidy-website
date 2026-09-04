@@ -1,8 +1,5 @@
 ---
 // src/pages/[lang]/datenschutz.astro
-// NOTE: legal prose intentionally stays German-only for now regardless of
-// `lang` — a dedicated later task translates it with manual-review flagging
-// for ambiguous legal phrases. This task only moves routing/meta/canonical.
 import Base from '../../layouts/Base.astro';
 import { LOCALES } from '../../i18n/locales.js';
 import { canonicalFor } from '../../i18n/pageUrls.js';
@@ -12,11 +9,27 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
+
+const TITLES = {
+  de: 'Datenschutzbestimmungen | prämienhilfe.ch',
+  en: 'Privacy Policy | prämienhilfe.ch',
+  es: 'Política de privacidad | prämienhilfe.ch',
+};
+const DESCRIPTIONS = {
+  de: 'Datenschutzbestimmungen von prämienhilfe.ch: welche Daten wir erheben, wie wir sie verwenden und wie wir sie schützen.',
+  en: 'Privacy policy of prämienhilfe.ch: what data we collect, how we use it, and how we protect it.',
+  es: 'Política de privacidad de prämienhilfe.ch: qué datos recopilamos, cómo los utilizamos y cómo los protegemos.',
+};
+const H1 = {
+  de: 'Datenschutzbestimmungen',
+  en: 'Privacy Policy',
+  es: 'Política de privacidad',
+};
 ---
 
 <Base
-  title="Datenschutzbestimmungen | prämienhilfe.ch"
-  description="Datenschutzbestimmungen von prämienhilfe.ch: welche Daten wir erheben, wie wir sie verwenden und wie wir sie schützen."
+  title={TITLES[lang]}
+  description={DESCRIPTIONS[lang]}
   canonical={canonicalFor('datenschutz', lang, Astro.url.pathname)}
   activePage="legal"
   lang={lang}
@@ -24,10 +37,14 @@ const { lang } = Astro.params;
 >
   <div class="bg-white">
     <div class="max-w-[900px] mx-auto px-8 py-16">
-      <h1 class="text-[32px] font-bold tracking-tight m-0">Datenschutzbestimmungen</h1>
+      <h1 class="text-[32px] font-bold tracking-tight m-0">{H1[lang]}</h1>
       <div class="mt-8 grid gap-6 text-[16px] leading-relaxed text-[#3D4A50]">
         <div>
-          <div class="font-semibold text-dark">Verantwortliche Stelle</div>
+          <div class="font-semibold text-dark">
+            {lang === 'de' && 'Verantwortliche Stelle'}
+            {lang === 'en' && 'Data Controller'}
+            {lang === 'es' && 'Responsable del tratamiento'}
+          </div>
           <p class="mt-1">
             EVO Partners GmbH<br />
             c/o ExpertFid &amp; Audit AG<br />
@@ -35,55 +52,179 @@ const { lang } = Astro.params;
             <a href="mailto:office@evo-partners.ch" class="text-teal">office@evo-partners.ch</a>
           </p>
         </div>
+
         <div>
-          <div class="font-semibold text-dark">Zweck der Datenerhebung</div>
-          <p class="mt-1">
-            Wir erheben personenbezogene Daten (Name, Telefon, E-Mail, Situation) ausschliesslich zu folgenden
-            Zwecken:
-          </p>
-          <ul class="mt-2 grid gap-1.5 list-disc pl-5">
-            <li>Prüfung Ihres Anspruchs auf Prämienverbilligung</li>
-            <li>Kontaktaufnahme durch EVO Partners GmbH oder akkreditierte FINMA-Partner für Beratungsleistungen im Bereich Krankenversicherung</li>
-            <li>Zusammenstellung und Einreichung Ihres Dossiers beim zuständigen Kantonsamt</li>
-          </ul>
+          <div class="font-semibold text-dark">
+            {lang === 'de' && 'Zweck der Datenerhebung'}
+            {lang === 'en' && 'Purpose of Data Collection'}
+            {lang === 'es' && 'Finalidad de la recopilación de datos'}
+          </div>
+          {lang === 'de' && (
+            <p class="mt-1">
+              Wir erheben personenbezogene Daten (Name, Telefon, E-Mail, Situation) ausschliesslich zu folgenden
+              Zwecken:
+            </p>
+          )}
+          {lang === 'en' && (
+            <p class="mt-1">
+              We collect personal data (name, phone, email, situation) exclusively for the following purposes:
+            </p>
+          )}
+          {lang === 'es' && (
+            <p class="mt-1">
+              Recopilamos datos personales (nombre, teléfono, correo electrónico, situación) exclusivamente para
+              los siguientes fines:
+            </p>
+          )}
+          {lang === 'de' && (
+            <ul class="mt-2 grid gap-1.5 list-disc pl-5">
+              <li>Prüfung Ihres Anspruchs auf Prämienverbilligung</li>
+              <li>Kontaktaufnahme durch EVO Partners GmbH oder akkreditierte FINMA-Partner für Beratungsleistungen im Bereich Krankenversicherung</li>
+              <li>Zusammenstellung und Einreichung Ihres Dossiers beim zuständigen Kantonsamt</li>
+            </ul>
+          )}
+          {lang === 'en' && (
+            <ul class="mt-2 grid gap-1.5 list-disc pl-5">
+              <li>Reviewing your entitlement to the premium reduction</li>
+              <li>Being contacted by EVO Partners GmbH or accredited FINMA partners for advisory services in the health insurance field</li>
+              <li>Compiling and submitting your dossier to the responsible cantonal office</li>
+            </ul>
+          )}
+          {lang === 'es' && (
+            <ul class="mt-2 grid gap-1.5 list-disc pl-5">
+              <li>Comprobar su derecho a la reducción de primas</li>
+              <li>Ser contactado por EVO Partners GmbH o por socios acreditados de la FINMA para servicios de asesoramiento en el ámbito del seguro de enfermedad</li>
+              <li>Preparar y presentar su expediente ante la oficina cantonal competente</li>
+            </ul>
+          )}
         </div>
+
         <div>
-          <div class="font-semibold text-dark">Datenweitergabe</div>
-          <p class="mt-1">
-            Ihre Daten können an akkreditierte FINMA-Partner weitergegeben werden, sofern dies zur Erbringung
-            unserer Dienstleistungen erforderlich ist. Eine Weitergabe an Dritte zu Werbezwecken findet nicht
-            statt.
-          </p>
+          <div class="font-semibold text-dark">
+            {lang === 'de' && 'Datenweitergabe'}
+            {lang === 'en' && 'Data Sharing'}
+            {lang === 'es' && 'Cesión de datos'}
+          </div>
+          {lang === 'de' && (
+            <p class="mt-1">
+              Ihre Daten können an akkreditierte FINMA-Partner weitergegeben werden, sofern dies zur Erbringung
+              unserer Dienstleistungen erforderlich ist. Eine Weitergabe an Dritte zu Werbezwecken findet nicht
+              statt.
+            </p>
+          )}
+          {lang === 'en' && (
+            <p class="mt-1">
+              Your data may be shared with accredited FINMA partners where this is necessary to provide our
+              services. Your data is not shared with third parties for advertising purposes.
+            </p>
+          )}
+          {lang === 'es' && (
+            <p class="mt-1">
+              Sus datos pueden compartirse con socios acreditados de la FINMA cuando ello sea necesario para la
+              prestación de nuestros servicios. Sus datos no se comparten con terceros con fines publicitarios.
+            </p>
+          )}
         </div>
+
         <div>
-          <div class="font-semibold text-dark">Speicherdauer</div>
-          <p class="mt-1">
-            Ihre Daten werden so lange gespeichert, wie es für die Erbringung unserer Dienstleistungen erforderlich
-            ist, längstens jedoch 5 Jahre.
-          </p>
+          <div class="font-semibold text-dark">
+            {lang === 'de' && 'Speicherdauer'}
+            {lang === 'en' && 'Retention Period'}
+            {lang === 'es' && 'Plazo de conservación'}
+          </div>
+          {lang === 'de' && (
+            <p class="mt-1">
+              Ihre Daten werden so lange gespeichert, wie es für die Erbringung unserer Dienstleistungen erforderlich
+              ist, längstens jedoch 5 Jahre.
+            </p>
+          )}
+          {lang === 'en' && (
+            <p class="mt-1">
+              Your data is retained for as long as necessary to provide our services, but for no longer than 5
+              years.
+            </p>
+          )}
+          {lang === 'es' && (
+            <p class="mt-1">
+              Sus datos se conservan durante el tiempo necesario para la prestación de nuestros servicios, con un
+              máximo de 5 años.
+            </p>
+          )}
         </div>
+
         <div>
-          <div class="font-semibold text-dark">Ihre Rechte</div>
-          <p class="mt-1">Sie haben das Recht auf:</p>
-          <ul class="mt-2 grid gap-1.5 list-disc pl-5">
-            <li>Auskunft über Ihre gespeicherten Daten</li>
-            <li>Berichtigung unrichtiger Daten</li>
-            <li>Löschung Ihrer Daten</li>
-            <li>Widerspruch gegen die Verarbeitung</li>
-          </ul>
+          <div class="font-semibold text-dark">
+            {lang === 'de' && 'Ihre Rechte'}
+            {lang === 'en' && 'Your Rights'}
+            {lang === 'es' && 'Sus derechos'}
+          </div>
+          {lang === 'de' && <p class="mt-1">Sie haben das Recht auf:</p>}
+          {lang === 'en' && <p class="mt-1">You have the right to:</p>}
+          {lang === 'es' && <p class="mt-1">Usted tiene derecho a:</p>}
+          {lang === 'de' && (
+            <ul class="mt-2 grid gap-1.5 list-disc pl-5">
+              <li>Auskunft über Ihre gespeicherten Daten</li>
+              <li>Berichtigung unrichtiger Daten</li>
+              <li>Löschung Ihrer Daten</li>
+              <li>Widerspruch gegen die Verarbeitung</li>
+            </ul>
+          )}
+          {lang === 'en' && (
+            <ul class="mt-2 grid gap-1.5 list-disc pl-5">
+              <li>Information about your stored data</li>
+              <li>Correction of inaccurate data</li>
+              <li>Deletion of your data</li>
+              <li>Object to the processing</li>
+            </ul>
+          )}
+          {lang === 'es' && (
+            <ul class="mt-2 grid gap-1.5 list-disc pl-5">
+              <li>Solicitar información sobre los datos almacenados</li>
+              <li>Rectificación de datos inexactos</li>
+              <li>Supresión de sus datos</li>
+              <li>Oponerse al tratamiento</li>
+            </ul>
+          )}
           <p class="mt-2">
-            Anfragen richten Sie an: <a href="mailto:office@evo-partners.ch" class="text-teal">office@evo-partners.ch</a>
+            {lang === 'de' && 'Anfragen richten Sie an: '}
+            {lang === 'en' && 'Please send requests to: '}
+            {lang === 'es' && 'Dirija sus solicitudes a: '}
+            <a href="mailto:office@evo-partners.ch" class="text-teal">office@evo-partners.ch</a>
           </p>
         </div>
+
         <div>
-          <div class="font-semibold text-dark">Cookies und Tracking</div>
-          <p class="mt-1">
-            Diese Website verwendet Google Analytics 4 zur Analyse des Nutzerverhaltens. Sie können der Verwendung
-            jederzeit widersprechen.
-          </p>
+          <div class="font-semibold text-dark">
+            {lang === 'de' && 'Cookies und Tracking'}
+            {lang === 'en' && 'Cookies and Tracking'}
+            {lang === 'es' && 'Cookies y seguimiento'}
+          </div>
+          {lang === 'de' && (
+            <p class="mt-1">
+              Diese Website verwendet Google Analytics 4 zur Analyse des Nutzerverhaltens. Sie können der Verwendung
+              jederzeit widersprechen.
+            </p>
+          )}
+          {lang === 'en' && (
+            <p class="mt-1">
+              This website uses Google Analytics 4 to analyze user behavior. You may object to this use at any
+              time.
+            </p>
+          )}
+          {lang === 'es' && (
+            <p class="mt-1">
+              Este sitio web utiliza Google Analytics 4 para analizar el comportamiento de los usuarios. Puede
+              oponerse a este uso en cualquier momento.
+            </p>
+          )}
         </div>
+
         <div>
-          <div class="font-semibold text-dark">FINMA-Registernummer</div>
+          <div class="font-semibold text-dark">
+            {lang === 'de' && 'FINMA-Registernummer'}
+            {lang === 'en' && 'FINMA Registration Number'}
+            {lang === 'es' && 'Número de registro FINMA'}
+          </div>
           <p class="mt-1">F01552602</p>
         </div>
       </div>

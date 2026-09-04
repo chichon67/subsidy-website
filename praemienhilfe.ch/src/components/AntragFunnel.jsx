@@ -41,7 +41,7 @@ function rowClass(selected) {
   ].join(' ');
 }
 
-export default function AntragFunnel() {
+export default function AntragFunnel({ lang = 'de' } = {}) {
   const [situationSlug, setSituationSlug] = useState('');
   const [cantonName, setCantonName] = useState('');
   const [step, setStep] = useState('email');
@@ -458,7 +458,7 @@ export default function AntragFunnel() {
         </div>
       </main>
 
-      <PrivacyPolicyModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} />
+      <PrivacyPolicyModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} lang={lang} />
     </div>
   );
 }

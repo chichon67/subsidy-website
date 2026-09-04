@@ -1,8 +1,5 @@
 ---
 // src/pages/[lang]/impressum.astro
-// NOTE: legal prose intentionally stays German-only for now regardless of
-// `lang` — a dedicated later task translates it with manual-review flagging
-// for ambiguous legal phrases. This task only moves routing/meta/canonical.
 import Base from '../../layouts/Base.astro';
 import { LOCALES } from '../../i18n/locales.js';
 import { canonicalFor } from '../../i18n/pageUrls.js';
@@ -12,11 +9,27 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.params;
+
+const TITLES = {
+  de: 'Impressum | prämienhilfe.ch',
+  en: 'Legal Notice | prämienhilfe.ch',
+  es: 'Aviso legal | prämienhilfe.ch',
+};
+const DESCRIPTIONS = {
+  de: 'Impressum und rechtliche Hinweise zu prämienhilfe.ch, einem Service von EVO Partners GmbH.',
+  en: 'Legal notice and regulatory information for prämienhilfe.ch, a service of EVO Partners GmbH.',
+  es: 'Aviso legal e información regulatoria de prämienhilfe.ch, un servicio de EVO Partners GmbH.',
+};
+const H1 = {
+  de: 'Impressum',
+  en: 'Legal Notice',
+  es: 'Aviso legal',
+};
 ---
 
 <Base
-  title="Impressum | prämienhilfe.ch"
-  description="Impressum und rechtliche Hinweise zu prämienhilfe.ch, einem Service von EVO Partners GmbH."
+  title={TITLES[lang]}
+  description={DESCRIPTIONS[lang]}
   canonical={canonicalFor('impressum', lang, Astro.url.pathname)}
   activePage="legal"
   lang={lang}
@@ -24,52 +37,162 @@ const { lang } = Astro.params;
 >
   <div class="bg-white">
     <div class="max-w-[900px] mx-auto px-8 py-16">
-      <h1 class="text-[32px] font-bold tracking-tight m-0">Impressum</h1>
+      <h1 class="text-[32px] font-bold tracking-tight m-0">{H1[lang]}</h1>
       <div class="mt-8 grid gap-6 text-[16px] leading-relaxed text-[#3D4A50]">
+        {lang === 'de' && (
+          <div>
+            <div class="font-semibold text-dark">Angaben gemäss Art. 12 UWG</div>
+            <p class="mt-1">
+              Firmenname: EVO Partners GmbH<br />
+              Rechtsform: Gesellschaft mit beschränkter Haftung (GmbH)<br />
+              Sitz: Zürich, Schweiz<br />
+              c/o ExpertFid &amp; Audit AG<br />
+              Strehlgasse 2<br />
+              8001 Zürich
+            </p>
+          </div>
+        )}
+        {lang === 'en' && (
+          <div>
+            <div class="font-semibold text-dark">
+              <!-- MANUAL REVIEW: legal phrase kept in German, verify translation before removing this comment -->
+              <span lang="de">Angaben gemäss Art. 12 UWG</span>
+            </div>
+            <p class="mt-1">
+              Company name: EVO Partners GmbH<br />
+              Legal form: Gesellschaft mit beschränkter Haftung (GmbH) (Swiss limited liability company)<br />
+              Registered seat: Zürich, Switzerland<br />
+              c/o ExpertFid &amp; Audit AG<br />
+              Strehlgasse 2<br />
+              8001 Zürich
+            </p>
+          </div>
+        )}
+        {lang === 'es' && (
+          <div>
+            <div class="font-semibold text-dark">
+              <!-- MANUAL REVIEW: legal phrase kept in German, verify translation before removing this comment -->
+              <span lang="de">Angaben gemäss Art. 12 UWG</span>
+            </div>
+            <p class="mt-1">
+              Razón social: EVO Partners GmbH<br />
+              Forma jurídica: Gesellschaft mit beschränkter Haftung (GmbH) (sociedad de responsabilidad limitada suiza)<br />
+              Domicilio social: Zúrich, Suiza<br />
+              c/o ExpertFid &amp; Audit AG<br />
+              Strehlgasse 2<br />
+              8001 Zürich
+            </p>
+          </div>
+        )}
+
         <div>
-          <div class="font-semibold text-dark">Angaben gemäss Art. 12 UWG</div>
-          <p class="mt-1">
-            Firmenname: EVO Partners GmbH<br />
-            Rechtsform: Gesellschaft mit beschränkter Haftung (GmbH)<br />
-            Sitz: Zürich, Schweiz<br />
-            c/o ExpertFid &amp; Audit AG<br />
-            Strehlgasse 2<br />
-            8001 Zürich
-          </p>
-        </div>
-        <div>
-          <div class="font-semibold text-dark">Geschäftsführer</div>
+          <div class="font-semibold text-dark">
+            {lang === 'de' && 'Geschäftsführer'}
+            {lang === 'en' && 'Managing Director'}
+            {lang === 'es' && 'Director general'}
+          </div>
           <p class="mt-1">Marc-Antoine Segui</p>
         </div>
+
         <div>
-          <div class="font-semibold text-dark">Kontakt</div>
+          <div class="font-semibold text-dark">
+            {lang === 'de' && 'Kontakt'}
+            {lang === 'en' && 'Contact'}
+            {lang === 'es' && 'Contacto'}
+          </div>
           <p class="mt-1">
-            E-Mail: <a href="mailto:office@evo-partners.ch" class="text-teal">office@evo-partners.ch</a><br />
-            Website: <a href="https://evo-partners.ch" target="_blank" rel="noopener noreferrer" class="text-teal">evo-partners.ch</a>
+            {lang === 'de' && 'E-Mail: '}
+            {lang === 'en' && 'Email: '}
+            {lang === 'es' && 'Correo electrónico: '}
+            <a href="mailto:office@evo-partners.ch" class="text-teal">office@evo-partners.ch</a><br />
+            {lang === 'de' && 'Website: '}
+            {lang === 'en' && 'Website: '}
+            {lang === 'es' && 'Sitio web: '}
+            <a href="https://evo-partners.ch" target="_blank" rel="noopener noreferrer" class="text-teal">evo-partners.ch</a>
           </p>
         </div>
+
         <div>
-          <div class="font-semibold text-dark">Aufsichtsbehörde</div>
+          <div class="font-semibold text-dark">
+            {lang === 'de' && 'Aufsichtsbehörde'}
+            {lang === 'en' && 'Supervisory Authority'}
+            {lang === 'es' && 'Autoridad de supervisión'}
+          </div>
+          {lang === 'de' && (
+            <p class="mt-1">
+              EVO Partners GmbH ist als unabhängiger Versicherungsvermittler bei der FINMA (Eidgenössische
+              Finanzmarktaufsicht) registriert.
+            </p>
+          )}
+          {lang === 'en' && (
+            <p class="mt-1">
+              EVO Partners GmbH is registered as an independent insurance intermediary with FINMA (Swiss Financial
+              Market Supervisory Authority).
+            </p>
+          )}
+          {lang === 'es' && (
+            <p class="mt-1">
+              EVO Partners GmbH está registrada como intermediario de seguros independiente ante la FINMA (Autoridad
+              Supervisora del Mercado Financiero Suizo).
+            </p>
+          )}
           <p class="mt-1">
-            EVO Partners GmbH ist als unabhängiger Versicherungsvermittler bei der FINMA (Eidgenössische
-            Finanzmarktaufsicht) registriert.
-          </p>
-          <p class="mt-1">
-            FINMA-Registernummer: F01552602<br />
-            FINMA-Register: <a href="https://www.finma.ch/de/" target="_blank" rel="noopener noreferrer" class="text-teal">https://www.finma.ch/de/</a>
+            {lang === 'de' && 'FINMA-Registernummer: '}
+            {lang === 'en' && 'FINMA registration number: '}
+            {lang === 'es' && 'Número de registro FINMA: '}
+            F01552602<br />
+            {lang === 'de' && 'FINMA-Register: '}
+            {lang === 'en' && 'FINMA register: '}
+            {lang === 'es' && 'Registro FINMA: '}
+            <a href="https://www.finma.ch/de/" target="_blank" rel="noopener noreferrer" class="text-teal">https://www.finma.ch/de/</a>
           </p>
         </div>
+
         <div>
-          <div class="font-semibold text-dark">Haftungsausschluss</div>
-          <p class="mt-1">
-            Die Inhalte dieser Website wurden mit grösster Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit
-            und Aktualität der Inhalte übernehmen wir keine Gewähr.
-          </p>
-          <p class="mt-1">
-            prämienhilfe.ch ist eine private, unabhängige Beratungsplattform und kein offizielles Organ der Kantone
-            oder des Bundes. Der Antrag auf Prämienverbilligung kann auch eigenständig beim zuständigen Kantonsamt
-            gestellt werden.
-          </p>
+          <div class="font-semibold text-dark">
+            {lang === 'de' && 'Haftungsausschluss'}
+            {lang === 'en' && 'Disclaimer'}
+            {lang === 'es' && 'Exención de responsabilidad'}
+          </div>
+          {lang === 'de' && (
+            <>
+              <p class="mt-1">
+                Die Inhalte dieser Website wurden mit grösster Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit
+                und Aktualität der Inhalte übernehmen wir keine Gewähr.
+              </p>
+              <p class="mt-1">
+                prämienhilfe.ch ist eine private, unabhängige Beratungsplattform und kein offizielles Organ der Kantone
+                oder des Bundes. Der Antrag auf Prämienverbilligung kann auch eigenständig beim zuständigen Kantonsamt
+                gestellt werden.
+              </p>
+            </>
+          )}
+          {lang === 'en' && (
+            <>
+              <p class="mt-1">
+                The content of this website has been prepared with the greatest care. However, we accept no
+                liability for the accuracy, completeness, or timeliness of this content.
+              </p>
+              <p class="mt-1">
+                prämienhilfe.ch is a private, independent advisory platform and not an official body of the cantons
+                or the federal government. The application for premium reduction can also be filed independently
+                with the responsible cantonal office.
+              </p>
+            </>
+          )}
+          {lang === 'es' && (
+            <>
+              <p class="mt-1">
+                El contenido de este sitio web se ha elaborado con el máximo cuidado. Sin embargo, no asumimos
+                responsabilidad alguna por la exactitud, integridad o actualidad de dicho contenido.
+              </p>
+              <p class="mt-1">
+                prämienhilfe.ch es una plataforma de asesoramiento privada e independiente y no un organismo oficial
+                de los cantones ni de la Confederación. La solicitud de reducción de primas también puede
+                presentarse de forma independiente ante la oficina cantonal competente.
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>

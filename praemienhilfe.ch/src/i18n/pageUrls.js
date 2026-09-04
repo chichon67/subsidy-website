@@ -1,6 +1,8 @@
 // src/i18n/pageUrls.js
 // Maps a stable per-page key to its path under each locale, for hreflang.
 // German-only pages (not in this map) get no EN/ES hreflang alternates.
+import { deutschschweizCantons } from '../data/deutschschweiz.js';
+
 const BASE = 'https://praemienhilfe.ch';
 
 const PATHS = {
@@ -14,6 +16,17 @@ const PATHS = {
   impressum: { de: '/de/impressum', en: '/en/impressum', es: '/es/impressum' },
   datenschutz: { de: '/de/datenschutz', en: '/en/datenschutz', es: '/es/datenschutz' },
 };
+
+// The generic canton landing pages (src/pages/[lang]/[canton].astro) are
+// rendered for every Deutschschweiz canton without a bespoke page, in all
+// three locales (see that file's getStaticPaths). Register each slug here
+// too so those pages get correct <link rel="alternate" hreflang> tags via
+// canonicalFor/getLocalizedUrls, matching what sitemap.xml.ts already emits
+// for these same URLs.
+for (const c of deutschschweizCantons) {
+  if (c.active) continue; // basel-stadt/basel-landschaft have bespoke entries above
+  PATHS[c.slug] = { de: `/de/${c.slug}`, en: `/en/${c.slug}`, es: `/es/${c.slug}` };
+}
 
 export function getLocalizedUrls(translationKey) {
   const entry = PATHS[translationKey];

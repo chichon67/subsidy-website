@@ -83,11 +83,11 @@ const cantonsData = {
       faqs: [
         {
           q: 'Wer sind wir?',
-          a: "prämienhilfe.ch ist ein Service von EVO Partners GmbH, einem FINMA-registrierten unabhängigen Versicherungsbroker mit Sitz in der Schweiz. Wir sind seit 2020 tätig und haben bereits über 1'000 Dossiers für Prämienverbilligung bearbeitet. Neben der Prämienverbilligung beraten wir unsere Klienten auch zu ihrer gesamten Krankenversicherungssituation, um die beste Abdeckung zum besten Preis zu finden.",
+          a: "praemien-hilfe.ch ist ein Service von EVO Partners GmbH, einem FINMA-registrierten unabhängigen Versicherungsbroker mit Sitz in der Schweiz. Wir sind seit 2020 tätig und haben bereits über 1'000 Dossiers für Prämienverbilligung bearbeitet. Neben der Prämienverbilligung beraten wir unsere Klienten auch zu ihrer gesamten Krankenversicherungssituation, um die beste Abdeckung zum besten Preis zu finden.",
         },
         {
           q: 'Sind Sie ein offizielles Kantonsamt?',
-          a: 'Nein. prämienhilfe.ch ist eine private, unabhängige Beratungsplattform. Wir sind kein staatliches Organ. Die Prämienverbilligung kann auch direkt beim Amt für Sozialbeiträge (ASB) Basel-Stadt beantragt werden. Unser Service erleichtert Ihnen den Prozess und prüft gleichzeitig, ob Ihre Versicherungssituation insgesamt optimiert werden kann.',
+          a: 'Nein. praemien-hilfe.ch ist eine private, unabhängige Beratungsplattform. Wir sind kein staatliches Organ. Die Prämienverbilligung kann auch direkt beim Amt für Sozialbeiträge (ASB) Basel-Stadt beantragt werden. Unser Service erleichtert Ihnen den Prozess und prüft gleichzeitig, ob Ihre Versicherungssituation insgesamt optimiert werden kann.',
         },
         {
           q: 'Wer hat Anspruch auf Prämienverbilligung?',
@@ -165,11 +165,11 @@ const cantonsData = {
       faqs: [
         {
           q: 'Who are we?',
-          a: 'praemienhilfe.ch is a service of EVO Partners GmbH, a FINMA-registered independent insurance broker based in Switzerland. We\'ve been active since 2020 and have already handled over 1,000 premium reduction cases. Besides the premium reduction, we also advise our clients on their overall health insurance situation, to find the best coverage at the best price.',
+          a: 'praemien-hilfe.ch is a service of EVO Partners GmbH, a FINMA-registered independent insurance broker based in Switzerland. We\'ve been active since 2020 and have already handled over 1,000 premium reduction cases. Besides the premium reduction, we also advise our clients on their overall health insurance situation, to find the best coverage at the best price.',
         },
         {
           q: 'Are you an official cantonal office?',
-          a: 'No. praemienhilfe.ch is a private, independent advisory platform. We are not a government body. The premium reduction can also be applied for directly with the Office for Social Contributions (ASB) Basel-Stadt. Our service makes this process easier for you and, at the same time, checks whether your overall insurance coverage can be optimized.',
+          a: 'No. praemien-hilfe.ch is a private, independent advisory platform. We are not a government body. The premium reduction can also be applied for directly with the Office for Social Contributions (ASB) Basel-Stadt. Our service makes this process easier for you and, at the same time, checks whether your overall insurance coverage can be optimized.',
         },
         {
           q: 'Who is entitled to a premium reduction?',
@@ -247,11 +247,11 @@ const cantonsData = {
       faqs: [
         {
           q: '¿Quiénes somos?',
-          a: 'praemienhilfe.ch es un servicio de EVO Partners GmbH, un corredor de seguros independiente registrado en FINMA y con sede en Suiza. Operamos desde 2020 y ya hemos tramitado más de 1.000 expedientes de reducción de primas. Además de la reducción de primas, asesoramos a nuestros clientes sobre toda su situación de seguro médico, para encontrar la mejor cobertura al mejor precio.',
+          a: 'praemien-hilfe.ch es un servicio de EVO Partners GmbH, un corredor de seguros independiente registrado en FINMA y con sede en Suiza. Operamos desde 2020 y ya hemos tramitado más de 1.000 expedientes de reducción de primas. Además de la reducción de primas, asesoramos a nuestros clientes sobre toda su situación de seguro médico, para encontrar la mejor cobertura al mejor precio.',
         },
         {
           q: '¿Son ustedes una oficina cantonal oficial?',
-          a: 'No. praemienhilfe.ch es una plataforma de asesoría privada e independiente. No somos un organismo estatal. La reducción de primas también puede solicitarse directamente ante la Oficina de Prestaciones Sociales (ASB) de Basel-Stadt. Nuestro servicio le facilita este proceso y, al mismo tiempo, comprueba si su cobertura de seguro en general puede optimizarse.',
+          a: 'No. praemien-hilfe.ch es una plataforma de asesoría privada e independiente. No somos un organismo estatal. La reducción de primas también puede solicitarse directamente ante la Oficina de Prestaciones Sociales (ASB) de Basel-Stadt. Nuestro servicio le facilita este proceso y, al mismo tiempo, comprueba si su cobertura de seguro en general puede optimizarse.',
         },
         {
           q: '¿Quién tiene derecho a la reducción de primas?',

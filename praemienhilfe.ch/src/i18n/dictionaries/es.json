@@ -22,20 +22,20 @@
     "ariaLabel": "Seleccionar idioma"
   },
   "footer": {
-    "tagline": "Le ayudamos a obtener la reducción de primas del seguro médico en Suiza",
+    "tagline": "Le ayudamos a comprobar su derecho a la reducción de primas del seguro médico en Suiza",
     "cantonsHeading": "Cantones",
     "infoHeading": "Información",
     "legalHeading": "Legal",
     "impressum": "Aviso legal",
     "datenschutz": "Política de privacidad",
     "operatedBy": "Operado por",
-    "disclaimer": "praemienhilfe.ch es una plataforma de asesoramiento privada, independiente de las autoridades cantonales de Suiza.",
+    "disclaimer": "praemien-hilfe.ch es una plataforma de asesoramiento privada, independiente de las autoridades cantonales de Suiza.",
     "brokerLabel": "Corredor de seguros registrado en FINMA",
     "location": "Zúrich, Suiza",
     "whatIs": "¿Qué es el subsidio para el seguro médico?",
     "terms": "Términos de uso",
     "legalNotices": "Avisos legales",
-    "copyright": "© {year} praemienhilfe.ch — Un servicio de EVO Partners GmbH, Zúrich. Todos los derechos reservados. Esta plataforma no es un organismo cantonal oficial."
+    "copyright": "© {year} praemien-hilfe.ch — Un servicio de EVO Partners GmbH, Zúrich. Todos los derechos reservados. Esta plataforma no es un organismo cantonal oficial."
   },
   "mobileCta": {
     "default": "Comprobar si tiene derecho →",
@@ -97,8 +97,9 @@
       "consent": "Acepto la política de privacidad de EVO Partners GmbH y el tratamiento de mis datos con fines de asesoramiento.",
       "consentPrefix": "Acepto la",
       "consentSuffix": "de EVO Partners GmbH y el tratamiento de mis datos con fines de asesoramiento.",
-      "submit": "Enviar solicitud →",
-      "submitting": "Enviando…"
+      "submit": "Solicitar evaluación →",
+      "submitting": "Enviando…",
+      "submitDisclaimer": "Esto no constituye una solicitud oficial ante una autoridad cantonal. Revisamos sus datos y le ayudamos con los siguientes pasos."
     },
     "errors": {
       "firstName": "Indique su nombre.",
@@ -159,7 +160,7 @@
     "heading": "¿Qué es la reducción de primas del seguro médico?"
   },
   "werWirSindSection": {
-    "heading": "¿Quién está detrás de praemienhilfe.ch?"
+    "heading": "¿Quién está detrás de praemien-hilfe.ch?"
   },
   "situationFinalCta": {
     "heading": "¿Aún no ha comprobado si tiene derecho?",
@@ -185,7 +186,7 @@
     },
     "disclaimer": {
       "heading": "Aviso importante",
-      "paragraph1": "prämienhilfe.ch es un servicio de asesoría privado e independiente de EVO Partners GmbH — no es una oficina cantonal ni una autoridad estatal.",
+      "paragraph1": "praemien-hilfe.ch es un servicio de asesoría privado e independiente de EVO Partners GmbH — no es una oficina cantonal ni una autoridad estatal.",
       "paragraph2": "Nuestra ayuda con la reducción de primas es gratuita para usted.",
       "cta": "Entendido — Continuar →"
     }

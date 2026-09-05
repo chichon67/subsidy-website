@@ -29,13 +29,13 @@
     "impressum": "Impressum",
     "datenschutz": "Datenschutzbestimmungen",
     "operatedBy": "Betrieben von",
-    "disclaimer": "prämienhilfe.ch ist eine private Beratungsplattform, unabhängig von den kantonalen Behörden der Schweiz.",
+    "disclaimer": "praemien-hilfe.ch ist eine private Beratungsplattform, unabhängig von den kantonalen Behörden der Schweiz.",
     "brokerLabel": "FINMA-registrierter Versicherungsbroker",
     "location": "Zürich, Schweiz",
     "whatIs": "Was ist Prämienverbilligung?",
     "terms": "Nutzungsbedingungen",
     "legalNotices": "Rechtliche Hinweise",
-    "copyright": "© {year} prämienhilfe.ch — Ein Service von EVO Partners GmbH, Zürich. Alle Rechte vorbehalten. Diese Plattform ist kein offizielles Kantonsorgan."
+    "copyright": "© {year} praemien-hilfe.ch — Ein Service von EVO Partners GmbH, Zürich. Alle Rechte vorbehalten. Diese Plattform ist kein offizielles Kantonsorgan."
   },
   "mobileCta": {
     "default": "Anspruch prüfen →",
@@ -97,8 +97,9 @@
       "consent": "Ich akzeptiere die Datenschutzbestimmungen von EVO Partners GmbH und stimme der Verarbeitung meiner Daten zum Zweck der Beratung zu.",
       "consentPrefix": "Ich akzeptiere die",
       "consentSuffix": "von EVO Partners GmbH und stimme der Verarbeitung meiner Daten zum Zweck der Beratung zu.",
-      "submit": "Antrag einreichen →",
-      "submitting": "Wird gesendet…"
+      "submit": "Prüfung anfragen →",
+      "submitting": "Wird gesendet…",
+      "submitDisclaimer": "Dies ist keine offizielle kantonale Einreichung. Wir prüfen Ihre Angaben und unterstützen Sie bei den nächsten Schritten."
     },
     "errors": {
       "firstName": "Bitte Vorname angeben.",
@@ -159,7 +160,7 @@
     "heading": "Was ist die Prämienverbilligung?"
   },
   "werWirSindSection": {
-    "heading": "Wer steckt hinter prämienhilfe.ch?"
+    "heading": "Wer steckt hinter praemien-hilfe.ch?"
   },
   "situationFinalCta": {
     "heading": "Haben Sie Ihren Anspruch noch nicht geprüft?",
@@ -185,7 +186,7 @@
     },
     "disclaimer": {
       "heading": "Wichtiger Hinweis",
-      "paragraph1": "prämienhilfe.ch ist ein privater und unabhängiger Beratungsservice von EVO Partners GmbH — kein Kantonsamt und keine staatliche Behörde.",
+      "paragraph1": "praemien-hilfe.ch ist ein privater und unabhängiger Beratungsservice von EVO Partners GmbH — kein Kantonsamt und keine staatliche Behörde.",
       "paragraph2": "Unsere Hilfe bei der Prämienverbilligung ist für Sie kostenlos.",
       "cta": "Verstanden — Weiter →"
     }

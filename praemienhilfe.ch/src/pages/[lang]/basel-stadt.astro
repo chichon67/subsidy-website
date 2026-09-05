@@ -21,9 +21,9 @@ const { lang } = Astro.params;
 const canton = getCanton('basel-stadt', lang);
 
 const TITLES = {
-  de: 'Prämienverbilligung Basel-Stadt | prämienhilfe.ch',
-  en: 'Premium reduction Basel-Stadt | prämienhilfe.ch',
-  es: 'Reducción de primas Basel-Stadt | prämienhilfe.ch',
+  de: 'Prämienverbilligung Basel-Stadt | praemien-hilfe.ch',
+  en: 'Premium reduction Basel-Stadt | praemien-hilfe.ch',
+  es: 'Reducción de primas Basel-Stadt | praemien-hilfe.ch',
 };
 const DESCRIPTIONS = {
   de: 'Prämienverbilligung im Kanton Basel-Stadt beantragen. EVO Partners GmbH hilft Ihnen kostenlos bei der Einreichung Ihres Antrags. Jetzt Anspruch prüfen — in 20 Minuten.',
@@ -40,7 +40,7 @@ const schema = [
   {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: 'prämienhilfe.ch – EVO Partners GmbH',
+    name: 'praemien-hilfe.ch – EVO Partners GmbH',
     description: LOCAL_BUSINESS_DESC[lang],
     url: 'https://praemien-hilfe.ch',
     areaServed: { '@type': 'AdministrativeArea', name: 'Basel-Stadt' },

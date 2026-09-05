@@ -22,20 +22,20 @@
     "ariaLabel": "Select language"
   },
   "footer": {
-    "tagline": "Helping you get your Swiss health insurance premium reduction",
+    "tagline": "Helping you check your eligibility for a Swiss health insurance premium reduction",
     "cantonsHeading": "Cantons",
     "infoHeading": "Information",
     "legalHeading": "Legal",
     "impressum": "Legal Notice",
     "datenschutz": "Privacy Policy",
     "operatedBy": "Operated by",
-    "disclaimer": "praemienhilfe.ch is a private advisory platform, independent of the cantonal authorities of Switzerland.",
+    "disclaimer": "praemien-hilfe.ch is a private advisory platform, independent of the cantonal authorities of Switzerland.",
     "brokerLabel": "FINMA-registered insurance broker",
     "location": "Zurich, Switzerland",
     "whatIs": "What is a premium subsidy?",
     "terms": "Terms of Use",
     "legalNotices": "Legal Notices",
-    "copyright": "© {year} praemienhilfe.ch — A service by EVO Partners GmbH, Zurich. All rights reserved. This platform is not an official cantonal authority."
+    "copyright": "© {year} praemien-hilfe.ch — A service by EVO Partners GmbH, Zurich. All rights reserved. This platform is not an official cantonal authority."
   },
   "mobileCta": {
     "default": "Check eligibility →",
@@ -97,8 +97,9 @@
       "consent": "I accept the privacy policy of EVO Partners GmbH and consent to the processing of my data for consultation purposes.",
       "consentPrefix": "I accept the",
       "consentSuffix": "of EVO Partners GmbH and consent to the processing of my data for consultation purposes.",
-      "submit": "Submit application →",
-      "submitting": "Submitting…"
+      "submit": "Request assessment →",
+      "submitting": "Submitting…",
+      "submitDisclaimer": "This is not an official submission to a cantonal authority. We review your information and assist you with the next steps."
     },
     "errors": {
       "firstName": "Please enter your first name.",
@@ -159,7 +160,7 @@
     "heading": "What is the health insurance premium reduction?"
   },
   "werWirSindSection": {
-    "heading": "Who is behind praemienhilfe.ch?"
+    "heading": "Who is behind praemien-hilfe.ch?"
   },
   "situationFinalCta": {
     "heading": "Haven't checked your eligibility yet?",
@@ -185,7 +186,7 @@
     },
     "disclaimer": {
       "heading": "Important notice",
-      "paragraph1": "prämienhilfe.ch is a private, independent advisory service run by EVO Partners GmbH — not a cantonal office or government authority.",
+      "paragraph1": "praemien-hilfe.ch is a private, independent advisory service run by EVO Partners GmbH — not a cantonal office or government authority.",
       "paragraph2": "Our help with your premium subsidy is free of charge.",
       "cta": "Understood — Continue →"
     }

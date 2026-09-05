@@ -34,9 +34,9 @@ const { slug, name } = Astro.props;
 const canton = buildGenericCantonData(name, lang);
 
 const TITLES = {
-  de: `Prämienverbilligung ${name} | prämienhilfe.ch`,
-  en: `Premium reduction ${name} | prämienhilfe.ch`,
-  es: `Reducción de primas ${name} | prämienhilfe.ch`,
+  de: `Prämienverbilligung ${name} | praemien-hilfe.ch`,
+  en: `Premium reduction ${name} | praemien-hilfe.ch`,
+  es: `Reducción de primas ${name} | praemien-hilfe.ch`,
 };
 const DESCRIPTIONS = {
   de: `Prämienverbilligung im Kanton ${name} beantragen. EVO Partners GmbH hilft Ihnen kostenlos bei der Einreichung Ihres Antrags. Jetzt Anspruch prüfen — in 20 Minuten.`,
@@ -76,7 +76,7 @@ const BUTTONS = {
     {
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
-      name: 'prämienhilfe.ch – EVO Partners GmbH',
+      name: 'praemien-hilfe.ch – EVO Partners GmbH',
       description: LOCAL_BUSINESS_DESC[lang],
       url: 'https://praemien-hilfe.ch',
       areaServed: { '@type': 'AdministrativeArea', name },

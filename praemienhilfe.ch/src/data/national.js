@@ -89,21 +89,21 @@ const national = {
 
     werWirSind: {
       paragraphs: [
-        'prämienhilfe.ch ist ein Service von EVO Partners GmbH, einem unabhängigen, FINMA-registrierten Versicherungsbroker mit Sitz in der Schweiz.',
+        'praemien-hilfe.ch ist ein Service von EVO Partners GmbH, einem unabhängigen, FINMA-registrierten Versicherungsbroker mit Sitz in der Schweiz.',
         'Wir sind keine staatliche Behörde und kein Kantonsamt. Wir sind ein privates Beratungsunternehmen, das sich auf die Schweizer Krankenversicherung spezialisiert hat.',
         'Unser Angebot umfasst:',
       ],
       bullets: [
         'Hilfe bei der Prämienverbilligung (IPV) — für alle Kantone',
         'Unabhängige Beratung zur Krankenversicherung (KVG und VVG)',
-        'Optimierung Ihrer Versicherungssituation — gleiche Leistungen, tiefere Prämien',
+        'Optimierung Ihrer Versicherungssituation und Prämien',
       ],
       closing:
         'Die Hilfe bei der Prämienverbilligung ist für Sie vollständig kostenlos. Als FINMA-registrierter Broker werden wir durch unsere Versicherungspartner vergütet, wenn wir eine Optimierung Ihrer Krankenversicherung empfehlen. Es besteht keinerlei Verpflichtung dazu.',
       trustItems: [
         'FINMA-registrierter Versicherungsbroker',
         "Über 1'000 Dossiers bearbeitet seit 2020",
-        'Unabhängig von Kantonen und Versicherern',
+        'Unabhängig von den kantonalen Behörden',
         'Keinerlei Verpflichtung für den Klienten',
       ],
       rating: '4.8/5 Kundenbewertung',
@@ -128,7 +128,7 @@ const national = {
       },
       {
         q: 'Sind Sie ein offizielles Kantonsamt?',
-        a: 'Nein. prämienhilfe.ch ist eine private, unabhängige Beratungsplattform. Wir sind kein staatliches Organ. Den Antrag können Sie auch direkt beim zuständigen Kantonsamt stellen. Wir erleichtern Ihnen diesen Prozess und prüfen gleichzeitig, ob Ihre Versicherungssituation optimiert werden kann.',
+        a: 'Nein. praemien-hilfe.ch ist eine private, unabhängige Beratungsplattform. Wir sind kein staatliches Organ. Den Antrag können Sie auch direkt beim zuständigen Kantonsamt stellen. Wir erleichtern Ihnen diesen Prozess und prüfen gleichzeitig, ob Ihre Versicherungssituation optimiert werden kann.',
       },
       {
         q: 'Was passiert nach dem Erstgespräch?',
@@ -224,21 +224,21 @@ const national = {
 
     werWirSind: {
       paragraphs: [
-        'praemienhilfe.ch is a service of EVO Partners GmbH, an independent, FINMA-registered insurance broker based in Switzerland.',
+        'praemien-hilfe.ch is a service of EVO Partners GmbH, an independent, FINMA-registered insurance broker based in Switzerland.',
         'We are not a government authority or a cantonal office. We are a private advisory firm specializing in Swiss health insurance.',
         'Our services include:',
       ],
       bullets: [
         'Help with the premium reduction (IPV) — for all cantons',
         'Independent advice on health insurance (KVG and VVG)',
-        'Optimizing your insurance coverage — same benefits, lower premiums',
+        'Optimizing your insurance coverage and premiums',
       ],
       closing:
         'Our help with the premium reduction is completely free for you. As a FINMA-registered broker, we are compensated by our insurance partners when we recommend an optimization of your health insurance. There is no obligation whatsoever.',
       trustItems: [
         'FINMA-registered insurance broker',
         'Over 1,000 cases handled since 2020',
-        'Independent of cantons and insurers',
+        'Independent of cantonal authorities',
         'No obligation for the client',
       ],
       rating: '4.8/5 customer rating',
@@ -263,7 +263,7 @@ const national = {
       },
       {
         q: 'Are you an official cantonal office?',
-        a: 'No. praemienhilfe.ch is a private, independent advisory platform. We are not a government body. You can also apply directly with the responsible cantonal office. We make this process easier for you and, at the same time, check whether your insurance coverage can be optimized.',
+        a: 'No. praemien-hilfe.ch is a private, independent advisory platform. We are not a government body. You can also apply directly with the responsible cantonal office. We make this process easier for you and, at the same time, check whether your insurance coverage can be optimized.',
       },
       {
         q: 'What happens after the initial consultation?',
@@ -359,21 +359,21 @@ const national = {
 
     werWirSind: {
       paragraphs: [
-        'praemienhilfe.ch es un servicio de EVO Partners GmbH, un corredor de seguros independiente, registrado en FINMA y con sede en Suiza.',
+        'praemien-hilfe.ch es un servicio de EVO Partners GmbH, un corredor de seguros independiente, registrado en FINMA y con sede en Suiza.',
         'No somos una autoridad estatal ni una oficina cantonal. Somos una empresa de asesoría privada especializada en el seguro médico suizo.',
         'Nuestros servicios incluyen:',
       ],
       bullets: [
         'Ayuda con la reducción de primas (IPV) — para todos los cantones',
         'Asesoramiento independiente sobre el seguro médico (KVG y VVG)',
-        'Optimización de su cobertura de seguro — mismas prestaciones, primas más bajas',
+        'Optimización de su cobertura de seguro y sus primas',
       ],
       closing:
         'Nuestra ayuda con la reducción de primas es completamente gratuita para usted. Como corredor registrado en FINMA, recibimos una compensación de nuestros socios aseguradores cuando recomendamos una optimización de su seguro médico. No existe ninguna obligación de aceptarla.',
       trustItems: [
         'Corredor de seguros registrado en FINMA',
         'Más de 1.000 expedientes tramitados desde 2020',
-        'Independiente de cantones y aseguradoras',
+        'Independiente de las autoridades cantonales',
         'Ninguna obligación para el cliente',
       ],
       rating: '4,8/5 valoración de clientes',
@@ -398,7 +398,7 @@ const national = {
       },
       {
         q: '¿Son ustedes una oficina cantonal oficial?',
-        a: 'No. praemienhilfe.ch es una plataforma de asesoría privada e independiente. No somos un organismo estatal. También puede presentar la solicitud directamente ante la oficina cantonal competente. Nosotros le facilitamos este proceso y, al mismo tiempo, comprobamos si su cobertura de seguro puede optimizarse.',
+        a: 'No. praemien-hilfe.ch es una plataforma de asesoría privada e independiente. No somos un organismo estatal. También puede presentar la solicitud directamente ante la oficina cantonal competente. Nosotros le facilitamos este proceso y, al mismo tiempo, comprobamos si su cobertura de seguro puede optimizarse.',
       },
       {
         q: '¿Qué ocurre después de la primera consulta?',

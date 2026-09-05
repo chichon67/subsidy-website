@@ -446,6 +446,7 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
                 </label>
                 {errors.consent && <div className="text-swiss-red text-xs mt-1">{errors.consent}</div>}
                 {errors.submit && <div className="text-swiss-red text-sm mt-3">{errors.submit}</div>}
+                <p className="text-[12px] leading-snug text-[#6B7780] mt-3 mb-0">{t(d, 'form.contact.submitDisclaimer')}</p>
                 <button
                   type="button"
                   onClick={submitContact}

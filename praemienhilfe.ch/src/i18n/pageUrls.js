@@ -3,7 +3,7 @@
 // German-only pages (not in this map) get no EN/ES hreflang alternates.
 import { deutschschweizCantons } from '../data/deutschschweiz.js';
 
-const BASE = 'https://praemienhilfe.ch';
+const BASE = 'https://praemien-hilfe.ch';
 
 const PATHS = {
   home: { de: '/de/', en: '/en/', es: '/es/' },

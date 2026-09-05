@@ -128,12 +128,12 @@ export async function POST({ request }) {
     const contactId = await upsertContact(token, contactProps);
 
     const noteBody = [
-      `Antrag über praemienhilfe.ch`,
+      `Antrag über praemien-hilfe.ch`,
       `Kanton       : ${data.canton}`,
       `Einkommen    : ${data.income || '—'}`,
       `Haushalt     : ${data.household || '—'}`,
       `Situation    : ${data.situation || '—'}`,
-      `Lead-Quelle  : praemienhilfe.ch`,
+      `Lead-Quelle  : praemien-hilfe.ch`,
       `UTM          : source=${data.utm_source || '—'} medium=${data.utm_medium || '—'} campaign=${data.utm_campaign || '—'} content=${data.utm_content || '—'}`,
     ].join('\n');
 

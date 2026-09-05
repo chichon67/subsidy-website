@@ -77,3 +77,27 @@
   to = "/de/:canton"
   status = 301
 
+[[redirects]]
+  from = "https://xn--prmienhilfe-m8a.ch/*"
+  to = "https://praemien-hilfe.ch/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://xn--prmienhilfe-m8a.ch/*"
+  to = "https://praemien-hilfe.ch/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://praemienhilfe.ch/*"
+  to = "https://praemien-hilfe.ch/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://praemienhilfe.ch/*"
+  to = "https://praemien-hilfe.ch/:splat"
+  status = 301
+  force = true
+

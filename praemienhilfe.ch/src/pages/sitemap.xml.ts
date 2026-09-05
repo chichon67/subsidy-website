@@ -4,7 +4,7 @@ import { getLocalizedUrls } from '../i18n/pageUrls.js';
 
 export const prerender = true;
 
-const BASE = 'https://praemienhilfe.ch';
+const BASE = 'https://praemien-hilfe.ch';
 const TRANSLATED_KEYS = [
   'home',
   'basel-stadt',

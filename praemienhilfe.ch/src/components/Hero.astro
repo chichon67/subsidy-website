@@ -5,7 +5,7 @@ import Funnel from './Funnel.jsx';
 import SituationFunnel from './SituationFunnel.jsx';
 import SituationSelector from './SituationSelector.astro';
 import heroPhoto from '../assets/hero-photo.jpg';
-import swissVillage from '../assets/swiss-village-lake.jpg';
+import swissVillage from '../assets/hero-main.jpg';
 import { getNational } from '../data/national.js';
 import { getDictionary, t } from '../i18n/index.js';
 
@@ -34,9 +34,10 @@ const cantonParagraph = t(dict, 'hero.cantonParagraph');
         <Image
           src={swissVillage}
           alt={t(dict, 'hero.altVillage')}
-          width={1200}
-          height={1300}
-          class="w-full h-full object-cover"
+          width={1800}
+          height={1200}
+          quality={90}
+          class="w-full h-full object-contain"
           loading="eager"
         />
       </div>

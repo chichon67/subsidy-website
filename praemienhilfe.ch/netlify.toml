@@ -58,6 +58,21 @@
   status = 200
 
 [[redirects]]
+  from = "/de"
+  to = "/de"
+  status = 200
+
+[[redirects]]
+  from = "/en"
+  to = "/en"
+  status = 200
+
+[[redirects]]
+  from = "/es"
+  to = "/es"
+  status = 200
+
+[[redirects]]
   from = "/:canton"
   to = "/de/:canton"
   status = 301

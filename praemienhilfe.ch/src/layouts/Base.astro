@@ -1,5 +1,5 @@
 ---
-// src/layouts/Base.astro
+// src/layouts/Base.astro — HubSpot cookie banner version
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import DisclaimerModal from '../components/DisclaimerModal.jsx';
@@ -26,8 +26,13 @@ const { title, description, canonical, lang, pageKey, activePage = 'home', canto
 const dict = getDictionary(lang);
 const alternates = pageKey ? getLocalizedUrls(pageKey) : null;
 const ogLocale = { de: 'de_CH', en: 'en_CH', es: 'es_CH' }[lang];
-const ga4Id = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXX';
+
+// GA4: set PUBLIC_GA4_ID in Netlify (Site settings → Environment variables) and redeploy.
+// No placeholder fallback: if the ID is missing, GA4 is simply not configured.
+const ga4Id = import.meta.env.PUBLIC_GA4_ID || '';
 const adsId = 'AW-18005574565';
+const gtagLoaderId = ga4Id || adsId;
+
 // Pages that render their own embedded funnel link straight to it in-page:
 // the homepage (#pruefen) and every canton-landing page, which all share the
 // same embedded SituationFunnel (#funnel). Everything else (FAQ, Kontakt,
@@ -42,13 +47,32 @@ const mobileCtaLabel = cantonName ? t(dict, 'mobileCta.canton', { canton: canton
 <!doctype html>
 <html lang={htmlLang(lang)}>
   <head>
-    <!-- Google Tag Manager -->
+    <!-- 1) GOOGLE CONSENT MODE v2 — DEFAULTS. Must run BEFORE GTM and gtag.js. -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        analytics_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+        wait_for_update: 500
+      });
+      gtag('set', 'ads_data_redaction', true);
+      gtag('set', 'url_passthrough', true);
+    </script>
+
+    <!-- 2) Google Tag Manager -->
     <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KPB3KQXN');</script>
     <!-- End Google Tag Manager -->
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
@@ -71,18 +95,34 @@ const mobileCtaLabel = cantonName ? t(dict, 'mobileCta.canton', { canton: canton
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Single gtag.js loader shared by GA4 and the Google Ads tag below —
+    <!-- 3) Single gtag.js loader shared by GA4 and the Google Ads tag —
          do not add a second googletagmanager.com/gtag/js script tag. -->
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gtagLoaderId}`}></script>
     <script define:vars={{ ga4Id, adsId }}>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      window.gtag = gtag;
       gtag('js', new Date());
-      gtag('config', ga4Id);
+      if (ga4Id) gtag('config', ga4Id);
       gtag('config', adsId);
+    </script>
+
+    <!-- 4) HUBSPOT (tracking + cookie consent banner) -->
+    <script is:inline type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/147491840.js"></script>
+
+    <!-- 5) BRIDGE: HubSpot banner choice -> Google Consent Mode update.
+         Fires on page load (stored choice) and whenever the visitor clicks the banner. -->
+    <script is:inline>
+      var _hsp = window._hsp = window._hsp || [];
+      _hsp.push(['addPrivacyConsentListener', function (consent) {
+        var c = consent.categories || {};
+        var analytics = consent.allowed || !!c.analytics;
+        var ads = consent.allowed || !!c.advertisement;
+        gtag('consent', 'update', {
+          analytics_storage: analytics ? 'granted' : 'denied',
+          ad_storage: ads ? 'granted' : 'denied',
+          ad_user_data: ads ? 'granted' : 'denied',
+          ad_personalization: ads ? 'granted' : 'denied'
+        });
+        window.dataLayer.push({ event: 'consent_update', consent_analytics: analytics, consent_ads: ads });
+      }]);
     </script>
 
     {schema.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block)} />)}

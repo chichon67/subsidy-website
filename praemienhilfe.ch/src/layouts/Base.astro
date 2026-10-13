@@ -2,7 +2,6 @@
 // src/layouts/Base.astro — HubSpot cookie banner version
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import DisclaimerModal from '../components/DisclaimerModal.jsx';
 import ExitIntentPopup from '../components/ExitIntentPopup.jsx';
 import StickyFunnelWidget from '../components/StickyFunnelWidget.jsx';
 import '../styles/global.css';
@@ -156,7 +155,6 @@ const mobileCtaLabel = cantonName ? t(dict, 'mobileCta.canton', { canton: canton
       )
     }
 
-    {chrome && <DisclaimerModal client:load lang={lang} dict={dict} />}
     {chrome && <ExitIntentPopup client:load lang={lang} dict={dict} />}
     {chrome && <StickyFunnelWidget client:idle activePage={activePage} cantonName={cantonName} lang={lang} dict={dict} />}
 

@@ -1,6 +1,5 @@
 // src/components/ExitIntentPopup.jsx
 import { useState, useEffect, useRef } from 'react';
-import { isDisclaimerDue } from '../lib/disclaimer.js';
 import { getDictionary, t } from '../i18n/index.js';
 
 const KEY = 'exit_shown';
@@ -16,13 +15,12 @@ export default function ExitIntentPopup({ lang = 'de', dict }) {
       if (e.clientY >= 10) return;
       if (typeof window === 'undefined') return;
       if (window.localStorage.getItem(KEY)) return;
-      if (isDisclaimerDue()) return;
       window.localStorage.setItem(KEY, 'true');
       setVisible(true);
     }
 
-    // Arm after a tick so the disclaimer (if any) has a chance to render first
-    // and so a mouseleave firing during initial page load doesn't trigger this.
+    // Arm after a tick so a mouseleave firing during initial page load
+    // doesn't trigger this.
     const armTimer = setTimeout(() => {
       armedRef.current = true;
     }, 1500);

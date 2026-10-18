@@ -43,10 +43,10 @@
   },
   "form": {
     "stages": {
-      "identification": "Identificación",
-      "additional": "Información adicional",
       "situation": "Su situación",
-      "done": "Completado"
+      "costs": "Sus costes",
+      "analysis": "Evaluación",
+      "contact": "Contacto"
     },
     "stepOf": "Paso {n} de {total}",
     "secureForm": "🔒 Formulario seguro",
@@ -66,32 +66,27 @@
       "question": "¿Qué describe mejor su situación?"
     },
     "email": {
-      "summaryTitle": "Su solicitud:",
       "notProvided": "No indicado",
-      "prompt": "Primero necesitamos su dirección de correo electrónico",
       "placeholder": "nombre@ejemplo.ch",
-      "consent": "Al continuar, acepta nuestra política de privacidad y el tratamiento de sus datos personales.",
-      "consentPrefix": "Al continuar, acepta nuestra",
-      "consentSuffix": "y el tratamiento de sus datos personales.",
-      "changeSituationAriaLabel": "Cambiar situación",
-      "continue": "Continuar →",
       "invalid": "Indique una dirección de correo electrónico válida."
     },
     "household": {
       "question": "¿Cuántas personas viven en su hogar?",
       "personSingular": "persona",
       "personPlural": "personas",
-      "continue": "Continuar →"
+      "continue": "Continuar →",
+      "hint": "El tamaño del hogar es uno de los factores más importantes para un posible derecho."
     },
     "income": {
       "question": "¿Cuál es el ingreso mensual de su hogar?",
       "under2000": "Menos de CHF 2.000",
       "2000to4000": "CHF 2.000 – 4.000",
       "4000to6000": "CHF 4.000 – 6.000",
-      "over6000": "Más de CHF 6.000"
+      "over6000": "Más de CHF 6.000",
+      "hint": "Sus datos son confidenciales y solo se usan para evaluar su situación."
     },
     "contact": {
-      "question": "¿Cómo podemos contactarle?",
+      "question": "Último paso: ¿cómo puede contactarle su asesor?",
       "firstName": "Nombre",
       "lastName": "Apellido",
       "consent": "Acepto la política de privacidad de EVO Partners GmbH y el tratamiento de mis datos con fines de asesoramiento.",
@@ -99,7 +94,9 @@
       "consentSuffix": "de EVO Partners GmbH y el tratamiento de mis datos con fines de asesoramiento.",
       "submit": "Solicitar evaluación →",
       "submitting": "Enviando…",
-      "submitDisclaimer": "Esto no constituye una solicitud oficial ante una autoridad cantonal. Revisamos sus datos y le ayudamos con los siguientes pasos."
+      "submitDisclaimer": "Esto no constituye una solicitud oficial ante una autoridad cantonal. Revisamos sus datos y le ayudamos con los siguientes pasos.",
+      "subtitle": "Le contactaremos en un plazo de 24 horas, de forma gratuita y sin compromiso.",
+      "email": "Correo electrónico"
     },
     "errors": {
       "firstName": "Indique su nombre.",
@@ -108,6 +105,55 @@
       "phoneInvalid": "Indique un número de teléfono válido.",
       "consent": "Debe aceptar la política de privacidad.",
       "submitFailed": "Ha ocurrido un error. Inténtelo de nuevo."
+    },
+    "back": "← Atrás",
+    "children": {
+      "question": "¿Viven en su hogar niños o jóvenes adultos en formación?",
+      "hint": "Los cantones aplican normas especiales para niños y jóvenes adultos en formación.",
+      "under18": "Sí, niños menores de 18 años",
+      "inEducation": "Sí, jóvenes adultos en formación (18–25)",
+      "both": "Ambos",
+      "none": "No"
+    },
+    "premium": {
+      "question": "¿Cuánto paga actualmente su hogar al mes por el seguro de salud?",
+      "hint": "Las primas han subido mucho en los últimos años: para muchos hogares son uno de los mayores gastos del presupuesto.",
+      "under300": "Menos de CHF 300",
+      "300to600": "CHF 300 – 600",
+      "600to1000": "CHF 600 – 1'000",
+      "over1000": "Más de CHF 1'000",
+      "unknown": "No lo sé exactamente"
+    },
+    "burden": {
+      "question": "¿Cuánto pesan las primas en su presupuesto ahora mismo?",
+      "high": "Mucho: a final de mes suele faltar dinero",
+      "medium": "Bastante: tengo que ahorrar en otras cosas",
+      "low": "Se puede llevar, pero no quiero pagar de más"
+    },
+    "current": {
+      "question": "¿Recibe ya una reducción de primas?",
+      "hint": "En muchos cantones la reducción no se paga automáticamente: sin solicitud, a menudo no se recibe nada.",
+      "never": "No, nunca la he solicitado",
+      "unsure": "Sí, pero no sé si el importe es correcto",
+      "pending": "La he solicitado y espero la decisión",
+      "rejected": "Mi solicitud fue rechazada",
+      "unknown": "No lo sé"
+    },
+    "analysis": {
+      "loading": "Estamos evaluando sus datos…",
+      "title": "Su perfil está listo",
+      "intro": "Según sus respuestas, vale la pena revisar su situación de forma personal.",
+      "recap": "Sus datos",
+      "labels": {
+        "canton": "Cantón",
+        "situation": "Situación",
+        "household": "Hogar",
+        "premium": "Primas / mes",
+        "current": "Reducción de primas",
+        "income": "Ingresos"
+      },
+      "nextSteps": "Un asesor revisará su posible derecho y le acompañará en los siguientes pasos, de forma gratuita y sin compromiso.",
+      "cta": "Continuar con la revisión personal →"
     }
   },
   "situationSelector": {

@@ -43,10 +43,10 @@
   },
   "form": {
     "stages": {
-      "identification": "Identification",
-      "additional": "Additional Information",
-      "situation": "Your Situation",
-      "done": "Complete"
+      "situation": "Your situation",
+      "costs": "Your costs",
+      "analysis": "Assessment",
+      "contact": "Contact"
     },
     "stepOf": "Step {n} of {total}",
     "secureForm": "🔒 Secure Form",
@@ -66,32 +66,27 @@
       "question": "Which best describes your situation?"
     },
     "email": {
-      "summaryTitle": "Your application:",
       "notProvided": "Not provided",
-      "prompt": "First, we need your email address",
       "placeholder": "name@example.com",
-      "consent": "By continuing, you accept our privacy policy and the processing of your personal data.",
-      "consentPrefix": "By continuing, you accept our",
-      "consentSuffix": "and the processing of your personal data.",
-      "changeSituationAriaLabel": "Change situation",
-      "continue": "Continue →",
       "invalid": "Please enter a valid email address."
     },
     "household": {
       "question": "How many people live in your household?",
       "personSingular": "person",
       "personPlural": "people",
-      "continue": "Continue →"
+      "continue": "Continue →",
+      "hint": "Household size is one of the most important factors for a possible entitlement."
     },
     "income": {
       "question": "What is your monthly household income?",
       "under2000": "Under CHF 2,000",
       "2000to4000": "CHF 2,000 – 4,000",
       "4000to6000": "CHF 4,000 – 6,000",
-      "over6000": "Over CHF 6,000"
+      "over6000": "Over CHF 6,000",
+      "hint": "Your details stay confidential and are only used to assess your situation."
     },
     "contact": {
-      "question": "How can we reach you?",
+      "question": "Last step: how can your advisor reach you?",
       "firstName": "First name",
       "lastName": "Last name",
       "consent": "I accept the privacy policy of EVO Partners GmbH and consent to the processing of my data for consultation purposes.",
@@ -99,7 +94,9 @@
       "consentSuffix": "of EVO Partners GmbH and consent to the processing of my data for consultation purposes.",
       "submit": "Request assessment →",
       "submitting": "Submitting…",
-      "submitDisclaimer": "This is not an official submission to a cantonal authority. We review your information and assist you with the next steps."
+      "submitDisclaimer": "This is not an official submission to a cantonal authority. We review your information and assist you with the next steps.",
+      "subtitle": "We'll get back to you within 24 hours – free of charge and without obligation.",
+      "email": "Email address"
     },
     "errors": {
       "firstName": "Please enter your first name.",
@@ -108,6 +105,55 @@
       "phoneInvalid": "Please enter a valid phone number.",
       "consent": "Please accept the privacy policy.",
       "submitFailed": "Something went wrong. Please try again."
+    },
+    "back": "← Back",
+    "children": {
+      "question": "Do children or young adults in education live in your household?",
+      "hint": "Cantons apply special rules for children and young adults in education.",
+      "under18": "Yes, children under 18",
+      "inEducation": "Yes, young adults in education (18–25)",
+      "both": "Both",
+      "none": "No"
+    },
+    "premium": {
+      "question": "How much does your household currently pay per month for health insurance?",
+      "hint": "Premiums have risen sharply in recent years – for many households they are one of the biggest items in the budget.",
+      "under300": "Under CHF 300",
+      "300to600": "CHF 300 – 600",
+      "600to1000": "CHF 600 – 1,000",
+      "over1000": "Over CHF 1,000",
+      "unknown": "I'm not sure"
+    },
+    "burden": {
+      "question": "How much are the premiums straining your budget right now?",
+      "high": "A lot – money is often tight at the end of the month",
+      "medium": "Noticeably – I have to cut back elsewhere",
+      "low": "It's manageable – but I don't want to pay too much"
+    },
+    "current": {
+      "question": "Are you already receiving a premium reduction?",
+      "hint": "In many cantons the reduction is not paid out automatically – without an application you often get nothing.",
+      "never": "No, I've never applied",
+      "unsure": "Yes, but I'm not sure the amount is right",
+      "pending": "I applied – waiting for a decision",
+      "rejected": "My application was rejected",
+      "unknown": "I don't know"
+    },
+    "analysis": {
+      "loading": "Assessing your details…",
+      "title": "Your profile is ready",
+      "intro": "Based on your answers, a personal review of your situation is worthwhile.",
+      "recap": "Your details",
+      "labels": {
+        "canton": "Canton",
+        "situation": "Situation",
+        "household": "Household",
+        "premium": "Premiums / month",
+        "current": "Premium reduction",
+        "income": "Income"
+      },
+      "nextSteps": "An advisor will review your possible entitlement and guide you through the next steps – free of charge and without obligation.",
+      "cta": "Continue to your personal review →"
     }
   },
   "situationSelector": {

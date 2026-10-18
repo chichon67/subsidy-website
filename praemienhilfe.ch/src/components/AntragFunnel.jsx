@@ -7,11 +7,15 @@ import PrivacyPolicyModal from './PrivacyPolicyModal.jsx';
 import { getDictionary, t } from '../i18n/index.js';
 
 function stageIndexForStep(step) {
-  if (step === 'canton' || step === 'situation' || step === 'email') return 0;
-  if (step === 'household' || step === 'income') return 1;
-  if (step === 'contact') return 2;
+  if (step === 'canton' || step === 'situation' || step === 'household' || step === 'children') return 0;
+  if (step === 'premium' || step === 'burden' || step === 'current' || step === 'income') return 1;
+  if (step === 'analysis') return 2;
   return 3;
 }
+
+// Flow: canton → situation → household → children (if >1 person) → premium →
+// burden → current → income → analysis → contact. Contact details (incl.
+// email) are only asked once the visitor has invested in the flow.
 
 function track(name, params) {
   if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
@@ -36,19 +40,30 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
     t(d, 'form.income.4000to6000'),
     t(d, 'form.income.over6000'),
   ];
+  const optionList = (group, keys) => keys.map((k) => t(d, `form.${group}.${k}`));
+  const CHILDREN_OPTIONS = optionList('children', ['under18', 'inEducation', 'both', 'none']);
+  const PREMIUM_OPTIONS = optionList('premium', ['under300', '300to600', '600to1000', 'over1000', 'unknown']);
+  const BURDEN_OPTIONS = optionList('burden', ['high', 'medium', 'low']);
+  const CURRENT_OPTIONS = optionList('current', ['never', 'unsure', 'pending', 'rejected', 'unknown']);
   const STAGES = [
-    { key: 'identifikation', label: t(d, 'form.stages.identification') },
-    { key: 'ergaenzend', label: t(d, 'form.stages.additional') },
     { key: 'situation', label: t(d, 'form.stages.situation') },
-    { key: 'abgeschlossen', label: t(d, 'form.stages.done') },
+    { key: 'kosten', label: t(d, 'form.stages.costs') },
+    { key: 'auswertung', label: t(d, 'form.stages.analysis') },
+    { key: 'kontakt', label: t(d, 'form.stages.contact') },
   ];
 
   const [situationSlug, setSituationSlug] = useState('');
   const [cantonName, setCantonName] = useState('');
-  const [step, setStep] = useState('email');
+  const [step, setStep] = useState('household');
+  const [history, setHistory] = useState([]);
   const [email, setEmail] = useState('');
   const [household, setHousehold] = useState(1);
+  const [children, setChildren] = useState('');
+  const [premium, setPremium] = useState('');
+  const [burden, setBurden] = useState('');
+  const [currentSubsidy, setCurrentSubsidy] = useState('');
   const [income, setIncome] = useState('');
+  const [analysing, setAnalysing] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState();
@@ -76,6 +91,29 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
   }, []);
 
   const situationLabel = situationSlug ? SITUATIONS[situationSlug].label : t(d, 'form.email.notProvided');
+  const householdLabel = `${household} ${household === 1 ? t(d, 'form.household.personSingular') : t(d, 'form.household.personPlural')}`;
+
+  function goTo(next) {
+    setHistory((h) => [...h, step]);
+    setErrors({});
+    setStep(next);
+  }
+
+  function goBack() {
+    if (history.length === 0) return;
+    setErrors({});
+    setStep(history[history.length - 1]);
+    setHistory(history.slice(0, -1));
+  }
+
+  // Short "assessing" pause before the profile summary — makes the
+  // answers feel evaluated rather than just collected.
+  useEffect(() => {
+    if (step !== 'analysis') return;
+    setAnalysing(true);
+    const timer = setTimeout(() => setAnalysing(false), 1400);
+    return () => clearTimeout(timer);
+  }, [step]);
 
   function chooseCanton(name) {
     setCantonName(name);
@@ -83,7 +121,7 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
     const url = new URL(window.location.href);
     url.searchParams.set('canton', name);
     window.history.replaceState({}, '', url);
-    setStep(situationSlug ? 'email' : 'situation');
+    goTo(situationSlug ? 'household' : 'situation');
   }
 
   function chooseSituation(slug) {
@@ -92,54 +130,54 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
     const url = new URL(window.location.href);
     url.searchParams.set('situation', slug);
     window.history.replaceState({}, '', url);
-    setStep('email');
-  }
-
-  function changeSituation(slug) {
-    setSituationSlug(slug);
-    track('antrag_situation_changed', { situation: slug });
-    const url = new URL(window.location.href);
-    if (slug) url.searchParams.set('situation', slug);
-    else url.searchParams.delete('situation');
-    window.history.replaceState({}, '', url);
+    goTo('household');
   }
 
   function isValidEmail(value) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
   }
 
-  function submitEmail() {
-    if (!isValidEmail(email)) {
-      setErrors({ email: t(d, 'form.email.invalid') });
-      return;
-    }
-    setErrors({});
-    track('antrag_step_email_complete', { situation: situationSlug });
-    setStep('household');
-  }
-
   function submitHousehold() {
     track('antrag_step_household_complete', { household });
-    setStep('income');
+    if (household > 1) {
+      goTo('children');
+    } else {
+      setChildren('');
+      goTo('premium');
+    }
   }
 
-  function chooseIncome(value) {
-    setIncome(value);
-    track('antrag_step_income_complete', { income: value });
-    setStep('contact');
+  function chooseOption(setter, eventName, nextStep) {
+    return (value) => {
+      setter(value);
+      track(eventName, { value });
+      goTo(nextStep);
+    };
+  }
+
+  const chooseChildren = chooseOption(setChildren, 'antrag_step_children_complete', 'premium');
+  const choosePremium = chooseOption(setPremium, 'antrag_step_premium_complete', 'burden');
+  const chooseBurden = chooseOption(setBurden, 'antrag_step_burden_complete', 'current');
+  const chooseCurrent = chooseOption(setCurrentSubsidy, 'antrag_step_current_complete', 'income');
+  const chooseIncome = chooseOption(setIncome, 'antrag_step_income_complete', 'analysis');
+
+  function submitAnalysis() {
+    track('antrag_step_analysis_complete', { situation: situationSlug });
+    goTo('contact');
   }
 
   function validateContact() {
     const errs = {};
     if (!firstName.trim()) errs.firstName = t(d, 'form.errors.firstName');
     if (!lastName.trim()) errs.lastName = t(d, 'form.errors.lastName');
+    if (!isValidEmail(email)) errs.email = t(d, 'form.email.invalid');
     if (!phone) errs.phone = t(d, 'form.errors.phone');
     else if (!isValidPhoneNumber(phone)) errs.phone = t(d, 'form.errors.phoneInvalid');
     if (!consent) errs.consent = t(d, 'form.errors.consent');
     return errs;
   }
 
-  const contactReady = firstName.trim() && lastName.trim() && phone && isValidPhoneNumber(phone) && consent;
+  const contactReady = firstName.trim() && lastName.trim() && isValidEmail(email) && phone && isValidPhoneNumber(phone) && consent;
 
   async function submitContact() {
     const errs = validateContact();
@@ -161,7 +199,11 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
           email,
           canton: cantonName || t(d, 'form.email.notProvided'),
           situation: situationSlug,
-          household: `${household} ${household === 1 ? t(d, 'form.household.personSingular') : t(d, 'form.household.personPlural')}`,
+          household: householdLabel,
+          children,
+          premium,
+          burden,
+          currentSubsidy,
           income,
           ...utmData,
         }),
@@ -179,7 +221,7 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
           firstName,
           situationLabel,
           cantonName,
-          household: `${household} ${household === 1 ? t(d, 'form.household.personSingular') : t(d, 'form.household.personPlural')}`,
+          household: householdLabel,
           income,
           email,
         })
@@ -251,8 +293,17 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
           </div>
 
           <div className="bg-white border border-[#E2E8EA] rounded-[10px] shadow-[0_3px_16px_rgba(26,26,42,0.07)] px-7 pt-6 pb-7">
-            <div className="flex items-center gap-2 text-sm font-semibold text-teal mb-6">
-              <span>{t(d, 'form.secureForm')}</span>
+            <div className="flex items-center justify-between gap-2 text-sm font-semibold mb-6">
+              <span className="text-teal">{t(d, 'form.secureForm')}</span>
+              {history.length > 0 && !loading && (
+                <button
+                  type="button"
+                  onClick={goBack}
+                  className="text-[#6B7A80] hover:text-dark bg-transparent border-0 p-0 cursor-pointer font-medium"
+                >
+                  {t(d, 'form.back')}
+                </button>
+              )}
             </div>
 
             {step === 'canton' && (
@@ -293,59 +344,10 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
               </div>
             )}
 
-            {step === 'email' && (
-              <div>
-                <div className="inline-flex items-center gap-2 bg-teal-light text-teal-dark text-[12px] font-semibold uppercase tracking-wide px-3 py-1.5 rounded-full">
-                  <span>{t(d, 'form.email.summaryTitle')}</span>
-                  <select
-                    value={situationSlug}
-                    onChange={(e) => changeSituation(e.target.value)}
-                    aria-label={t(d, 'form.email.changeSituationAriaLabel')}
-                    className="bg-transparent text-teal-dark text-[12px] font-semibold uppercase tracking-wide border-0 outline-none underline cursor-pointer"
-                  >
-                    {!situationSlug && <option value="">{t(d, 'form.email.notProvided')}</option>}
-                    {situationList.map((s) => (
-                      <option key={s.slug} value={s.slug}>
-                        {s.label}
-                      </option>
-                    ))}
-                  </select>
-                  {cantonName && <span className="normal-case font-normal">· {cantonName}</span>}
-                </div>
-                <div className="text-xl font-bold mt-4 mb-4 tracking-tight">{t(d, 'form.email.prompt')}</div>
-                <input
-                  type="email"
-                  placeholder={t(d, 'form.email.placeholder')}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3.5 py-3 text-[15px] border border-[#D6DFE2] rounded-md bg-white text-dark outline-none focus:border-teal"
-                />
-                {errors.email && <div className="text-swiss-red text-xs mt-1">{errors.email}</div>}
-                <p className="text-[12px] leading-relaxed text-[#8A979C] mt-3">
-                  {t(d, 'form.email.consentPrefix')}{' '}
-                  <button
-                    type="button"
-                    onClick={() => setPrivacyOpen(true)}
-                    className="text-teal underline font-medium cursor-pointer bg-transparent border-0 p-0"
-                  >
-                    {t(d, 'footer.datenschutz')}
-                  </button>{' '}
-                  {t(d, 'form.email.consentSuffix')}
-                </p>
-                <button
-                  type="button"
-                  onClick={submitEmail}
-                  disabled={!isValidEmail(email)}
-                  className="mt-3.5 w-full px-5 py-4 bg-teal text-white border-0 rounded-md text-[16.5px] font-bold cursor-pointer hover:bg-teal-dark disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  {t(d, 'form.email.continue')}
-                </button>
-              </div>
-            )}
-
             {step === 'household' && (
               <div>
                 <div className="text-xl font-bold mb-4 tracking-tight">{t(d, 'form.household.question')}</div>
+                <p className="text-[13.5px] leading-relaxed text-[#6B7A80] -mt-2 mb-4">{t(d, 'form.household.hint')}</p>
                 <div className="flex items-center gap-4">
                   <button
                     type="button"
@@ -375,9 +377,69 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
               </div>
             )}
 
+            {step === 'children' && (
+              <div>
+                <div className="text-xl font-bold mb-4 tracking-tight">{t(d, 'form.children.question')}</div>
+                <p className="text-[13.5px] leading-relaxed text-[#6B7A80] -mt-2 mb-4">{t(d, 'form.children.hint')}</p>
+                <div className="grid gap-2.5">
+                  {CHILDREN_OPTIONS.map((opt) => (
+                    <button key={opt} type="button" onClick={() => chooseChildren(opt)} className={rowClass(children === opt)}>
+                      <span>{opt}</span>
+                      <span className="text-teal font-bold">→</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {step === 'premium' && (
+              <div>
+                <div className="text-xl font-bold mb-4 tracking-tight">{t(d, 'form.premium.question')}</div>
+                <p className="text-[13.5px] leading-relaxed text-[#6B7A80] -mt-2 mb-4">{t(d, 'form.premium.hint')}</p>
+                <div className="grid gap-2.5">
+                  {PREMIUM_OPTIONS.map((opt) => (
+                    <button key={opt} type="button" onClick={() => choosePremium(opt)} className={rowClass(premium === opt)}>
+                      <span>{opt}</span>
+                      <span className="text-teal font-bold">→</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {step === 'burden' && (
+              <div>
+                <div className="text-xl font-bold mb-4 tracking-tight">{t(d, 'form.burden.question')}</div>
+                <div className="grid gap-2.5">
+                  {BURDEN_OPTIONS.map((opt) => (
+                    <button key={opt} type="button" onClick={() => chooseBurden(opt)} className={rowClass(burden === opt)}>
+                      <span>{opt}</span>
+                      <span className="text-teal font-bold">→</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {step === 'current' && (
+              <div>
+                <div className="text-xl font-bold mb-4 tracking-tight">{t(d, 'form.current.question')}</div>
+                <p className="text-[13.5px] leading-relaxed text-[#6B7A80] -mt-2 mb-4">{t(d, 'form.current.hint')}</p>
+                <div className="grid gap-2.5">
+                  {CURRENT_OPTIONS.map((opt) => (
+                    <button key={opt} type="button" onClick={() => chooseCurrent(opt)} className={rowClass(currentSubsidy === opt)}>
+                      <span>{opt}</span>
+                      <span className="text-teal font-bold">→</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {step === 'income' && (
               <div>
                 <div className="text-xl font-bold mb-4 tracking-tight">{t(d, 'form.income.question')}</div>
+                <p className="text-[13.5px] leading-relaxed text-[#6B7A80] -mt-2 mb-4">{t(d, 'form.income.hint')}</p>
                 <div className="grid gap-2.5">
                   {INCOME_OPTIONS.map((opt) => (
                     <button key={opt} type="button" onClick={() => chooseIncome(opt)} className={rowClass(income === opt)}>
@@ -389,9 +451,56 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
               </div>
             )}
 
+            {step === 'analysis' && (
+              <div>
+                {analysing ? (
+                  <div className="flex flex-col items-center py-10">
+                    <div className="w-10 h-10 rounded-full border-4 border-teal-light border-t-teal animate-spin" />
+                    <div className="mt-4 text-[15px] font-medium text-dark">{t(d, 'form.analysis.loading')}</div>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="text-xl font-bold tracking-tight">{t(d, 'form.analysis.title')}</div>
+                    <p className="text-[14.5px] leading-relaxed text-[#3D4A50] mt-2">{t(d, 'form.analysis.intro')}</p>
+                    <div className="mt-4 rounded-md border border-[#E2E8EA] bg-[#F5F7F8] px-4 py-3">
+                      <div className="text-[12px] font-semibold uppercase tracking-wide text-[#6B7A80] mb-2">{t(d, 'form.analysis.recap')}</div>
+                      <dl className="grid gap-1.5 text-[14px]">
+                        {[
+                      { label: t(d, 'form.analysis.labels.canton'), value: cantonName },
+                      { label: t(d, 'form.analysis.labels.situation'), value: situationLabel },
+                      { label: t(d, 'form.analysis.labels.household'), value: householdLabel },
+                      { label: t(d, 'form.analysis.labels.premium'), value: premium },
+                      { label: t(d, 'form.analysis.labels.current'), value: currentSubsidy },
+                      { label: t(d, 'form.analysis.labels.income'), value: income },
+                        ]
+                          .filter((row) => row.value)
+                          .map((row) => (
+                            <div key={row.label} className="flex justify-between gap-4">
+                              <dt className="text-[#6B7A80]">{row.label}</dt>
+                              <dd className="font-semibold text-dark text-right">{row.value}</dd>
+                            </div>
+                          ))}
+                      </dl>
+                    </div>
+                    <p className="text-[13.5px] leading-relaxed text-[#3D4A50] mt-4">
+                      <span className="text-swiss-green font-bold">✓</span> {t(d, 'form.analysis.nextSteps')}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={submitAnalysis}
+                      className="mt-5 w-full px-5 py-4 bg-teal text-white border-0 rounded-md text-[16.5px] font-bold cursor-pointer hover:bg-teal-dark"
+                    >
+                      {t(d, 'form.analysis.cta')}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
             {step === 'contact' && (
               <div>
-                <div className="text-xl font-bold mb-4 tracking-tight">{t(d, 'form.contact.question')}</div>
+                <div className="text-xl font-bold tracking-tight">{t(d, 'form.contact.question')}</div>
+                <p className="text-[13.5px] leading-relaxed text-[#6B7A80] mt-1.5 mb-4">{t(d, 'form.contact.subtitle')}</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
                   <div>
                     <input
@@ -413,6 +522,18 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
                     />
                     {errors.lastName && <div className="text-swiss-red text-xs mt-1">{errors.lastName}</div>}
                   </div>
+                </div>
+                <div className="mt-2.5">
+                  <input
+                    type="email"
+                    autoComplete="email"
+                    aria-label={t(d, 'form.contact.email')}
+                    placeholder={t(d, 'form.email.placeholder')}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-3.5 py-3 text-[15px] border border-[#D6DFE2] rounded-md bg-white text-dark outline-none focus:border-teal"
+                  />
+                  {errors.email && <div className="text-swiss-red text-xs mt-1">{errors.email}</div>}
                 </div>
                 <div className="mt-2.5">
                   <PhoneField

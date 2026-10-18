@@ -43,10 +43,10 @@
   },
   "form": {
     "stages": {
-      "identification": "Identifikation",
-      "additional": "Ergänzende Informationen",
       "situation": "Ihre Situation",
-      "done": "Abgeschlossen"
+      "costs": "Ihre Kosten",
+      "analysis": "Auswertung",
+      "contact": "Kontakt"
     },
     "stepOf": "Schritt {n} von {total}",
     "secureForm": "🔒 Sicheres Formular",
@@ -66,32 +66,27 @@
       "question": "Was beschreibt Ihre Situation am besten?"
     },
     "email": {
-      "summaryTitle": "Ihr Antrag:",
       "notProvided": "Nicht angegeben",
-      "prompt": "Zu Beginn benötigen wir Ihre E-Mail-Adresse",
       "placeholder": "name@beispiel.ch",
-      "consent": "Mit dem Fortfahren akzeptieren Sie unsere Datenschutzrichtlinie und die Verarbeitung Ihrer persönlichen Daten.",
-      "consentPrefix": "Mit dem Fortfahren akzeptieren Sie unsere",
-      "consentSuffix": "und die Verarbeitung Ihrer persönlichen Daten.",
-      "changeSituationAriaLabel": "Situation ändern",
-      "continue": "Weiter →",
       "invalid": "Bitte eine gültige E-Mail-Adresse angeben."
     },
     "household": {
       "question": "Wie viele Personen leben in Ihrem Haushalt?",
       "personSingular": "Person",
       "personPlural": "Personen",
-      "continue": "Weiter →"
+      "continue": "Weiter →",
+      "hint": "Die Haushaltsgrösse ist einer der wichtigsten Faktoren für einen möglichen Anspruch."
     },
     "income": {
       "question": "Wie hoch ist Ihr monatliches Haushaltseinkommen?",
       "under2000": "Unter CHF 2'000",
       "2000to4000": "CHF 2'000 – 4'000",
       "4000to6000": "CHF 4'000 – 6'000",
-      "over6000": "Über CHF 6'000"
+      "over6000": "Über CHF 6'000",
+      "hint": "Ihre Angaben bleiben vertraulich und dienen nur der Einschätzung Ihrer Situation."
     },
     "contact": {
-      "question": "Wie können wir Sie erreichen?",
+      "question": "Letzter Schritt: Wie erreicht Sie Ihr Berater?",
       "firstName": "Vorname",
       "lastName": "Nachname",
       "consent": "Ich akzeptiere die Datenschutzbestimmungen von EVO Partners GmbH und stimme der Verarbeitung meiner Daten zum Zweck der Beratung zu.",
@@ -99,7 +94,9 @@
       "consentSuffix": "von EVO Partners GmbH und stimme der Verarbeitung meiner Daten zum Zweck der Beratung zu.",
       "submit": "Prüfung anfragen →",
       "submitting": "Wird gesendet…",
-      "submitDisclaimer": "Dies ist keine offizielle kantonale Einreichung. Wir prüfen Ihre Angaben und unterstützen Sie bei den nächsten Schritten."
+      "submitDisclaimer": "Dies ist keine offizielle kantonale Einreichung. Wir prüfen Ihre Angaben und unterstützen Sie bei den nächsten Schritten.",
+      "subtitle": "Wir melden uns innerhalb von 24 Stunden – kostenlos und unverbindlich.",
+      "email": "E-Mail-Adresse"
     },
     "errors": {
       "firstName": "Bitte Vorname angeben.",
@@ -108,6 +105,55 @@
       "phoneInvalid": "Bitte eine gültige Telefonnummer angeben.",
       "consent": "Bitte akzeptieren Sie die Datenschutzbestimmungen.",
       "submitFailed": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+    },
+    "back": "← Zurück",
+    "children": {
+      "question": "Leben Kinder oder junge Erwachsene in Ausbildung in Ihrem Haushalt?",
+      "hint": "Für Kinder und junge Erwachsene in Ausbildung gelten in den Kantonen besondere Regeln.",
+      "under18": "Ja, Kinder unter 18 Jahren",
+      "inEducation": "Ja, junge Erwachsene in Ausbildung (18–25)",
+      "both": "Beides",
+      "none": "Nein"
+    },
+    "premium": {
+      "question": "Wie viel bezahlt Ihr Haushalt aktuell pro Monat für die Krankenkasse?",
+      "hint": "Die Prämien sind in den letzten Jahren deutlich gestiegen – für viele Haushalte einer der grössten Posten im Budget.",
+      "under300": "Unter CHF 300",
+      "300to600": "CHF 300 – 600",
+      "600to1000": "CHF 600 – 1'000",
+      "over1000": "Über CHF 1'000",
+      "unknown": "Weiss ich nicht genau"
+    },
+    "burden": {
+      "question": "Wie stark belasten die Prämien Ihr Budget im Moment?",
+      "high": "Sehr stark – Ende Monat wird es oft knapp",
+      "medium": "Spürbar – ich muss anderswo sparen",
+      "low": "Es geht – aber ich möchte nicht zu viel bezahlen"
+    },
+    "current": {
+      "question": "Erhalten Sie bereits eine Prämienverbilligung?",
+      "hint": "In vielen Kantonen wird die Verbilligung nicht automatisch ausbezahlt – ohne Antrag gibt es oft nichts.",
+      "never": "Nein, noch nie beantragt",
+      "unsure": "Ja, aber ich weiss nicht, ob der Betrag stimmt",
+      "pending": "Antrag gestellt – ich warte auf den Entscheid",
+      "rejected": "Mein Antrag wurde abgelehnt",
+      "unknown": "Weiss ich nicht"
+    },
+    "analysis": {
+      "loading": "Wir werten Ihre Angaben aus…",
+      "title": "Ihr Profil ist bereit",
+      "intro": "Basierend auf Ihren Angaben lohnt sich eine persönliche Prüfung Ihrer Situation.",
+      "recap": "Ihre Angaben",
+      "labels": {
+        "canton": "Kanton",
+        "situation": "Situation",
+        "household": "Haushalt",
+        "premium": "Prämien / Monat",
+        "current": "Prämienverbilligung",
+        "income": "Einkommen"
+      },
+      "nextSteps": "Ein Berater prüft Ihren möglichen Anspruch und begleitet Sie durch die nächsten Schritte – kostenlos und unverbindlich.",
+      "cta": "Weiter zur persönlichen Prüfung →"
     }
   },
   "situationSelector": {

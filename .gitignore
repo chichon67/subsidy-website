@@ -1,0 +1,10 @@
+# Local Netlify folder
+.netlify
+
+# Local-only context and agent files
+TWENTY_CRM_CONTEXT.md
+main-instructions.md
+.claude/
+
+# Secrets
+.env

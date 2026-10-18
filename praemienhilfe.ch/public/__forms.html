@@ -1,0 +1,25 @@
+<!doctype html>
+<!-- Netlify Forms definition for the lead-to-twenty fallback (never shown to visitors).
+     Netlify registers forms by scanning deployed HTML; netlify/functions/lead-to-twenty.ts
+     posts here whenever Twenty CRM is unreachable, so no lead is lost. -->
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>lead-fallback</title>
+  </head>
+  <body>
+    <form name="lead-fallback" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="lead-fallback" />
+      <input name="bot-field" />
+      <input name="firstName" />
+      <input name="lastName" />
+      <input name="email" type="email" />
+      <input name="phone" />
+      <input name="canton" />
+      <input name="reason" />
+      <input name="receivedAt" />
+      <textarea name="payload"></textarea>
+    </form>
+  </body>
+</html>

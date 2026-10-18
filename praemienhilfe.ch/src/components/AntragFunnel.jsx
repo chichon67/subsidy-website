@@ -23,6 +23,24 @@ function track(name, params) {
   }
 }
 
+const ATTRIBUTION_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'];
+
+// Campaign params from this URL win; otherwise fall back to what Base.astro
+// stored from the session's landing page.
+function readAttribution(params) {
+  let stored = {};
+  try {
+    stored = JSON.parse(sessionStorage.getItem('leadAttribution') || '{}');
+  } catch {}
+  const fromUrl = Object.fromEntries(ATTRIBUTION_KEYS.filter((k) => params.get(k)).map((k) => [k, params.get(k)]));
+  const source = Object.keys(fromUrl).length > 0 ? fromUrl : stored;
+  return {
+    ...Object.fromEntries(ATTRIBUTION_KEYS.map((k) => [k, source[k] || ''])),
+    landingPage: stored.landingPage || '',
+    referrer: stored.referrer || '',
+  };
+}
+
 function rowClass(selected) {
   return [
     'w-full flex items-center justify-between gap-4 text-left cursor-pointer rounded-md text-[15.5px] font-medium text-dark transition-colors',
@@ -68,10 +86,13 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState();
   const [consent, setConsent] = useState(false);
+  const [consentAt, setConsentAt] = useState('');
+  const [website, setWebsite] = useState(''); // honeypot — stays empty for humans
+  const [startedAt] = useState(() => Date.now());
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
-  const [utmData, setUtmData] = useState({ utm_source: '', utm_medium: '', utm_campaign: '', utm_content: '' });
+  const [attribution, setAttribution] = useState({});
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -82,12 +103,7 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
     setCantonName(c);
     if (!c) setStep('canton');
     else if (!validSituation) setStep('situation');
-    setUtmData({
-      utm_source: params.get('utm_source') || '',
-      utm_medium: params.get('utm_medium') || '',
-      utm_campaign: params.get('utm_campaign') || '',
-      utm_content: params.get('utm_content') || '',
-    });
+    setAttribution(readAttribution(params));
   }, []);
 
   const situationLabel = situationSlug ? SITUATIONS[situationSlug].label : t(d, 'form.email.notProvided');
@@ -189,7 +205,7 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
     track('antrag_form_submit', { situation: situationSlug });
     setLoading(true);
     try {
-      const res = await fetch('/api/submit', {
+      const res = await fetch('/.netlify/functions/lead-to-twenty', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -205,7 +221,14 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
           burden,
           currentSubsidy,
           income,
-          ...utmData,
+          lang,
+          consent,
+          consentText: t(d, 'form.contact.consent'),
+          consentAt,
+          pageUrl: window.location.origin + window.location.pathname,
+          website,
+          startedAt,
+          ...attribution,
         }),
       });
       if (!res.ok) throw new Error('submit failed');
@@ -535,6 +558,12 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
                   />
                   {errors.email && <div className="text-swiss-red text-xs mt-1">{errors.email}</div>}
                 </div>
+                <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+                  <label>
+                    Website
+                    <input type="text" name="website" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
+                  </label>
+                </div>
                 <div className="mt-2.5">
                   <PhoneField
                     value={phone}
@@ -546,7 +575,10 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
                   <input
                     type="checkbox"
                     checked={consent}
-                    onChange={(e) => setConsent(e.target.checked)}
+                    onChange={(e) => {
+                      setConsent(e.target.checked);
+                      setConsentAt(e.target.checked ? new Date().toISOString() : '');
+                    }}
                     className="mt-0.5 w-4 h-4 accent-teal flex-shrink-0"
                   />
                   <span>

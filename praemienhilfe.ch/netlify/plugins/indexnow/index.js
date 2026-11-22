@@ -2,7 +2,8 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { notifyIndexNow } from './submit.js';
 
-export { notifyIndexNow, urlsFromSitemap } from './submit.js';
+// Netlify treats every named export as a lifecycle event. Keep helpers in
+// submit.js so this file only exports onSuccess.
 
 export async function onSuccess({ constants } = {}) {
   try {

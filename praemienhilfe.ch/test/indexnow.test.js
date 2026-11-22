@@ -3,8 +3,10 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { onSuccess } from '../netlify/plugins/indexnow/index.js';
+import * as plugin from '../netlify/plugins/indexnow/index.js';
 import { notifyIndexNow, urlsFromSitemap } from '../netlify/plugins/indexnow/submit.js';
+
+const { onSuccess } = plugin;
 
 const KEY = 'dcf111e00c75171c97c5ab459cb08f8d';
 const HOST = 'praemien-hilfe.ch';
@@ -14,6 +16,13 @@ const SITEMAP = `<?xml version="1.0" encoding="UTF-8"?>
 <url><loc>https://praemien-hilfe.ch/de/</loc></url>
 <url><loc>https://praemien-hilfe.ch/en/faq</loc></url>
 </urlset>`;
+
+test('plugin entry exports only Netlify lifecycle hooks', () => {
+  const allowed = new Set(['onPreBuild', 'onBuild', 'onPostBuild', 'onSuccess', 'onError', 'onEnd']);
+  const names = Object.keys(plugin);
+  assert.deepEqual(names.filter((name) => !allowed.has(name)), []);
+  assert.equal(typeof plugin.onSuccess, 'function');
+});
 
 test('IndexNow key file is exactly the key and the canton catch-all cannot steal it', () => {
   const keyPath = path.join(import.meta.dirname, '..', 'public', `${KEY}.txt`);

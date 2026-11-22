@@ -51,15 +51,6 @@ const schema = [
       description: 'FINMA-registrierter Versicherungsbroker',
     },
   },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: canton.faqs.slice(0, 2).map((faq) => ({
-      '@type': 'Question',
-      name: faq.q,
-      acceptedAnswer: { '@type': 'Answer', text: faq.a },
-    })),
-  },
 ];
 ---
 
@@ -71,6 +62,7 @@ const schema = [
   cantonName="Basel-Stadt"
   lang={lang}
   pageKey="basel-stadt"
+  faqs={canton.faqs}
   schema={schema}
 >
   <Hero canton={canton} defaultCanton="Basel-Stadt" embeddedFunnel={true} lang={lang} />

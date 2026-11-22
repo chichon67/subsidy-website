@@ -16,7 +16,6 @@ import { getDictionary, t } from '../i18n/index.js';
 export default function DankeSummary() {
   const [summary, setSummary] = useState(null);
   const [lang, setLang] = useState('de');
-  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const raw = sessionStorage.getItem('antragSummary');
@@ -34,11 +33,7 @@ export default function DankeSummary() {
       setLang(storedLang);
     }
     sessionStorage.removeItem('antragLang');
-
-    setLoaded(true);
   }, []);
-
-  if (!loaded) return null;
 
   const d = getDictionary(lang);
 

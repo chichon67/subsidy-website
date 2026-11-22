@@ -57,6 +57,25 @@
   to = "/sitemap.xml"
   status = 200
 
+# The catch-all "/:canton" -> "/de/:canton" below treats any other single
+# path segment as a canton. Without these rules, /robots.txt, /llms.txt and
+# /llms-full.txt are 301'd to /de/robots.txt (and the llms equivalents),
+# which 404. A 200 to the same path, same as /sitemap.xml, serves the file.
+[[redirects]]
+  from = "/robots.txt"
+  to = "/robots.txt"
+  status = 200
+
+[[redirects]]
+  from = "/llms.txt"
+  to = "/llms.txt"
+  status = 200
+
+[[redirects]]
+  from = "/llms-full.txt"
+  to = "/llms-full.txt"
+  status = 200
+
 [[redirects]]
   from = "/de"
   to = "/de"

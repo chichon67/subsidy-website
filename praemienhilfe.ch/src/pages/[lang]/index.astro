@@ -60,29 +60,6 @@ const FINAL_CTA_DISCLAIMER = {
   es: 'praemien-hilfe.ch es un servicio de asesoramiento privado de EVO Partners GmbH, corredor de seguros registrado en FINMA. No es un organismo cantonal oficial.',
 };
 
-const schema = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'praemien-hilfe.ch',
-    url: 'https://praemien-hilfe.ch',
-    description: DESCRIPTIONS[lang],
-    provider: {
-      '@type': 'Organization',
-      name: 'EVO Partners GmbH',
-      description: 'FINMA-registrierter Versicherungsbroker',
-    },
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: national.nationalFaqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.q,
-      acceptedAnswer: { '@type': 'Answer', text: faq.a },
-    })),
-  },
-];
 ---
 
 <Base
@@ -92,7 +69,8 @@ const schema = [
   activePage="home"
   lang={lang}
   pageKey="home"
-  schema={schema}
+  includeWebsite={true}
+  faqs={national.nationalFaqs}
 >
   <Hero variant="national" lang={lang} />
   <TrustBar canton={{ stats: national.nationalStats }} />

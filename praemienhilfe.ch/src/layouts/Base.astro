@@ -7,6 +7,7 @@ import StickyFunnelWidget from '../components/StickyFunnelWidget.jsx';
 import '../styles/global.css';
 import { htmlLang, getDictionary, t } from '../i18n/index.js';
 import { getLocalizedUrls } from '../i18n/pageUrls.js';
+import { breadcrumbSchema, crumbsFor, faqSchema, organizationSchema, websiteSchema } from '../seo/schema.js';
 
 export interface Props {
   title: string;
@@ -19,9 +20,19 @@ export interface Props {
   chrome?: boolean;
   robots?: string;
   schema?: Record<string, unknown>[];
+  faqs?: { q: string; a: string }[];
+  includeWebsite?: boolean;
 }
 
-const { title, description, canonical, lang, pageKey, activePage = 'home', cantonName, chrome = true, robots = 'index, follow', schema = [] } = Astro.props;
+const { title, description, canonical, lang, pageKey, activePage = 'home', cantonName, chrome = true, robots = 'index, follow', schema = [], faqs = [], includeWebsite = false } = Astro.props;
+const crumbs = crumbsFor({ lang, canonical, pageKey, cantonName });
+const jsonLd = [
+  organizationSchema(),
+  ...(includeWebsite ? [websiteSchema(description)] : []),
+  ...(crumbs.length ? [breadcrumbSchema(crumbs)] : []),
+  ...(faqs.length ? [faqSchema(faqs)] : []),
+  ...schema,
+];
 const dict = getDictionary(lang);
 const alternates = pageKey ? getLocalizedUrls(pageKey) : null;
 const ogLocale = { de: 'de_CH', en: 'en_CH', es: 'es_CH' }[lang];
@@ -142,7 +153,7 @@ const mobileCtaLabel = cantonName ? t(dict, 'mobileCta.canton', { canton: canton
       } catch (e) {}
     </script>
 
-    {schema.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block)} />)}
+    {jsonLd.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block).replace(/</g, '\\u003c')} />)}
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->

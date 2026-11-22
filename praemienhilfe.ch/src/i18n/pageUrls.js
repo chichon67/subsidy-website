@@ -38,6 +38,17 @@ export function getLocalizedUrls(translationKey) {
   };
 }
 
+// Every built, indexable page. Locales are de, en and es only — there is no
+// French route, so nothing here can emit a /fr/ URL or fr hreflang.
+export function listIndexableEntries() {
+  return Object.entries(PATHS).map(([key, entry]) => ({
+    key,
+    de: `${BASE}${entry.de}`,
+    en: `${BASE}${entry.en}`,
+    es: `${BASE}${entry.es}`,
+  }));
+}
+
 export function canonicalFor(translationKey, locale, fallbackPath) {
   const entry = PATHS[translationKey];
   if (entry) return `${BASE}${entry[locale]}`;

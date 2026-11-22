@@ -72,7 +72,10 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
 
   const [situationSlug, setSituationSlug] = useState('');
   const [cantonName, setCantonName] = useState('');
-  const [step, setStep] = useState('household');
+  // First screen for /antrag with no query string. Server HTML includes the
+  // canton list; the effect below still jumps ahead when canton/situation
+  // are already in the URL.
+  const [step, setStep] = useState('canton');
   const [history, setHistory] = useState([]);
   const [email, setEmail] = useState('');
   const [household, setHousehold] = useState(1);
@@ -103,6 +106,7 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
     setCantonName(c);
     if (!c) setStep('canton');
     else if (!validSituation) setStep('situation');
+    else setStep('household');
     setAttribution(readAttribution(params));
   }, []);
 

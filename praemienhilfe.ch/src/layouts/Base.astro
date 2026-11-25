@@ -8,6 +8,7 @@ import '../styles/global.css';
 import { htmlLang, getDictionary, t } from '../i18n/index.js';
 import { getLocalizedUrls } from '../i18n/pageUrls.js';
 import { breadcrumbSchema, crumbsFor, faqSchema, organizationSchema, websiteSchema } from '../seo/schema.js';
+import { normalizeGa4Id } from '../lib/analytics.js';
 
 export interface Props {
   title: string;
@@ -38,8 +39,8 @@ const alternates = pageKey ? getLocalizedUrls(pageKey) : null;
 const ogLocale = { de: 'de_CH', en: 'en_CH', es: 'es_CH' }[lang];
 
 // GA4: set PUBLIC_GA4_ID in Netlify (Site settings → Environment variables) and redeploy.
-// No placeholder fallback: if the ID is missing, GA4 is simply not configured.
-const ga4Id = import.meta.env.PUBLIC_GA4_ID || '';
+// Empty or placeholder values do not load a GA4 config. GTM and the Ads tag stay.
+const ga4Id = normalizeGa4Id(import.meta.env.PUBLIC_GA4_ID);
 const adsId = 'AW-18005574565';
 const gtagLoaderId = ga4Id || adsId;
 
@@ -109,6 +110,7 @@ const mobileCtaLabel = cantonName ? t(dict, 'mobileCta.canton', { canton: canton
          do not add a second googletagmanager.com/gtag/js script tag. -->
     <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gtagLoaderId}`}></script>
     <script define:vars={{ ga4Id, adsId }}>
+      window.__PH_GA4_ID = ga4Id;
       gtag('js', new Date());
       if (ga4Id) gtag('config', ga4Id);
       gtag('config', adsId);
@@ -131,6 +133,8 @@ const mobileCtaLabel = cantonName ? t(dict, 'mobileCta.canton', { canton: canton
           ad_user_data: ads ? 'granted' : 'denied',
           ad_personalization: ads ? 'granted' : 'denied'
         });
+        window.__PH_ANALYTICS_CONSENT = analytics ? 'granted' : 'denied';
+        window.dispatchEvent(new Event('ph-analytics-consent'));
         window.dataLayer.push({ event: 'consent_update', consent_analytics: analytics, consent_ads: ads });
       }]);
     </script>
@@ -177,6 +181,9 @@ const mobileCtaLabel = cantonName ? t(dict, 'mobileCta.canton', { canton: canton
     {chrome && <StickyFunnelWidget client:idle activePage={activePage} cantonName={cantonName} lang={lang} dict={dict} />}
 
     <script>
+      import { installCalLinkTracking } from '../lib/analytics.js';
+      installCalLinkTracking();
+
       const SCROLL_DURATION_MS = 300;
 
       function easeInOutCubic(t: number) {

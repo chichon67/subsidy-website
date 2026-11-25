@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { getSituationList } from '../data/situations.js';
 import { deutschschweizCantons } from '../data/deutschschweiz.js';
 import PhoneField, { isValidPhoneNumber } from './PhoneField.jsx';
-import PrivacyPolicyModal from './PrivacyPolicyModal.jsx';
-import { getDictionary, t } from '../i18n/index.js';
+import { getDictionary, t, localePath } from '../i18n/index.js';
+import { hiddenLeadFields, rememberFirstTouch } from '../lib/attribution.js';
 
 function stageIndexForStep(step) {
   if (step === 'canton' || step === 'situation' || step === 'household' || step === 'children') return 0;
@@ -23,23 +23,7 @@ function track(name, params) {
   }
 }
 
-const ATTRIBUTION_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'];
-
-// Campaign params from this URL win; otherwise fall back to what Base.astro
-// stored from the session's landing page.
-function readAttribution(params) {
-  let stored = {};
-  try {
-    stored = JSON.parse(sessionStorage.getItem('leadAttribution') || '{}');
-  } catch {}
-  const fromUrl = Object.fromEntries(ATTRIBUTION_KEYS.filter((k) => params.get(k)).map((k) => [k, params.get(k)]));
-  const source = Object.keys(fromUrl).length > 0 ? fromUrl : stored;
-  return {
-    ...Object.fromEntries(ATTRIBUTION_KEYS.map((k) => [k, source[k] || ''])),
-    landingPage: stored.landingPage || '',
-    referrer: stored.referrer || '',
-  };
-}
+const FORM_ID = 'antrag';
 
 function rowClass(selected) {
   return [
@@ -94,8 +78,8 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
   const [startedAt] = useState(() => Date.now());
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [privacyOpen, setPrivacyOpen] = useState(false);
   const [attribution, setAttribution] = useState({});
+  const [pageContext, setPageContext] = useState({ site: '', pagePath: '' });
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -107,8 +91,16 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
     if (!c) setStep('canton');
     else if (!validSituation) setStep('situation');
     else setStep('household');
-    setAttribution(readAttribution(params));
+    setAttribution(rememberFirstTouch() || {});
+    setPageContext({ site: window.location.hostname, pagePath: window.location.pathname });
   }, []);
+
+  const hidden = hiddenLeadFields(attribution, {
+    site: pageContext.site,
+    formId: FORM_ID,
+    pagePath: pageContext.pagePath,
+    lang,
+  });
 
   const situationLabel = situationSlug ? SITUATIONS[situationSlug].label : t(d, 'form.email.notProvided');
   const householdLabel = `${household} ${household === 1 ? t(d, 'form.household.personSingular') : t(d, 'form.household.personPlural')}`;
@@ -232,7 +224,7 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
           pageUrl: window.location.origin + window.location.pathname,
           website,
           startedAt,
-          ...attribution,
+          ...hidden,
         }),
       });
       if (!res.ok) throw new Error('submit failed');
@@ -526,6 +518,9 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
 
             {step === 'contact' && (
               <div>
+                {Object.entries(hidden).map(([name, value]) => (
+                  <input key={name} type="hidden" name={name} value={value} />
+                ))}
                 <div className="text-xl font-bold tracking-tight">{t(d, 'form.contact.question')}</div>
                 <p className="text-[13.5px] leading-relaxed text-[#6B7A80] mt-1.5 mb-4">{t(d, 'form.contact.subtitle')}</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
@@ -583,21 +578,19 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
                       setConsent(e.target.checked);
                       setConsentAt(e.target.checked ? new Date().toISOString() : '');
                     }}
+                    required
                     className="mt-0.5 w-4 h-4 accent-teal flex-shrink-0"
                   />
                   <span>
                     {t(d, 'form.contact.consentPrefix')}{' '}
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setPrivacyOpen(true);
-                      }}
-                      className="text-teal underline font-medium cursor-pointer bg-transparent border-0 p-0"
+                    <a
+                      href={localePath(lang, '/datenschutz')}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-teal underline font-medium"
                     >
                       {t(d, 'footer.datenschutz')}
-                    </button>{' '}
+                    </a>{' '}
                     {t(d, 'form.contact.consentSuffix')}
                   </span>
                 </label>
@@ -618,7 +611,6 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
         </div>
       </main>
 
-      <PrivacyPolicyModal open={privacyOpen} onClose={() => setPrivacyOpen(false)} lang={lang} />
     </div>
   );
 }

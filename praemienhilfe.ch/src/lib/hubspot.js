@@ -118,7 +118,7 @@ export async function sendLeadToHubSpot(token, data) {
     `Belastung    : ${data.burden || '—'}`,
     `Aktuelle PV  : ${data.currentSubsidy || '—'}`,
     `Situation    : ${data.situation || '—'}`,
-    `Lead-Quelle  : praemien-hilfe.ch`,
+    `Lead-Quelle  : ${data.leadSource || 'praemien-hilfe.ch'}`,
     `UTM          : source=${data.utm_source || '—'} medium=${data.utm_medium || '—'} campaign=${data.utm_campaign || '—'} content=${data.utm_content || '—'}`,
   ].join('\n');
 

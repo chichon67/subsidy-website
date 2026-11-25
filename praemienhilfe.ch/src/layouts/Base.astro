@@ -135,22 +135,11 @@ const mobileCtaLabel = cantonName ? t(dict, 'mobileCta.canton', { canton: canton
       }]);
     </script>
 
-    <!-- 6) LEAD ATTRIBUTION: keep UTM / click ids from the landing page for the
-         /antrag funnel, which visitors usually reach via a JS redirect or an
-         internal link that drops the query string. Session-scoped, no personal data. -->
-    <script is:inline>
-      try {
-        var _q = new URLSearchParams(location.search), _a = {};
-        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) {
-          if (_q.get(k)) _a[k] = _q.get(k).slice(0, 500);
-        });
-        // New campaign params replace the stored set; otherwise keep the first page of the session.
-        if (Object.keys(_a).length || !sessionStorage.getItem('leadAttribution')) {
-          _a.landingPage = location.origin + location.pathname;
-          _a.referrer = document.referrer.split('?')[0].slice(0, 500);
-          sessionStorage.setItem('leadAttribution', JSON.stringify(_a));
-        }
-      } catch (e) {}
+    <!-- 6) LEAD ATTRIBUTION: first landing of this tab session (UTM, referrer,
+         landing page). Sent only with a form. No cookies, no extra analytics. -->
+    <script>
+      import { rememberFirstTouch } from '../lib/attribution.js';
+      rememberFirstTouch();
     </script>
 
     {jsonLd.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block).replace(/</g, '\\u003c')} />)}

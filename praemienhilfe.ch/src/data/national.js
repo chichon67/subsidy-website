@@ -12,7 +12,7 @@ const national = {
 
     nationalStats: [
       { value: "1'000+", label: 'Dossiers pro Jahr' },
-      { value: "CHF 500–3'000", label: 'Ersparnis/Jahr' },
+      { value: 'Kostenlos', label: 'Anspruch prüfen' },
       { value: '20 Minuten', label: 'Erstgespräch' },
       { value: 'FINMA', label: 'Registriert' },
     ],
@@ -96,7 +96,7 @@ const national = {
       bullets: [
         'Hilfe bei der Prämienverbilligung (IPV) — für alle Kantone',
         'Unabhängige Beratung zur Krankenversicherung (KVG und VVG)',
-        'Optimierung Ihrer Versicherungssituation und Prämien',
+        'Vergleich Ihrer Krankenversicherung und Hilfe beim Wechsel',
       ],
       closing:
         'Die Hilfe bei der Prämienverbilligung ist für Sie vollständig kostenlos. Als FINMA-registrierter Broker werden wir durch unsere Versicherungspartner vergütet, wenn wir eine Optimierung Ihrer Krankenversicherung empfehlen. Es besteht keinerlei Verpflichtung dazu.',
@@ -147,7 +147,7 @@ const national = {
 
     nationalStats: [
       { value: "1'000+", label: 'Cases per year' },
-      { value: "CHF 500–3'000", label: 'Savings/year' },
+      { value: 'Free', label: 'Eligibility check' },
       { value: '20 minutes', label: 'Initial consultation' },
       { value: 'FINMA', label: 'Registered' },
     ],
@@ -231,7 +231,7 @@ const national = {
       bullets: [
         'Help with the premium reduction (IPV) — for all cantons',
         'Independent advice on health insurance (KVG and VVG)',
-        'Optimizing your insurance coverage and premiums',
+        'Comparing your health insurance and help if you switch',
       ],
       closing:
         'Our help with the premium reduction is completely free for you. As a FINMA-registered broker, we are compensated by our insurance partners when we recommend an optimization of your health insurance. There is no obligation whatsoever.',
@@ -282,7 +282,7 @@ const national = {
 
     nationalStats: [
       { value: "1'000+", label: 'Expedientes al año' },
-      { value: "CHF 500–3'000", label: 'Ahorro/año' },
+      { value: 'Gratis', label: 'Comprobar el derecho' },
       { value: '20 minutos', label: 'Primera consulta' },
       { value: 'FINMA', label: 'Registrado' },
     ],
@@ -366,7 +366,7 @@ const national = {
       bullets: [
         'Ayuda con la reducción de primas (IPV) — para todos los cantones',
         'Asesoramiento independiente sobre el seguro médico (KVG y VVG)',
-        'Optimización de su cobertura de seguro y sus primas',
+        'Comparación de su seguro médico y ayuda si cambia de aseguradora',
       ],
       closing:
         'Nuestra ayuda con la reducción de primas es completamente gratuita para usted. Como corredor registrado en FINMA, recibimos una compensación de nuestros socios aseguradores cuando recomendamos una optimización de su seguro médico. No existe ninguna obligación de aceptarla.',

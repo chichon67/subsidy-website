@@ -39,7 +39,7 @@ const cantonsData = {
       heroProof: "Ca. 30'000 Personen erhalten bereits Prämienverbilligung in BS",
       stats: [
         { value: "30'000+", label: 'Bezüger in BS' },
-        { value: "CHF 500–3'000", label: 'Ersparnis pro Jahr' },
+        { value: 'Kostenlos', label: 'Anspruch prüfen' },
         { value: '20 Minuten', label: 'Gespräch' },
         { value: 'Seit 2020', label: 'Erfahrung' },
       ],
@@ -83,7 +83,7 @@ const cantonsData = {
       faqs: [
         {
           q: 'Wer sind wir?',
-          a: "praemien-hilfe.ch ist ein Service von EVO Partners GmbH, einem FINMA-registrierten unabhängigen Versicherungsbroker mit Sitz in der Schweiz. Wir sind seit 2020 tätig und haben bereits über 1'000 Dossiers für Prämienverbilligung bearbeitet. Neben der Prämienverbilligung beraten wir unsere Klienten auch zu ihrer gesamten Krankenversicherungssituation, um die beste Abdeckung zum besten Preis zu finden.",
+          a: "praemien-hilfe.ch ist ein Service von EVO Partners GmbH, einem FINMA-registrierten unabhängigen Versicherungsbroker mit Sitz in der Schweiz. Wir sind seit 2020 tätig und haben bereits über 1'000 Dossiers für Prämienverbilligung bearbeitet. Neben der Prämienverbilligung beraten wir unsere Klienten auch zu ihrer gesamten Krankenversicherungssituation.",
         },
         {
           q: 'Sind Sie ein offizielles Kantonsamt?',
@@ -95,7 +95,7 @@ const cantonsData = {
         },
         {
           q: 'Wie viel kann ich erhalten?',
-          a: "Zwischen CHF 500 und CHF 3'000 pro Jahr, abhängig von Einkommen, Vermögen und Anzahl Personen. Kinder und junge Erwachsene bis 25 Jahre in Erstausbildung sind ebenfalls anspruchsberechtigt.",
+          a: 'Die Höhe legt der Kanton fest. Sie hängt von Einkommen, Vermögen und Haushaltsgrösse ab. Kinder und junge Erwachsene bis 25 Jahre in Erstausbildung sind ebenfalls anspruchsberechtigt.',
         },
         {
           q: 'Was kostet mich dieser Service?',
@@ -121,7 +121,7 @@ const cantonsData = {
       heroProof: 'Around 30,000 people already receive a premium reduction in BS',
       stats: [
         { value: "30'000+", label: 'Recipients in BS' },
-        { value: "CHF 500–3'000", label: 'Savings per year' },
+        { value: 'Free', label: 'Eligibility check' },
         { value: '20 minutes', label: 'Consultation' },
         { value: 'Since 2020', label: 'Experience' },
       ],
@@ -165,7 +165,7 @@ const cantonsData = {
       faqs: [
         {
           q: 'Who are we?',
-          a: 'praemien-hilfe.ch is a service of EVO Partners GmbH, a FINMA-registered independent insurance broker based in Switzerland. We\'ve been active since 2020 and have already handled over 1,000 premium reduction cases. Besides the premium reduction, we also advise our clients on their overall health insurance situation, to find the best coverage at the best price.',
+          a: 'praemien-hilfe.ch is a service of EVO Partners GmbH, a FINMA-registered independent insurance broker based in Switzerland. We\'ve been active since 2020 and have already handled over 1,000 premium reduction cases. Besides the premium reduction, we also advise our clients on their overall health insurance situation.',
         },
         {
           q: 'Are you an official cantonal office?',
@@ -177,7 +177,7 @@ const cantonsData = {
         },
         {
           q: 'How much can I receive?',
-          a: 'Between CHF 500 and CHF 3,000 per year, depending on income, assets and household size. Children and young adults up to age 25 in initial training also qualify.',
+          a: 'The canton sets the amount. It depends on income, assets and household size. Children and young adults up to age 25 in initial training also qualify.',
         },
         {
           q: 'What does this service cost?',
@@ -203,7 +203,7 @@ const cantonsData = {
       heroProof: 'Cerca de 30.000 personas ya reciben la reducción de primas en BS',
       stats: [
         { value: "30'000+", label: 'Beneficiarios en BS' },
-        { value: "CHF 500–3'000", label: 'Ahorro al año' },
+        { value: 'Gratis', label: 'Comprobar el derecho' },
         { value: '20 minutos', label: 'Consulta' },
         { value: 'Desde 2020', label: 'Experiencia' },
       ],
@@ -247,7 +247,7 @@ const cantonsData = {
       faqs: [
         {
           q: '¿Quiénes somos?',
-          a: 'praemien-hilfe.ch es un servicio de EVO Partners GmbH, un corredor de seguros independiente registrado en FINMA y con sede en Suiza. Operamos desde 2020 y ya hemos tramitado más de 1.000 expedientes de reducción de primas. Además de la reducción de primas, asesoramos a nuestros clientes sobre toda su situación de seguro médico, para encontrar la mejor cobertura al mejor precio.',
+          a: 'praemien-hilfe.ch es un servicio de EVO Partners GmbH, un corredor de seguros independiente registrado en FINMA y con sede en Suiza. Operamos desde 2020 y ya hemos tramitado más de 1.000 expedientes de reducción de primas. Además de la reducción de primas, asesoramos a nuestros clientes sobre toda su situación de seguro médico.',
         },
         {
           q: '¿Son ustedes una oficina cantonal oficial?',
@@ -259,7 +259,7 @@ const cantonsData = {
         },
         {
           q: '¿Cuánto puedo recibir?',
-          a: 'Entre CHF 500 y CHF 3.000 al año, según los ingresos, el patrimonio y el número de personas. Los niños y jóvenes de hasta 25 años en formación inicial también tienen derecho.',
+          a: 'El importe lo fija el cantón. Depende de los ingresos, el patrimonio y el número de personas. Los niños y jóvenes de hasta 25 años en formación inicial también tienen derecho.',
         },
         {
           q: '¿Cuánto cuesta este servicio?',
@@ -287,7 +287,7 @@ const cantonsData = {
       heroProof: "Ca. 20'000 Personen erhalten bereits Prämienverbilligung in BL",
       stats: [
         { value: "20'000+", label: 'Bezüger in BL' },
-        { value: "CHF 500–3'000", label: 'Ersparnis pro Jahr' },
+        { value: 'Kostenlos', label: 'Anspruch prüfen' },
         { value: '20 Minuten', label: 'Gespräch' },
         { value: 'Seit 2020', label: 'Erfahrung' },
       ],
@@ -340,7 +340,7 @@ const cantonsData = {
         },
         {
           q: 'Wie viel kann ich erhalten?',
-          a: "Zwischen CHF 500 und CHF 3'000 pro Jahr, abhängig von Einkommen, Vermögen und Anzahl Personen. Kinder und junge Erwachsene bis 25 Jahre in Erstausbildung sind ebenfalls anspruchsberechtigt.",
+          a: 'Die Höhe legt der Kanton fest. Sie hängt von Einkommen, Vermögen und Haushaltsgrösse ab. Kinder und junge Erwachsene bis 25 Jahre in Erstausbildung sind ebenfalls anspruchsberechtigt.',
         },
         {
           q: 'Was kostet mich dieser Service?',
@@ -366,7 +366,7 @@ const cantonsData = {
       heroProof: 'Around 20,000 people already receive a premium reduction in BL',
       stats: [
         { value: "20'000+", label: 'Recipients in BL' },
-        { value: "CHF 500–3'000", label: 'Savings per year' },
+        { value: 'Free', label: 'Eligibility check' },
         { value: '20 minutes', label: 'Consultation' },
         { value: 'Since 2020', label: 'Experience' },
       ],
@@ -418,7 +418,7 @@ const cantonsData = {
         },
         {
           q: 'How much can I receive?',
-          a: 'Between CHF 500 and CHF 3,000 per year, depending on income, assets and household size. Children and young adults up to age 25 in initial training also qualify.',
+          a: 'The canton sets the amount. It depends on income, assets and household size. Children and young adults up to age 25 in initial training also qualify.',
         },
         {
           q: 'What does this service cost?',
@@ -444,7 +444,7 @@ const cantonsData = {
       heroProof: 'Cerca de 20.000 personas ya reciben la reducción de primas en BL',
       stats: [
         { value: "20'000+", label: 'Beneficiarios en BL' },
-        { value: "CHF 500–3'000", label: 'Ahorro al año' },
+        { value: 'Gratis', label: 'Comprobar el derecho' },
         { value: '20 minutos', label: 'Consulta' },
         { value: 'Desde 2020', label: 'Experiencia' },
       ],
@@ -496,7 +496,7 @@ const cantonsData = {
         },
         {
           q: '¿Cuánto puedo recibir?',
-          a: 'Entre CHF 500 y CHF 3.000 al año, según los ingresos, el patrimonio y el número de personas. Los niños y jóvenes de hasta 25 años en formación inicial también tienen derecho.',
+          a: 'El importe lo fija el cantón. Depende de los ingresos, el patrimonio y el número de personas. Los niños y jóvenes de hasta 25 años en formación inicial también tienen derecho.',
         },
         {
           q: '¿Cuánto cuesta este servicio?',

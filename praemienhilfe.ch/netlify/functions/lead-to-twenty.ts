@@ -1,19 +1,20 @@
 // netlify/functions/lead-to-twenty.ts
-// Lead intake for the /antrag funnel → Twenty CRM, then HubSpot.
+// Lead intake for the /antrag funnel → Twenty CRM, alongside the existing HubSpot write.
 //
-// Twenty (TWENTY_CRM_CONTEXT.md §5): find/create person → create lead (or, for
-// a same-day repeat by the same email, reuse it) → note with all raw answers →
-// CALL task. HubSpot: the unchanged contact + note write from src/lib/hubspot.js.
+// Twenty: find/create person (no leadSource on that write) → text/consent fields →
+// one leadSource SELECT write (GOOGLE_ADS, SOCIAL_MEDIA, WEBSITE, or OTHER; never
+// IMPORTED). A rejected SELECT is not retried. Then the same-day lead, a plain-text
+// note, and a CALL task. HubSpot stays the existing contact + note write.
 //
-// The two writes are independent: a failure in one never skips the other. The
-// browser gets 200 (thank-you page + Google Ads conversion) if at least one
-// succeeded. Whenever Twenty fails, the full submission also goes to the
-// Netlify Forms "lead-fallback" form so it can be re-entered in Twenty.
+// The visitor gets the same success response when Twenty is down or not configured.
+// Whenever Twenty fails, the full submission also goes to the Netlify Forms
+// "lead-fallback" form so it can be re-entered in Twenty.
 //
-// nLPD: never log request bodies, CRM responses, emails, phones or names.
-// Logs carry only the failing step and HTTP status.
+// Logs carry only the form id and an outcome word. Never log names, emails,
+// phones, health answers, request bodies, or the API key.
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
-import { sendLeadToHubSpot, hubspotErrorStep } from '../../src/lib/hubspot.js';
+import { canonicalLeadSource, parseLeadSourceMap, personTextAttribution, selectLeadSource } from '../../src/lib/attribution.js';
+import { sendLeadToHubSpot } from '../../src/lib/hubspot.js';
 
 const MAX_BODY_BYTES = 20_000;
 const MAX_FIELD_LENGTH = 500;
@@ -40,14 +41,26 @@ const CANTON_CODES: Record<string, string> = {
 // handled in English.
 const LANGUAGE_CODES: Record<string, string> = { de: 'DE', en: 'EN', es: 'EN', fr: 'FR', it: 'IT' };
 
-const SOCIAL_SOURCES = new Set(['facebook', 'fb', 'instagram', 'ig', 'meta']);
-
 const TEXT_FIELDS = [
   'firstName', 'lastName', 'email', 'phone', 'canton', 'situation', 'household', 'children',
   'premium', 'burden', 'currentSubsidy', 'income', 'lang', 'consentText', 'consentAt',
+  'leadSource', 'site', 'formId', 'pagePath',
   'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
   'gclid', 'gbraid', 'wbraid', 'fbclid', 'pageUrl', 'landingPage', 'referrer',
 ] as const;
+
+const PERSON_FIELDS = {
+  leadSource: ['TWENTY_FIELD_LEAD_SOURCE', 'leadSource'],
+  utmSource: ['TWENTY_FIELD_UTM_SOURCE', 'utmSource'],
+  utmMedium: ['TWENTY_FIELD_UTM_MEDIUM', 'utmMedium'],
+  utmCampaign: ['TWENTY_FIELD_UTM_CAMPAIGN', 'utmCampaign'],
+  utmTerm: ['TWENTY_FIELD_UTM_TERM', 'utmTerm'],
+  utmContent: ['TWENTY_FIELD_UTM_CONTENT', 'utmContent'],
+  referrer: ['TWENTY_FIELD_REFERRER', 'referrer'],
+  landingPage: ['TWENTY_FIELD_LANDING_PAGE', 'landingPage'],
+  consentGiven: ['TWENTY_FIELD_CONSENT_GIVEN', 'consentGiven'],
+  consentAt: ['TWENTY_FIELD_CONSENT_AT', 'consentAt'],
+} as const;
 
 type TextField = (typeof TEXT_FIELDS)[number];
 type Submission = Record<TextField, string> & { consent: boolean };
@@ -61,8 +74,13 @@ interface Env {
 }
 
 class TwentyError extends Error {
-  constructor(readonly step: string, readonly status: number) {
+  step: string;
+  status: number;
+
+  constructor(step: string, status: number) {
     super(`${step} failed (HTTP ${status})`);
+    this.step = step;
+    this.status = status;
   }
 }
 
@@ -91,9 +109,25 @@ function str(value: unknown): string {
   return typeof value === 'string' ? value.trim().slice(0, MAX_FIELD_LENGTH) : '';
 }
 
+function envGet(name: string): string {
+  const netlify = (globalThis as { Netlify?: { env?: { get?: (key: string) => string | undefined } } }).Netlify;
+  return (netlify?.env?.get?.(name) || process.env[name] || '').trim();
+}
+
+function safeFormId(value: string): string {
+  return /^[a-z0-9-]{1,40}$/.test(value) ? value : 'unknown';
+}
+
+function personFieldName(key: keyof typeof PERSON_FIELDS): string {
+  const [envName, fallback] = PERSON_FIELDS[key];
+  const configured = envGet(envName);
+  return /^[A-Za-z][A-Za-z0-9_]{0,60}$/.test(configured) ? configured : fallback;
+}
+
 function parseSubmission(body: Record<string, unknown>): { data: Submission; missing: string[] } {
   const data = Object.fromEntries(TEXT_FIELDS.map((k) => [k, str(body[k])])) as unknown as Submission;
   data.email = data.email.toLowerCase();
+  data.leadSource = canonicalLeadSource(data.leadSource);
   data.consent = body.consent === true;
 
   const missing: string[] = [];
@@ -103,6 +137,7 @@ function parseSubmission(body: Record<string, unknown>): { data: Submission; mis
   if (!/^[^\s@"',()]+@[^\s@"',()]+\.[^\s@"',()]+$/.test(data.email)) missing.push('email');
   if (!parsePhoneNumberFromString(data.phone)?.isValid()) missing.push('phone');
   if (!data.canton) missing.push('canton');
+  if (!data.leadSource) missing.push('leadSource');
   if (!data.consent) missing.push('consent');
   return { data, missing };
 }
@@ -114,11 +149,26 @@ function cantonCode(name: string): string | undefined {
   return CANTON_CODES[key] || (/^[A-Z]{2}$/.test(name) ? name : undefined);
 }
 
-function leadSource(d: Submission): string {
-  const utmSource = d.utm_source.toLowerCase();
-  if (d.gclid || d.gbraid || d.wbraid || utmSource === 'google') return 'GOOGLE_ADS';
-  if (d.fbclid || SOCIAL_SOURCES.has(utmSource)) return 'SOCIAL_MEDIA';
-  return 'WEBSITE';
+function personLeadSource(d: Submission): string {
+  return selectLeadSource(
+    {
+      utmSource: d.utm_source,
+      utmMedium: d.utm_medium,
+      utmCampaign: d.utm_campaign,
+      utmTerm: d.utm_term,
+      utmContent: d.utm_content,
+      referrer: d.referrer,
+      gclid: d.gclid,
+      site: d.site,
+    },
+    parseLeadSourceMap(envGet('LEAD_SOURCE_MAP'))
+  );
+}
+
+function isoDateTime(value: string, fallback: string): string {
+  const parsed = new Date(value);
+  if (!value || Number.isNaN(parsed.getTime())) return fallback;
+  return parsed.toISOString();
 }
 
 function twentyPhone(e164: string) {
@@ -312,6 +362,11 @@ function noteMarkdown(d: Submission, now: Date, duplicate: boolean): string {
     `- Sprache Formular: ${v(d.lang)}`,
     '',
     '### Herkunft',
+    `- Lead-Quelle: ${v(d.leadSource)}`,
+    `- Auswahl: ${personLeadSource(d)}`,
+    `- Site: ${v(d.site)}`,
+    `- Formular: ${v(d.formId)}`,
+    `- Pfad: ${v(d.pagePath)}`,
     `- utm_source: ${v(d.utm_source)}`,
     `- utm_medium: ${v(d.utm_medium)}`,
     `- utm_campaign: ${v(d.utm_campaign)}`,
@@ -341,8 +396,67 @@ async function linkTargets(env: Env, kind: 'note' | 'task', id: string, personId
   ]);
 }
 
-async function sendToTwenty(env: Env, d: Submission, now: Date) {
+function attributionPayload(d: Submission, now: Date): Record<string, unknown> {
+  const text = personTextAttribution({
+    derived: d.leadSource,
+    utmSource: d.utm_source,
+    referrer: d.referrer,
+    site: d.site,
+    formId: d.formId,
+    pagePath: d.pagePath,
+  });
+  const entries: Array<[string, unknown]> = [
+    [personFieldName('utmSource'), text.utmSource],
+    [personFieldName('utmMedium'), d.utm_medium],
+    [personFieldName('utmCampaign'), d.utm_campaign],
+    [personFieldName('utmTerm'), d.utm_term],
+    [personFieldName('utmContent'), d.utm_content],
+    [personFieldName('referrer'), text.referrer],
+    [personFieldName('landingPage'), d.landingPage],
+    [personFieldName('consentGiven'), true],
+    [personFieldName('consentAt'), isoDateTime(d.consentAt, now.toISOString())],
+  ];
+  const payload: Record<string, unknown> = {};
+  for (const [key, value] of entries) {
+    if (value === '') continue;
+    payload[key] = value;
+  }
+  return payload;
+}
+
+function leadSourcePayload(d: Submission): Record<string, string> {
+  return { [personFieldName('leadSource')]: personLeadSource(d) };
+}
+
+// Text fields and the SELECT are separate writes. A rejected leadSource is not
+// sent again: the person already exists without it, and the note keeps the facts.
+async function writeAttributionFields(
+  env: Env,
+  personId: string,
+  d: Submission,
+  now: Date
+): Promise<{ fields: 'ok' | 'skipped'; select: 'ok' | 'rejected' }> {
+  let fields: 'ok' | 'skipped' = 'ok';
+  try {
+    await twenty(env, 'update person attribution', 'PATCH', `people/${personId}`, attributionPayload(d, now));
+  } catch {
+    fields = 'skipped';
+  }
+  try {
+    await twenty(env, 'update person lead source', 'PATCH', `people/${personId}`, leadSourcePayload(d));
+    return { fields, select: 'ok' };
+  } catch {
+    return { fields, select: 'rejected' };
+  }
+}
+
+async function sendToTwenty(
+  env: Env,
+  d: Submission,
+  now: Date
+): Promise<{ fields: 'ok' | 'skipped'; select: 'ok' | 'rejected' }> {
   const person = await upsertPerson(env, d, now);
+  const written = await writeAttributionFields(env, person.id, d, now);
   const fullName = `${d.firstName} ${d.lastName}`;
 
   const existingLead = await findSameDayLead(env, d, now);
@@ -357,16 +471,16 @@ async function sendToTwenty(env: Env, d: Submission, now: Date) {
       primaryContactId: person.id,
       status: 'NEW',
       pipeline: PIPELINE,
-      source: leadSource(d),
+      source: personLeadSource(d),
     }));
 
   const note = await createOne(env, 'create note', 'notes', {
     title: existingLead ? `🔁 Erneute Web-Anfrage – ${fullName}` : `🌐 Web-Anfrage praemien-hilfe.ch – ${fullName}`,
-    bodyV2: { markdown: noteMarkdown(d, now, Boolean(existingLead)) },
+    bodyV2: { markdown: noteMarkdown(d, now, Boolean(existingLead)), blocknote: null },
   });
   await linkTargets(env, 'note', note.id, person.id, lead.id);
 
-  if (existingLead) return;
+  if (existingLead) return written;
 
   const task = await createOne(env, 'create task', 'tasks', {
     title: `Call new lead – ${fullName}`,
@@ -376,6 +490,7 @@ async function sendToTwenty(env: Env, d: Submission, now: Date) {
     ...(env.assigneeId ? { assigneeId: env.assigneeId } : {}),
   });
   await linkTargets(env, 'task', task.id, person.id, lead.id);
+  return written;
 }
 
 // ---------------------------------------------------------------- fallback
@@ -384,7 +499,7 @@ async function sendToTwenty(env: Env, d: Submission, now: Date) {
 // public/__forms.html. Netlify only registers that form on deploys with form
 // detection enabled, so this is a no-op under `netlify dev`.
 async function sendToFallback(d: Submission, now: Date, reason: string): Promise<boolean> {
-  const siteUrl = process.env.DEPLOY_PRIME_URL || process.env.URL;
+  const siteUrl = envGet('DEPLOY_PRIME_URL') || envGet('URL');
   if (!siteUrl) return false;
   const form = new URLSearchParams({
     'form-name': 'lead-fallback',
@@ -438,40 +553,49 @@ export default async (req: Request, context: { ip?: string }) => {
   }
 
   const { data, missing } = parseSubmission(body);
-  if (missing.length > 0) return json(400, { error: 'Invalid fields', fields: missing });
+  if (missing.length > 0) {
+    console.log(`[lead] form=${safeFormId(str(body.formId))} outcome=rejected`);
+    return json(400, { error: 'Invalid fields', fields: missing });
+  }
 
-  const twentyOk = await writeTwenty(data, now);
-  const hubspotOk = await writeHubSpot(data);
-  if (twentyOk || hubspotOk) return json(200, { ok: true });
-  return json(502, { error: 'Lead could not be saved' });
+  const twenty = await writeTwenty(data, now);
+  const hubspot = await writeHubSpot(data);
+  console.log(
+    `[lead] form=${safeFormId(data.formId)} outcome=accepted twenty=${twenty.status} fields=${twenty.fields} select=${twenty.select} hubspot=${hubspot}`
+  );
+  return json(200, { ok: true });
 };
 
-async function writeTwenty(data: Submission, now: Date): Promise<boolean> {
+async function writeTwenty(
+  data: Submission,
+  now: Date
+): Promise<{ status: 'ok' | 'unconfigured' | 'unavailable' | 'error'; fields: 'ok' | 'skipped'; select: 'ok' | 'rejected' | 'skipped' }> {
   const env: Env = {
-    url: (process.env.TWENTY_URL || '').replace(/\/+$/, ''),
-    apiKey: process.env.TWENTY_API_KEY || '',
-    assigneeId: process.env.TWENTY_ASSIGNEE_ID || '',
+    url: (envGet('TWENTY_API_URL') || envGet('TWENTY_URL')).replace(/\/+$/, ''),
+    apiKey: envGet('TWENTY_API_KEY'),
+    assigneeId: envGet('TWENTY_ASSIGNEE_ID'),
   };
+  if (!env.url || !env.apiKey) {
+    await sendToFallback(data, now, 'unconfigured');
+    return { status: 'unconfigured', fields: 'skipped', select: 'skipped' };
+  }
   try {
-    if (!env.url || !env.apiKey) throw new TwentyError('configuration (TWENTY_URL / TWENTY_API_KEY missing)', 0);
-    await sendToTwenty(env, data, now);
-    return true;
+    const written = await sendToTwenty(env, data, now);
+    return { status: 'ok', fields: written.fields, select: written.select };
   } catch (err) {
-    const reason = err instanceof TwentyError ? err.message : 'unexpected error';
-    const saved = await sendToFallback(data, now, reason);
-    console.error(`[lead-to-twenty] twenty: ${reason}; fallback ${saved ? 'stored' : 'FAILED'}`);
-    return false;
+    const unavailable = err instanceof TwentyError && err.status === 0;
+    await sendToFallback(data, now, unavailable ? 'unavailable' : 'error');
+    return { status: unavailable ? 'unavailable' : 'error', fields: 'skipped', select: 'skipped' };
   }
 }
 
-async function writeHubSpot(data: Submission): Promise<boolean> {
-  const token = process.env.HUBSPOT_ACCESS_TOKEN;
+async function writeHubSpot(data: Submission): Promise<'ok' | 'unconfigured' | 'error'> {
+  const token = envGet('HUBSPOT_ACCESS_TOKEN');
+  if (!token) return 'unconfigured';
   try {
-    if (!token) throw new Error('HUBSPOT_ACCESS_TOKEN is not set');
     await sendLeadToHubSpot(token, data);
-    return true;
-  } catch (err) {
-    console.error(`[lead-to-twenty] hubspot: ${hubspotErrorStep(err)}`);
-    return false;
+    return 'ok';
+  } catch {
+    return 'error';
   }
 }

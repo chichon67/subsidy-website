@@ -12,12 +12,14 @@
 // missing or invalid (e.g. a bookmarked/direct /danke visit).
 import { useEffect, useState } from 'react';
 import { getDictionary, t } from '../i18n/index.js';
+import { flushPendingGenerateLead } from '../lib/analytics.js';
 
 export default function DankeSummary() {
   const [summary, setSummary] = useState(null);
   const [lang, setLang] = useState('de');
 
   useEffect(() => {
+    const stopLeadTracking = flushPendingGenerateLead();
     const raw = sessionStorage.getItem('antragSummary');
     if (raw) {
       try {
@@ -33,6 +35,7 @@ export default function DankeSummary() {
       setLang(storedLang);
     }
     sessionStorage.removeItem('antragLang');
+    return stopLeadTracking;
   }, []);
 
   const d = getDictionary(lang);

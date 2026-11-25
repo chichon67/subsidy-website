@@ -5,6 +5,7 @@ import { deutschschweizCantons } from '../data/deutschschweiz.js';
 import PhoneField, { isValidPhoneNumber } from './PhoneField.jsx';
 import PrivacyPolicyModal from './PrivacyPolicyModal.jsx';
 import { getDictionary, t } from '../i18n/index.js';
+import { stashPendingGenerateLead } from '../lib/analytics.js';
 
 function stageIndexForStep(step) {
   if (step === 'canton' || step === 'situation' || step === 'household' || step === 'children') return 0;
@@ -237,6 +238,15 @@ export default function AntragFunnel({ lang = 'de', dict } = {}) {
       });
       if (!res.ok) throw new Error('submit failed');
       track('antrag_conversion', { situation: situationSlug });
+      // Stash only after the POST succeeds. The thank-you page sends the GA4
+      // lead hit, so the redirect below cannot drop it. The click above stays
+      // the existing Ads event.
+      stashPendingGenerateLead({
+        form_id: 'antrag',
+        lead_type: 'subsidy_application',
+        page_path: window.location.pathname,
+        language: lang,
+      });
       // Stash a summary for the /danke page to read (sessionStorage instead
       // of query params so names/emails don't end up in the URL, browser
       // history, or referrer headers), then navigate there — a dedicated URL

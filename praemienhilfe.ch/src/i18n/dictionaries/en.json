@@ -194,7 +194,7 @@
     "heading": "Don't miss your application deadline",
     "warning": "⚠️ Deadlines vary by canton and are often only offered once a year.",
     "paragraph1": "Every canton sets its own deadline, and a missed application usually means losing a full year of premium subsidy. We know the exact deadlines for your canton of residence and will tell you, during your free initial consultation, by when you need to act.",
-    "paragraph2": "Anyone who misses the deadline loses the premium subsidy for the current year — which can amount to several hundred to several thousand francs."
+    "paragraph2": "Anyone who misses the deadline loses the premium subsidy for the current year."
   },
   "faqSection": {
     "heading": "Frequently Asked Questions"
@@ -226,7 +226,7 @@
     },
     "exitIntent": {
       "heading": "Wait — check your eligibility first!",
-      "paragraph": "Many eligible people don't realize they could receive up to CHF 3,000 per year. The check only takes 20 minutes.",
+      "paragraph": "Many eligible people don't realize they can apply for the premium reduction. The check only takes 20 minutes.",
       "cta": "Check now →",
       "decline": "No thanks, I don't want my premium subsidy"
     }

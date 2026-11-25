@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { getCanton } from '../src/data/cantons.js';
 import { getNational } from '../src/data/national.js';
@@ -109,6 +110,53 @@ test('JSON-LD matches visible operator facts, website, breadcrumbs and every FAQ
     faq.mainEntity.map((q) => ({ q: q.name, a: q.acceptedAnswer.text })),
     faqs.map((item) => ({ q: item.q, a: item.a }))
   );
+});
+
+test('shipped copy does not promise a typical or guaranteed saving', () => {
+  const dictionaries = ['de', 'en', 'es'].map((lang) =>
+    readFileSync(new URL(`../src/i18n/dictionaries/${lang}.json`, import.meta.url), 'utf8')
+  );
+  const blobs = [
+    ...dictionaries,
+    ...['de', 'en', 'es'].flatMap((lang) => [
+      JSON.stringify(getNational(lang)),
+      JSON.stringify(getCanton('basel-stadt', lang)),
+      JSON.stringify(getCanton('basel-landschaft', lang)),
+    ]),
+    buildLlmsTxt(),
+    buildLlmsFullTxt(),
+    JSON.stringify(faqSchema(getCanton('basel-stadt', 'de').faqs)),
+    JSON.stringify(faqSchema(getCanton('basel-landschaft', 'de').faqs)),
+    JSON.stringify(faqSchema(getNational('de').nationalFaqs)),
+  ];
+  const banned = [
+    /Ersparnis/,
+    /Savings per year/,
+    /Savings\/year/,
+    /Ahorro\/año/,
+    /Ahorro al año/,
+    /besten Preis/,
+    /best price/,
+    /mejor precio/,
+    /bis zu CHF/,
+    /CHF 500/,
+    /CHF 3'000/,
+    /CHF 3,000/,
+    /CHF 3\.000/,
+    /mehrere hundert/,
+    /several hundred/,
+    /varios cientos/,
+    /Optimierung Ihrer Versicherungssituation und Prämien/,
+    /Optimizing your insurance coverage and premiums/,
+    /Optimización de su cobertura de seguro y sus primas/,
+  ];
+
+  for (const blob of blobs) {
+    for (const pattern of banned) {
+      assert.equal(pattern.test(blob), false, `${pattern} in shipped copy`);
+    }
+    assert.equal(blob.includes('ß'), false);
+  }
 });
 
 function escapeRegExp(value) {

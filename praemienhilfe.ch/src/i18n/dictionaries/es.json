@@ -194,7 +194,7 @@
     "heading": "No deje pasar su plazo de solicitud",
     "warning": "⚠️ Los plazos de solicitud varían según el cantón y a menudo solo se ofrecen una vez al año.",
     "paragraph1": "Cada cantón fija su propio plazo, y una solicitud fuera de plazo suele significar perder un año entero de reducción. Conocemos los plazos exactos de su cantón de residencia y le indicaremos, en la consulta inicial gratuita, hasta cuándo debe actuar.",
-    "paragraph2": "Quien no respeta el plazo pierde la reducción del año en curso, lo que puede suponer entre varios cientos y varios miles de francos."
+    "paragraph2": "Quien no respeta el plazo pierde la reducción del año en curso."
   },
   "faqSection": {
     "heading": "Preguntas frecuentes"
@@ -226,7 +226,7 @@
     },
     "exitIntent": {
       "heading": "Espere — ¡compruebe primero si tiene derecho!",
-      "paragraph": "Muchas personas con derecho no saben que podrían recibir hasta CHF 3'000 al año. La comprobación solo dura 20 minutos.",
+      "paragraph": "Muchas personas con derecho no saben que pueden solicitar la reducción de primas. La comprobación solo dura 20 minutos.",
       "cta": "Comprobar ahora →",
       "decline": "No, gracias, renuncio a mi subsidio"
     }

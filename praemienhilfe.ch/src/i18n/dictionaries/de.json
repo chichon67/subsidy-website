@@ -194,7 +194,7 @@
     "heading": "Verpassen Sie nicht Ihre Antragsfrist",
     "warning": "⚠️ Die Anmeldefristen variieren je nach Kanton und werden oft nur einmal jährlich angeboten.",
     "paragraph1": "Jeder Kanton legt seine eigene Frist fest, und ein verpasster Antrag bedeutet meist ein verlorenes Jahr Verbilligung. Wir kennen die genauen Fristen für Ihren Wohnkanton und sagen Ihnen im kostenlosen Erstgespräch, bis wann Sie handeln sollten.",
-    "paragraph2": "Wer die Frist verpasst, verliert die Verbilligung für das laufende Jahr — das können mehrere hundert bis mehrere tausend Franken sein."
+    "paragraph2": "Wer die Frist verpasst, verliert die Verbilligung für das laufende Jahr."
   },
   "faqSection": {
     "heading": "Häufige Fragen"
@@ -226,7 +226,7 @@
     },
     "exitIntent": {
       "heading": "Warten Sie — prüfen Sie zuerst Ihren Anspruch!",
-      "paragraph": "Viele Berechtigte wissen nicht, dass sie Anspruch auf bis zu CHF 3'000 pro Jahr haben. Die Prüfung dauert nur 20 Minuten.",
+      "paragraph": "Viele Berechtigte wissen nicht, dass sie die Prämienverbilligung beantragen können. Die Prüfung dauert nur 20 Minuten.",
       "cta": "Jetzt prüfen →",
       "decline": "Nein danke, ich verzichte auf meine Verbilligung"
     }

@@ -23,5 +23,7 @@ export function t(dict, path, vars) {
 
 export function localePath(lang, path) {
   const clean = path.startsWith('/') ? path : `/${path}`;
-  return `/${lang}${clean}`;
+  // Netlify pretty URLs serves the directory index at the trailing-slash URL.
+  const slashed = clean.endsWith('/') ? clean : `${clean}/`;
+  return `/${lang}${slashed}`;
 }

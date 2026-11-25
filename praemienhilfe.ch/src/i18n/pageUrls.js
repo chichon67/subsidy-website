@@ -7,14 +7,14 @@ const BASE = 'https://praemien-hilfe.ch';
 
 const PATHS = {
   home: { de: '/de/', en: '/en/', es: '/es/' },
-  'basel-stadt': { de: '/de/basel-stadt', en: '/en/basel-stadt', es: '/es/basel-stadt' },
-  'basel-landschaft': { de: '/de/basel-landschaft', en: '/en/basel-landschaft', es: '/es/basel-landschaft' },
-  faq: { de: '/de/faq', en: '/en/faq', es: '/es/faq' },
-  'so-funktioniert-es': { de: '/de/so-funktioniert-es', en: '/en/so-funktioniert-es', es: '/es/so-funktioniert-es' },
-  kontakt: { de: '/de/kontakt', en: '/en/kontakt', es: '/es/kontakt' },
-  antrag: { de: '/de/antrag', en: '/en/antrag', es: '/es/antrag' },
-  impressum: { de: '/de/impressum', en: '/en/impressum', es: '/es/impressum' },
-  datenschutz: { de: '/de/datenschutz', en: '/en/datenschutz', es: '/es/datenschutz' },
+  'basel-stadt': { de: '/de/basel-stadt/', en: '/en/basel-stadt/', es: '/es/basel-stadt/' },
+  'basel-landschaft': { de: '/de/basel-landschaft/', en: '/en/basel-landschaft/', es: '/es/basel-landschaft/' },
+  faq: { de: '/de/faq/', en: '/en/faq/', es: '/es/faq/' },
+  'so-funktioniert-es': { de: '/de/so-funktioniert-es/', en: '/en/so-funktioniert-es/', es: '/es/so-funktioniert-es/' },
+  kontakt: { de: '/de/kontakt/', en: '/en/kontakt/', es: '/es/kontakt/' },
+  antrag: { de: '/de/antrag/', en: '/en/antrag/', es: '/es/antrag/' },
+  impressum: { de: '/de/impressum/', en: '/en/impressum/', es: '/es/impressum/' },
+  datenschutz: { de: '/de/datenschutz/', en: '/en/datenschutz/', es: '/es/datenschutz/' },
 };
 
 // The generic canton landing pages (src/pages/[lang]/[canton].astro) are
@@ -25,7 +25,7 @@ const PATHS = {
 // for these same URLs.
 for (const c of deutschschweizCantons) {
   if (c.active) continue; // basel-stadt/basel-landschaft have bespoke entries above
-  PATHS[c.slug] = { de: `/de/${c.slug}`, en: `/en/${c.slug}`, es: `/es/${c.slug}` };
+  PATHS[c.slug] = { de: `/de/${c.slug}/`, en: `/en/${c.slug}/`, es: `/es/${c.slug}/` };
 }
 
 export function getLocalizedUrls(translationKey) {

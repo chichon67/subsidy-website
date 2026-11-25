@@ -13,42 +13,42 @@
 
 [[redirects]]
   from = "/basel-stadt"
-  to = "/de/basel-stadt"
+  to = "/de/basel-stadt/"
   status = 301
 
 [[redirects]]
   from = "/basel-landschaft"
-  to = "/de/basel-landschaft"
+  to = "/de/basel-landschaft/"
   status = 301
 
 [[redirects]]
   from = "/faq"
-  to = "/de/faq"
+  to = "/de/faq/"
   status = 301
 
 [[redirects]]
   from = "/kontakt"
-  to = "/de/kontakt"
+  to = "/de/kontakt/"
   status = 301
 
 [[redirects]]
   from = "/so-funktioniert-es"
-  to = "/de/so-funktioniert-es"
+  to = "/de/so-funktioniert-es/"
   status = 301
 
 [[redirects]]
   from = "/antrag"
-  to = "/de/antrag"
+  to = "/de/antrag/"
   status = 301
 
 [[redirects]]
   from = "/impressum"
-  to = "/de/impressum"
+  to = "/de/impressum/"
   status = 301
 
 [[redirects]]
   from = "/datenschutz"
-  to = "/de/datenschutz"
+  to = "/de/datenschutz/"
   status = 301
 
 [[redirects]]
@@ -102,7 +102,7 @@
 
 [[redirects]]
   from = "/:canton"
-  to = "/de/:canton"
+  to = "/de/:canton/"
   status = 301
 
 [[redirects]]

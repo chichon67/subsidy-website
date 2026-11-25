@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import ExitIntentPopup from '../components/ExitIntentPopup.jsx';
 import StickyFunnelWidget from '../components/StickyFunnelWidget.jsx';
 import '../styles/global.css';
-import { htmlLang, getDictionary, t } from '../i18n/index.js';
+import { htmlLang, getDictionary, localePath, t } from '../i18n/index.js';
 import { getLocalizedUrls } from '../i18n/pageUrls.js';
 import { breadcrumbSchema, crumbsFor, faqSchema, organizationSchema, websiteSchema } from '../seo/schema.js';
 import { normalizeGa4Id } from '../lib/analytics.js';
@@ -51,7 +51,7 @@ const gtagLoaderId = ga4Id || adsId;
 // so it must go to the dedicated /antrag funnel entry point instead of
 // bouncing through the homepage.
 const isCantonLandingPage = activePage === 'basel-stadt' || activePage === 'basel-landschaft' || activePage === 'canton';
-const mobileCtaHref = isCantonLandingPage ? '#funnel' : activePage === 'home' ? '#pruefen' : '/antrag';
+const mobileCtaHref = isCantonLandingPage ? '#funnel' : activePage === 'home' ? '#pruefen' : localePath(lang, '/antrag');
 const mobileCtaLabel = cantonName ? t(dict, 'mobileCta.canton', { canton: cantonName }) : t(dict, 'mobileCta.default');
 ---
 

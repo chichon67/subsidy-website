@@ -19,7 +19,7 @@ function stepsBlock(steps) {
 
 export function buildLlmsTxt() {
   const cantons = deutschschweizCantons
-    .map((canton) => link(`/de/${canton.slug}`, canton.name))
+    .map((canton) => link(`/de/${canton.slug}/`, canton.name))
     .join('\n');
 
   return `# praemien-hilfe.ch
@@ -33,14 +33,14 @@ Die Seiten gibt es auf Deutsch, Englisch und Spanisch. Eine französische Fassun
 ## Seiten
 
 ${link('/de/', 'Startseite')}: Prämienverbilligung in der ganzen Schweiz beantragen. EVO Partners GmbH hilft bei der Einreichung des Antrags, unabhängig vom Kanton.
-${link('/de/so-funktioniert-es', 'So funktioniert es')}: Von der Prüfung bis zur Einreichung. Anspruch prüfen, Dossier zusammenstellen, Antrag einreichen.
-${link('/de/faq', 'Häufige Fragen')}: Antworten zu Anspruch, Kosten des Services und Ablauf.
-${link('/de/kontakt', 'Kontakt')}: Kontakt für eine kostenlose Prüfung des Anspruchs auf Prämienverbilligung.
-${link('/de/antrag', 'Antrag')}: Formular, um die persönliche Situation anzugeben und eine Prüfung anzufragen.
-${link('/de/basel-stadt', 'Basel-Stadt')}: Prämienverbilligung im Kanton Basel-Stadt. Zuständige Stelle laut Seite: Amt für Sozialbeiträge (ASB) Basel-Stadt.
-${link('/de/basel-landschaft', 'Basel-Landschaft')}: Prämienverbilligung im Kanton Basel-Landschaft. Zuständige Stelle laut Seite: SVA Basel-Landschaft.
-${link('/de/impressum', 'Impressum')}: Angaben zum Betreiber EVO Partners GmbH.
-${link('/de/datenschutz', 'Datenschutzbestimmungen')}: Welche Daten erhoben werden, wie sie verwendet und wie sie geschützt werden.
+${link('/de/so-funktioniert-es/', 'So funktioniert es')}: Von der Prüfung bis zur Einreichung. Anspruch prüfen, Dossier zusammenstellen, Antrag einreichen.
+${link('/de/faq/', 'Häufige Fragen')}: Antworten zu Anspruch, Kosten des Services und Ablauf.
+${link('/de/kontakt/', 'Kontakt')}: Kontakt für eine kostenlose Prüfung des Anspruchs auf Prämienverbilligung.
+${link('/de/antrag/', 'Antrag')}: Formular, um die persönliche Situation anzugeben und eine Prüfung anzufragen.
+${link('/de/basel-stadt/', 'Basel-Stadt')}: Prämienverbilligung im Kanton Basel-Stadt. Zuständige Stelle laut Seite: Amt für Sozialbeiträge (ASB) Basel-Stadt.
+${link('/de/basel-landschaft/', 'Basel-Landschaft')}: Prämienverbilligung im Kanton Basel-Landschaft. Zuständige Stelle laut Seite: SVA Basel-Landschaft.
+${link('/de/impressum/', 'Impressum')}: Angaben zum Betreiber EVO Partners GmbH.
+${link('/de/datenschutz/', 'Datenschutzbestimmungen')}: Welche Daten erhoben werden, wie sie verwendet und wie sie geschützt werden.
 
 ## Kantone
 
@@ -67,7 +67,7 @@ export function buildLlmsFullTxt() {
   const who = national.werWirSind;
   const otherCantons = deutschschweizCantons
     .filter((canton) => !canton.active)
-    .map((canton) => link(`/de/${canton.slug}`, canton.name))
+    .map((canton) => link(`/de/${canton.slug}/`, canton.name))
     .join('\n');
   const translated = listIndexableEntries()
     .filter((entry) =>
@@ -150,7 +150,7 @@ ${faqBlock(national.nationalFaqs)}
 
 ## So funktioniert es
 
-${SITE}/de/so-funktioniert-es
+${SITE}/de/so-funktioniert-es/
 
 Überschrift: So funktioniert die Beantragung
 
@@ -162,7 +162,7 @@ ${stepsBlock(baselStadt.steps)}
 
 ## Häufige Fragen
 
-${SITE}/de/faq
+${SITE}/de/faq/
 
 Die Seite zeigt die Fragen der Seite Basel-Stadt.
 
@@ -170,7 +170,7 @@ ${faqBlock(baselStadt.faqs)}
 
 ## Kontakt
 
-${SITE}/de/kontakt
+${SITE}/de/kontakt/
 
 Kontaktieren Sie uns für eine kostenlose Prüfung Ihres Anspruchs auf Prämienverbilligung.
 
@@ -178,7 +178,7 @@ E-Mail laut Impressum: office@evo-partners.ch
 
 ## Antrag
 
-${SITE}/de/antrag
+${SITE}/de/antrag/
 
 Stellen Sie Ihren Antrag auf Prämienverbilligung im Kanton Basel-Stadt — schnell und unverbindlich.
 
@@ -186,7 +186,7 @@ Das Formular auf der Seite sammelt Kanton, Situation und Kontaktdaten. Der Hinwe
 
 ## Basel-Stadt
 
-${SITE}/de/basel-stadt
+${SITE}/de/basel-stadt/
 
 ${baselStadt.infoHeading}
 
@@ -200,7 +200,7 @@ ${faqBlock(baselStadt.faqs)}
 
 ## Basel-Landschaft
 
-${SITE}/de/basel-landschaft
+${SITE}/de/basel-landschaft/
 
 ${baselLandschaft.infoHeading}
 
@@ -222,7 +222,7 @@ Die häufigen Fragen auf diesen Seiten sind dieselben wie auf der Startseite.
 
 ## Impressum
 
-${SITE}/de/impressum
+${SITE}/de/impressum/
 
 praemien-hilfe.ch ist eine private, unabhängige Beratungsplattform und kein offizielles Organ der Kantone oder des Bundes. Der Antrag auf Prämienverbilligung kann auch eigenständig beim zuständigen Kantonsamt gestellt werden.
 
@@ -230,7 +230,7 @@ Die Inhalte dieser Website wurden mit grösster Sorgfalt erstellt. Für die Rich
 
 ## Datenschutz
 
-${SITE}/de/datenschutz
+${SITE}/de/datenschutz/
 
 Datenschutzbestimmungen von praemien-hilfe.ch: welche Daten wir erheben, wie wir sie verwenden und wie wir sie schützen. Verantwortliche Stelle: EVO Partners GmbH. Der vollständige Text steht auf der Seite.
 

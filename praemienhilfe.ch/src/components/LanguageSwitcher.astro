@@ -6,7 +6,9 @@ const { lang } = Astro.props;
 const dict = getDictionary(lang);
 const rest = Astro.url.pathname.replace(/^\/[a-z]{2}(\/|$)/, '/');
 function hrefFor(target) {
-  return `/${target}${rest === '/' ? '/' : rest}${Astro.url.search}`;
+  const path = `/${target}${rest === '/' ? '/' : rest}`;
+  const slashed = path.endsWith('/') ? path : `${path}/`;
+  return `${slashed}${Astro.url.search}`;
 }
 ---
 <nav aria-label={t(dict, 'langSwitcher.ariaLabel')} class="flex items-center gap-1 text-[13px] font-medium">

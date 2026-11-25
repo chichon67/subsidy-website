@@ -28,6 +28,10 @@ test('sitemap lists every indexable de/en/es URL and no French URLs', () => {
 
   for (const entry of entries) {
     for (const lang of ['de', 'en', 'es']) {
+      const path = new URL(entry[lang]).pathname;
+      assert.equal(path.endsWith('/'), true, path);
+      assert.equal(path.includes('//'), false, path);
+      assert.equal(path === `/${lang}/` || path.split('/').filter(Boolean).length >= 2, true, path);
       assert.equal(xml.includes(`<loc>${entry[lang]}</loc>`), true, entry[lang]);
       assert.match(
         xml,
@@ -55,14 +59,23 @@ test('llms files are German, cite real pages, and do not invent a French site or
     assert.match(body, /EVO Partners GmbH/);
     assert.match(body, /FINMA/);
     assert.match(body, /https:\/\/praemien-hilfe\.ch\/de\//);
-    assert.match(body, /https:\/\/praemien-hilfe\.ch\/de\/basel-stadt/);
-    assert.match(body, /https:\/\/praemien-hilfe\.ch\/de\/basel-landschaft/);
-    assert.match(body, /https:\/\/praemien-hilfe\.ch\/de\/faq/);
-    assert.match(body, /https:\/\/praemien-hilfe\.ch\/de\/so-funktioniert-es/);
-    assert.match(body, /https:\/\/praemien-hilfe\.ch\/de\/kontakt/);
-    assert.match(body, /https:\/\/praemien-hilfe\.ch\/de\/antrag/);
-    assert.match(body, /https:\/\/praemien-hilfe\.ch\/de\/impressum/);
-    assert.match(body, /https:\/\/praemien-hilfe\.ch\/de\/datenschutz/);
+    for (const page of [
+      '/de/',
+      '/de/basel-stadt/',
+      '/de/basel-landschaft/',
+      '/de/faq/',
+      '/de/so-funktioniert-es/',
+      '/de/kontakt/',
+      '/de/antrag/',
+      '/de/impressum/',
+      '/de/datenschutz/',
+      '/de/aargau/',
+    ]) {
+      const url = `https://praemien-hilfe.ch${page}`;
+      const bare = url.replace(/\/$/, '');
+      assert.equal(body.includes(url), true, url);
+      assert.equal(new RegExp(`${bare.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?!/)`).test(body), false, bare);
+    }
     assert.equal(body.includes('ß'), false);
     assert.equal(body.includes('/fr/'), false);
     assert.equal(body.includes('https://praemien-hilfe.ch/fr'), false);
@@ -97,7 +110,7 @@ test('JSON-LD matches visible operator facts, website, breadcrumbs and every FAQ
 
   const crumbs = breadcrumbSchema([
     { name: 'Prämienverbilligung', url: 'https://praemien-hilfe.ch/de/' },
-    { name: 'Häufige Fragen', url: 'https://praemien-hilfe.ch/de/faq' },
+    { name: 'Häufige Fragen', url: 'https://praemien-hilfe.ch/de/faq/' },
   ]);
   assert.equal(crumbs.itemListElement.length, 2);
   assert.equal(crumbs.itemListElement[1].name, 'Häufige Fragen');
